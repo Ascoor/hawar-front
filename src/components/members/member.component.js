@@ -94,8 +94,7 @@ const MemberList = () => {
               <tr key={member.id}>
        <td>
       <Card.Img src={`${API_CONFIG.baseURL}/UserPics/${member.Mem_Photo}`} alt="Member Photo" />
-    </td>
-                <td>{member.Mem_Address}</td>
+    </td>                <td>{member.Mem_Address}</td>
                 <td>{member.Mem_Mobile}</td>
                 <td>{member.Mem_Code}</td>
                 <td>
