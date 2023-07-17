@@ -3,7 +3,7 @@ import { Nav, Navbar, Dropdown, Container } from "react-bootstrap";
 import { Link, Routes, Route, useNavigate } from "react-router-dom";
 import { FaUser } from "react-icons/fa";
 import useAuth from "../auth/AuthUser";
-
+import Logo from '../../images/logo2.png';
 import Home from "../home";
 import Members from "../members/member.component";
 import ProfileUpdateComponent from "../auth/profile";
@@ -38,19 +38,19 @@ const Auth = () => {
                 className="justify-content-center"
                 style={{
                     background:
-                        "linear-gradient(rgb(4, 19, 41), rgb(22 57 75), rgb(10 47 67)",
+                        "linear-gradient(#092247,#092247,#092247)",
                     direction: "rtl",
                 }}
-                expand="xl"
+                expand="md"
                 variant="dark"
             >
                 <Container fluid>
                     <Navbar.Brand as={Link} to="/" className="ms-left me-0">
                         <img
-                            src="/logo222.png"
-                            width="120"
-                            height="60"
-                            className="d-inline-block align-top"
+                            src={Logo}
+                            width="75"
+                            height="75  "
+                            className="d-inline-block align-center"
                             alt="React Bootstrap logo"
                         />
                     </Navbar.Brand>
@@ -63,7 +63,7 @@ const Auth = () => {
                             <Nav.Link as={Link} to="/members">
                                 الأعضاء
                             </Nav.Link>
-                           
+
                         </Nav>
                         <Nav>
                             <Dropdown>
@@ -98,7 +98,7 @@ const Auth = () => {
                     <Routes>
                         <Route path="/" element={<Home />} />
                         <Route path="/members" element={<Members />} />
-                        
+
                         <Route
                             path="/profile/:userId"
                             element={<ProfileUpdateComponent userId={userId} />}
@@ -109,7 +109,9 @@ const Auth = () => {
 
             <footer
                 style={{
-                    background: "#f8f9fa",
+                    background:
+                    "linear-gradient(#092247,#092247,#092247)",
+                    color:"#ffffff",
                     padding: "20px",
                     textAlign: "center",
                     position: "fixed",
@@ -118,7 +120,7 @@ const Auth = () => {
                     width: "100%",
                 }}
             >
-                <p>&copy; {new Date().getFullYear()} Avocat. All rights reserved.</p>
+                <p>Ask-ar.com All rights reserved &copy; {new Date().getFullYear()}</p>
             </footer>
         </>
     );

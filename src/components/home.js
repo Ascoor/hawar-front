@@ -1,5 +1,5 @@
 import React from 'react';
-import DashBoard from "../images/logo2.png";
+import DashBoard from "../images/welcome.jpg";
 import { Card, Container, Row, Col } from 'react-bootstrap';
 
 import '../assest/css/home.css';
@@ -9,7 +9,7 @@ import '../assest/css/home.css';
 
 const Home = () => {
 
- 
+
 
 
 
@@ -37,7 +37,7 @@ const Home = () => {
                         <Card.Header className="home-text-center">
                             لوحة التحكم
                             <div className="court-setting-card-header">
-                                <img src={DashBoard} alt="Icon" className="dashboard-icon" />
+                                <img src={DashBoard} alt="Icon" className="dashboard-img" />
                             </div>
                         </Card.Header>
                     </Card>

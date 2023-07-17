@@ -12,20 +12,20 @@
     border-radius: 100px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     padding: 10px;
-    
+
   }
-  
+
   .event-card-icon {
     font-size: 2.5rem;
     color: #048023;
     margin-right: 10px; /* تحريك الأيقونة إلى اليسار */
   }
-  
+
   .event-card-content {
     flex-grow: 1;
     text-align: inherit; /* محاذاة العناصر إلى اليمين */
   }
-  
+
   .event-card-title {
     font-size: 1.2rem;
     font-weight: bold;
@@ -34,7 +34,7 @@
     margin-bottom: 5px;
     text-align: inherit ;
   }
-  
+
 
   .event-card-icon-container {
     background-color: #0b3245c4; /* تغيير لون خلفية الأيقونة */
@@ -45,16 +45,16 @@
     justify-content: center;
     margin-right: 10px;
   }
-  
+
   .event-card:hover {
     transform: translateY(-5px); /* تغيير حركة الكارت عند التحويم */
     box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.1); /* تغيير ظل الكارت عند التحويم */
   }
-  
+
   .event-card-content {
     position: relative;
   }
-  
+
   .event-card-overlay {
     position: absolute;
     top: 0;
@@ -67,7 +67,7 @@
     justify-content: center;
   }
   .home-text-center{
-    background-color: #103a50;
+    background:linear-gradient( #092247,#092247,#092247);
     color: #ff9800;
     text-align: center;
 font-stretch: semi-condensed;
@@ -81,16 +81,16 @@ font-stretch: semi-condensed;
     font-size: 1.2rem;
     font-weight: bold;
     color: #ffffff;
-  
- 
+
+
   }
-  
+
   .event-card-overlay-icon {
     font-size: 2.8rem;
     color: #ffffff;
     margin-right: 10px;
   }
-  
+
   .card {
     background-color: #f1f5f8;
   }
@@ -105,4 +105,3 @@ font-stretch: semi-condensed;
     text-align: inherit;
     font-family: 'Lateef', cursive;
   }
-  
