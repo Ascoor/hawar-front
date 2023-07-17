@@ -1,0 +1,108 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lateef&display=swap');
+
+
+.event-card {
+    display: flow-root;
+    flex-direction: row;
+    align-items: center;
+    background-color: #f8f9fa;
+    border: none;
+    border-radius: 100px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    
+  }
+  
+  .event-card-icon {
+    font-size: 2.5rem;
+    color: #048023;
+    margin-right: 10px; /* تحريك الأيقونة إلى اليسار */
+  }
+  
+  .event-card-content {
+    flex-grow: 1;
+    text-align: inherit; /* محاذاة العناصر إلى اليمين */
+  }
+  
+  .event-card-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #ffffff;
+    font-family: 'Cairo', sans-serif;
+    margin-bottom: 5px;
+    text-align: inherit ;
+  }
+  
+
+  .event-card-icon-container {
+    background-color: #0b3245c4; /* تغيير لون خلفية الأيقونة */
+    border-radius: 50%; /* تغيير شكل حواف الأيقونة */
+    padding: 10px; /* تغيير حجم الأيقونة */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+  }
+  
+  .event-card:hover {
+    transform: translateY(-5px); /* تغيير حركة الكارت عند التحويم */
+    box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.1); /* تغيير ظل الكارت عند التحويم */
+  }
+  
+  .event-card-content {
+    position: relative;
+  }
+  
+  .event-card-overlay {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(94, 23, 49, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .home-text-center{
+    background-color: #103a50;
+    color: #ff9800;
+    text-align: center;
+font-stretch: semi-condensed;
+    font-size: 1.8rem ;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+
+  }
+
+  .event-card-overlay-text {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #ffffff;
+  
+ 
+  }
+  
+  .event-card-overlay-icon {
+    font-size: 2.8rem;
+    color: #ffffff;
+    margin-right: 10px;
+  }
+  
+  .card {
+    background-color: #f1f5f8;
+  }
+  .icon{
+    color: rgb(211, 0, 0);
+
+  }
+  .count {
+    color: rgb(255, 152, 0);
+    font-size: 1.8rem;
+    font-weight: bold;
+    text-align: inherit;
+    font-family: 'Lateef', cursive;
+  }
+  
