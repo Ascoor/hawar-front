@@ -263,14 +263,9 @@ body {
 .animated-card:hover .card-icon {
   transform: rotate(360deg);
 }
-
 .dashboard-img {
-
-
-
-  width: 800px;
-  height: 400px;
-
+  max-width: 100%;
+  height: auto;
 }
 
 .client-icon {

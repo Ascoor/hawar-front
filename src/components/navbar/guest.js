@@ -112,39 +112,15 @@ const Guest = () => {
     from: { opacity: 0, transform: "translateY(-100px)" },
     delay: 500,
   });
-
-  return (
-    <>
+    return (
       <header className="masthead">
-        <div className="navbar navbar-light fixed-top" id="mainNav">
-          <div className="container">
-            <button
-              className="navbar-toggler navbar-toggler-right"
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#navbarResponsive"
-              aria-controls="navbarResponsive"
-              aria-expanded="false"
-              aria-label="Toggle navigation"
-              value="Menu"
-            >
-              <i className="fa fa-bars"></i>
-            </button>
-            <div className="collapse navbar-collapse" id="navbarResponsive">
-              <ul className="navbar-nav ms-auto">
-                <li className="nav-item nav-link"></li>
-                <li className="nav-item nav-link"></li>
-                <li className="nav-item nav-link"></li>
-              </ul>
-            </div>
-          </div>
-        </div>
+ 
         <div
           className="d-flex flex-column justify-content-center align-items-center"
           style={{
             paddingLeft: "10px",
-            height: "100%",
-            position: "relative", // Add position relative
+            minHeight: "100vh", // Set a minimum height for the container
+            position: "relative",
           }}
         >
           {showLogoAndButtons && (
@@ -153,30 +129,36 @@ const Guest = () => {
                 src={patternLogoSmall}
                 alt="Pattern Logo"
                 className="logo img-fluid"
-                style={{ width: "300px", height: "auto" }}
+                style={{ width: "100%", maxWidth: "300px", height: "auto" }}
               />
             </animated.div>
           )}
           {showLogoAndButtons && (
             <div
               className="mt-4 d-flex justify-content-center"
-              style={{ position: "absolute", bottom: "40px" }}
+              style={{ position: "inherit" }}
             >
+              {/* Use the "col" class to control the width of the buttons */}
               <Button
                 variant="success"
                 onClick={handleShowLoginForm}
-                style={{ marginRight: "10px" }}
+                className="col-6 col-md-auto mr-md-2 mb-2 mb-md-2"
+      
               >
                 <RiLoginCircleLine className="mr-1" />
                 دخول
               </Button>
-              <Button variant="danger" onClick={handleShowRegisterForm}>
+              <Button
+                variant="danger"
+                onClick={handleShowRegisterForm}
+                className="col-6 col-md-auto mr-md-2 mb-2 mb-md-2"
+              >
                 <RiUserAddLine className="mr-1" />
                 تسجيل اشتراك
               </Button>
             </div>
           )}
-
+  
           {formsTransition((styles, item) =>
             item ? (
               <animated.div style={{ ...styles, width: "100%", marginTop: "20px" }}>
@@ -203,8 +185,8 @@ const Guest = () => {
           )}
         </div>
       </header>
-    </>
-  );
-};
-
-export default Guest;
+    );
+  };
+  
+  export default Guest;
+  

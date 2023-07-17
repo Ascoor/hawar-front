@@ -1,302 +1,250 @@
-  import React, { useState, useEffect } from 'react';
-  import { Table, Button, Modal,Form, Card, Container } from 'react-bootstrap';
-  import axios from 'axios';
-  import API_CONFIG from '../../config';
-  import { AiOutlineInfoCircle } from 'react-icons/ai';
+import React, { useState, useEffect } from 'react';
+import { Row, Col, Table, Button, Modal, Form, Card, Pagination, Container } from 'react-bootstrap';
+import axios from 'axios';
+import API_CONFIG from '../../config';
+import { AiOutlineInfoCircle } from 'react-icons/ai';
 
-  const MemberList = () => {
-    const [members, setMembers] = useState([]);
-    const [showMemberModal, setShowMemberModal] = useState(false);
-    const [showFeesModal, setShowFeesModal] = useState(false);
-    const [showParentMembersModal, setShowParentMembersModal] = useState(false);
-    const [selectedMember, setSelectedMember] = useState(null);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(1);
-    const [fees, setFees] = useState(null);
-    const [parentMembers, setParentMembers] = useState([]);
-    const [searchTerm, setSearchTerm] = useState('');
-    const [searchResults, setSearchResults] = useState([]); // Define searchResults state variable
+const MemberList = () => {
+  const [members, setMembers] = useState([]);
+  const [showMemberModal, setShowMemberModal] = useState(false);
+  const [showFeesModal, setShowFeesModal] = useState(false);
+  const [showParentMembersModal, setShowParentMembersModal] = useState(false);
+  const [selectedMember, setSelectedMember] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [fees, setFees] = useState(null);
+  const [parentMembers, setParentMembers] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+  const [isFiltered, setIsFiltered] = useState(false);
 
-    useEffect(() => {
-      fetchMembers(currentPage);
+  useEffect(() => {
+    fetchMembers(currentPage);
+  }, [currentPage]);
 
-    }, [currentPage]);
+  const handleSearch = (event) => {
+    event.preventDefault();
+    setCurrentPage(1); // Reset currentPage to 1 when performing a new search
+    fetchMembersBySearchTerm(searchTerm);
+    setSearchResults([]);
+    setIsFiltered(true);
+  };
 
-    const fetchMembers = async (page) => {
-      try {
-        const response = await axios.get(`${API_CONFIG.baseURL}/api/members?page=${page}&perPage=25`);
-        setMembers(response.data.data);
-        setTotalPages(response.data.totalPages);
-      } catch (error) {
-        console.log(error);
-      }
-    };
+  const fetchMembers = async (page) => {
+    try {
+      const response = await axios.get(`${API_CONFIG.baseURL}/api/members?page=${page}&perPage=25`);
+      setMembers(response.data.data);
+      setTotalPages(response.data.totalPages);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-    const fetchFees = async (Mem_Code) => {
-      try {
-        const response = await axios.get(`${API_CONFIG.baseURL}/api/fees?Mem_Code=${Mem_Code}`);
-        setFees(response.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    const fetchParentMembers = async (Mem_Code) => {
-      try {
-        const response = await axios.get(`${API_CONFIG.baseURL}/api/parent-members?Mem_Code=${Mem_Code}`);
-        setParentMembers(response.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
+  const fetchFees = async (Mem_Code) => {
+    try {
+      const response = await axios.get(`${API_CONFIG.baseURL}/api/fees?Mem_Code=${Mem_Code}`);
+      setFees(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-    const handleShowMemberModal = (member) => {
-      setSelectedMember(member);
-      setShowMemberModal(true);
-    };
+  const fetchParentMembers = async (Mem_Code) => {
+    try {
+      const response = await axios.get(`${API_CONFIG.baseURL}/api/parent-members?Mem_Code=${Mem_Code}`);
+      setParentMembers(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-    const handleShowFeesModal = (member) => {
-      setSelectedMember(member);
-      setShowFeesModal(true);
-      fetchFees(member.Mem_Code);
-    };
-    const handleShowParentMembers = (member) => {
-      setSelectedMember(member);
-      setShowParentMembersModal(true);
-      fetchParentMembers(member.Mem_Code);
-    };
+  const handleShowMemberModal = (member) => {
+    setSelectedMember(member);
+    setShowMemberModal(true);
+  };
 
-    const handleCloseModal = () => {
-      setShowMemberModal(false);
-      setShowFeesModal(false);
-      setShowParentMembersModal(false);
-      setFees(null);
-    };
+  const handleShowFeesModal = (member) => {
+    setSelectedMember(member);
+    setShowFeesModal(true);
+    fetchFees(member.Mem_Code);
+  };
 
-      const handlePrevPage = () => {
-        setCurrentPage((prevPage) => prevPage - 1);
-      };
+  const handleShowParentMembers = (member) => {
+    setSelectedMember(member);
+    setShowParentMembersModal(true);
+    fetchParentMembers(member.Mem_Code);
+  };
 
+  const handleCloseModal = () => {
+    setShowMemberModal(false);
+    setShowFeesModal(false);
+    setShowParentMembersModal(false);
+    setFees(null);
+    setIsFiltered(false);
+  };
 
-      const handleNextPage = () => {
-        setCurrentPage((prevPage) => prevPage + 1);
-      };
+  const handlePrevPage = () => {
+    setCurrentPage((prevPage) => prevPage - 1);
+  };
 
+  const handleNextPage = () => {
+    setCurrentPage((prevPage) => prevPage + 1);
+  };
 
-      const handleSearch = (event) => {
-        event.preventDefault();
-        fetchMembersBySearchTerm(searchTerm);
-      };
+  const handleSearchTermChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
 
-      const handleSearchTermChange = (event) => {
-        setSearchTerm(event.target.value);
-      };
+  const fetchMembersBySearchTerm = async (term) => {
+    try {
+      const response = await axios.get(`${API_CONFIG.baseURL}/api/members?search=${term}`);
+      const filteredMembers = response.data.data.filter((member) => {
+        return (
+          member.Mem_Code.toLowerCase().includes(term.toLowerCase()) ||
+          member.Mem_Name.toLowerCase().includes(term.toLowerCase()) ||
+          member.Mem_BOD.toLowerCase().includes(term.toLowerCase()) ||
+          member.Mem_Mobile.toLowerCase().includes(term.toLowerCase())
+        );
+      });
+      setSearchResults(filteredMembers);
+      setTotalPages(response.data.totalPages);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-      const fetchMembersBySearchTerm = async (term) => {
-        try {
-          const response = await axios.get(`${API_CONFIG.baseURL}/api/members?search=${term}`);
-          const filteredMembers = response.data.data.filter((member) => {
-            return (
-              member.Mem_Code.toLowerCase().includes(term.toLowerCase()) &&
-              member.Mem_Name.toLowerCase().includes(term.toLowerCase()) &&
-              member.Mem_BOD.toLowerCase().includes(term.toLowerCase()) &&
-              member.Mem_Mobile.toLowerCase().includes(term.toLowerCase())
-            );
-          });
-          setSearchResults(filteredMembers);
-          setTotalPages(response.data.totalPages);
-        } catch (error) {
-          console.log(error);
-        }
-      };
-
-      const renderPageNumbers = () => {
-        return Array.from({ length: totalPages }, (_, i) => (
-          <li key={i + 1} className={`page-item ${currentPage === i + 1 ? 'active' : ''}`}>
-            <button className="page-link" onClick={() => setCurrentPage(i + 1)}>
-              {i + 1}
-            </button>
-          </li>
-        ));
-      };
-
-    return (
-            <Container>
-      <div>
-          <Card>
-          <Card.Header className="home-text-center">
-              <Card.Title>
-  قائمة الأعضاء
-              </Card.Title>
-            </Card.Header>
-            <Card.Body>
-            <div className="search-form-container">
-              <Form onSubmit={handleSearch}>
-                <Form.Control
-                  type="text"
-                  placeholder="ابحث عن العضو..."
-                  value={searchTerm}
-                  onChange={handleSearchTermChange}
-                />
-                <Button type="submit" variant="primary">
-                  بحث
-                </Button>
-              </Form>
-            </div>
-          <Table striped bordered hover responsive >
-            <thead>
-              <tr>
-                <th>رقم العضوية</th>
-                <th>الصورة</th>
-                <th>الإسم</th>
-                <th>نوع العضوبة</th>
-                <th>النوع</th>
-                <th>الوظيفة</th>
-                <th>موبيل</th>
-                <th>تاريخ الميلاد</th>
-                <th>العنوان</th>
-                <th>التحكم</th>
-              </tr>
-            </thead><tbody>
-  {searchTerm
-    ? searchResults.map((member) => (
-        <tr key={member.id}>
-          <td>{member.Mem_Code}</td>
-          <td>
-            <AiOutlineInfoCircle />
-            <span
-              onClick={() => handleShowMemberModal(member)}
-              style={{ cursor: 'pointer', textDecoration: 'underline' }}
-            >
-              {member.Mem_Code}
-            </span>
-          </td>
-          <td>
-            <Card
+  const renderMembers = () => {
+    const dataToRender = isFiltered ? searchResults : members;
+    return dataToRender.map((member) => (
+      <tr key={member.id}>
+        <td>
+          <AiOutlineInfoCircle />
+          <span
+            onClick={() => handleShowMemberModal(member)}
+            style={{ cursor: 'pointer', textDecoration: 'underline' }}
+          >
+            {member.Mem_Code}
+          </span>
+        </td>
+        <td>
+          <Card
+            style={{
+              width: '50px',
+              height: '50px',
+              borderRadius: '50%',
+            }}
+          >
+            <Card.Img
+              src={`${API_CONFIG.baseURL}/UserPics/${member.Mem_Photo}`}
+              alt="Member Photo"
               style={{
-                width: '50px',
-                height: '50px',
+                objectFit: 'cover',
+                width: '100%',
+                height: '100%',
                 borderRadius: '50%',
               }}
-            >
-              <Card.Img
-                src={`${API_CONFIG.baseURL}/UserPics/${member.Mem_Photo}`}
-                alt="Member Photo"
-                style={{
-                  objectFit: 'cover',
-                  width: '100%',
-                  height: '100%',
-                  borderRadius: '50%',
-                }}
-              />
-            </Card>
-          </td>
-          <td>{member.Mem_Name}</td>
-          <td>{member.MembershipType}</td>
-          <td>{member.Gender}</td>
-          <td>{member.Mem_Job}</td>
-          <td>{member.Mem_Mobile}</td>
-          <td>{member.Mem_BOD}</td>
-          <td>{member.Mem_Address}</td>
-          <td>
-            <Button
-              variant="success btn-sm"
-              onClick={() => handleShowFeesModal(member)}
-            >
-              الإشتراكات
-            </Button>
-            {member.Mem_ParentMember && (
-              <Button
-                variant="primary btn-sm"
-                onClick={() => handleShowParentMembers(member)}
-              >
-                Parent Members
-              </Button>
-            )}
-          </td>
-        </tr>
-      ))
-    : members.map((member) => (
-        <tr key={member.id}>
-          <td>
-            <AiOutlineInfoCircle />
-            <span
-              onClick={() => handleShowMemberModal(member)}
-              style={{ cursor: 'pointer', textDecoration: 'underline' }}
-            >
-              {member.Mem_Code}
-            </span>
-          </td>
-          <td>
-            <Card
-              style={{
-                width: '50px',
-                height: '50px',
-                borderRadius: '50%',
-              }}
-            >
-              <Card.Img
-                src={`${API_CONFIG.baseURL}/UserPics/${member.Mem_Photo}`}
-                alt="Member Photo"
-                style={{
-                  objectFit: 'cover',
-                  width: '100%',
-                  height: '100%',
-                  borderRadius: '50%',
-                }}
-              />
-            </Card>
-          </td>
-          <td>{member.Mem_Name}</td>
-          <td>{member.MembershipType}</td>
-          <td>{member.Gender}</td>
-          <td>{member.Mem_Job}</td>
-          <td>{member.Mem_Mobile}</td>
-          <td>{member.Mem_BOD}</td>
-          <td>{member.Mem_Address}</td>
-          <td>
-            <Button
-              variant="success btn-sm"
-              onClick={() => handleShowFeesModal(member)}
-            >
-              الإشتراكات
-            </Button>
-            {member.Mem_ParentMember && (
-              <Button
-                variant="primary btn-sm"
-                onClick={() => handleShowParentMembers(member)}
-              >
-                Parent Members
-              </Button>
-            )}
-          </td>
-        </tr>
-      ))}
-</tbody>
-
-          </Table>
-          </Card.Body>
-          <Card.Footer>
-            <nav aria-label="Page navigation example">
-              <ul className="pagination">
-                <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
-                  <button className="page-link" onClick={handlePrevPage}>
-                    Previous
-                  </button>
-                </li>
-                {renderPageNumbers()}
-                <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
-                  <button className="page-link" onClick={handleNextPage}>
-                    Next
-                  </button>
-                </li>
-              </ul>
-            </nav>
-          </Card.Footer>
+            />
           </Card>
+        </td>
+        <td>{member.Mem_Name}</td>
+        <td>{member.MembershipType}</td>
+        <td>{member.Gender}</td>
+        <td>{member.Mem_Job}</td>
+        <td>{member.Mem_Mobile}</td>
+        <td>{member.Mem_BOD}</td>
+        <td>{member.Mem_Address}</td>
+        <td>
+          <Button variant="success btn-sm" onClick={() => handleShowFeesModal(member)}>
+            الإشتراكات
+          </Button>
+          {/* Display the "Parent Members" button if MembershipType is "عضو عامل" */}
+          {member.MembershipType === 'عضو عامل' && member.Mem_ParentMember && (
+            <Button variant="primary btn-sm" onClick={() => handleShowParentMembers(member)}>
+              الأعضاء التابعين
+            </Button>
+          )}
+        </td>
+      </tr>
+    ));
+  };
 
-          </div>
-          <div>
+  const renderPageNumbers = () => {
+    return Array.from({ length: totalPages }, (_, i) => (
+      <li key={i + 1} className={`page-item ${currentPage === i + 1 ? 'active' : ''}`}>
+        <button className="page-link" onClick={() => setCurrentPage(i + 1)}>
+          {i + 1}
+        </button>
+      </li>
+    ));
+  };
 
+  return (
+    <Container>
+      <Row className="justify-content-center">
+        <Col md={8}>
+          <h1 className="text-center my-4">قائمة الأعضاء</h1>
+          <Card>
+            <Card.Body>
+              {/* Search form */}
+              <Row className="mb-4">
+                <Col>
+                  <Form onSubmit={handleSearch}>
+                    <Form.Control
+                      type="text"
+                      placeholder="Search"
+                      value={searchTerm}
+                      onChange={handleSearchTermChange}
+                    />
+                    <Button variant="primary" type="submit">
+                      Search
+                    </Button>
+                  </Form>
+                </Col>
+              </Row>
+              <Table striped bordered hover responsive>
+                <thead>
+                  <tr>
+                    <th>رقم العضوية</th>
+                    <th>الصورة</th>
+                    <th>الإسم</th>
+                    <th>نوع العضوية</th>
+                    <th>النوع</th>
+                    <th>الوظيفة</th>
+                    <th>موبيل</th>
+                    <th>تاريخ الميلاد</th>
+                    <th>العنوان</th>
+                    <th>التحكم</th>
+                  </tr>
+                </thead>
+                {renderMembers()}
+              </Table>
+            </Card.Body>
+            <Card.Footer>
+              <Row>
+                <Col>
+                  <Pagination>
+                    <nav aria-label="Page navigation example">
+                      <ul className="pagination">
+                        <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
+                          <button className="page-link" onClick={handlePrevPage}>
+                            Previous
+                          </button>
+                        </li>
+                        {renderPageNumbers()}
+                        <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
+                          <button className="page-link" onClick={handleNextPage}>
+                            Next
+                          </button>
+                        </li>
+                      </ul>
+                    </nav>
+                  </Pagination>
+                </Col>
+              </Row>
+            </Card.Footer>
+          </Card>
+        </Col>
+      </Row>
   {/* Modal for displaying member details */}
   <Modal show={showMemberModal} onHide={handleCloseModal} dir="rtl">
     <Modal.Header className="home-text-center" closeButton>
@@ -510,7 +458,7 @@
     </Button>
   </Modal.Footer>
 </Modal>
-        </div>
+  
         </Container>
     );
   };
