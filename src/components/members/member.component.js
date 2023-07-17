@@ -217,7 +217,6 @@
       ))
     : members.map((member) => (
         <tr key={member.id}>
-          <td>{member.Mem_Code}</td>
           <td>
             <AiOutlineInfoCircle />
             <span
