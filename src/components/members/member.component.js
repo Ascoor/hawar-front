@@ -1,66 +1,130 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Button, Modal, Card } from 'react-bootstrap';
+import { Table, Button, Modal, Card, Container } from 'react-bootstrap';
 import axios from 'axios';
 import API_CONFIG from '../../config';
 
 const MemberList = () => {
   const [members, setMembers] = useState([]);
-  const [showModal, setShowModal] = useState(false);
+  const [showMemberModal, setShowMemberModal] = useState(false);
+  const [showFeesModal, setShowFeesModal] = useState(false);
   const [selectedMember, setSelectedMember] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [fees, setFees] = useState(null);
 
   useEffect(() => {
-    fetchMembers();
-  }, []);
+    fetchMembers(currentPage);
+  }, [currentPage]);
 
-  const fetchMembers = async () => {
+  const fetchMembers = async (page) => {
     try {
-      const response = await axios.get(`${API_CONFIG.baseURL}/api/members`); // Replace with your API endpoint
-      setMembers(response.data);
+      const response = await axios.get(`${API_CONFIG.baseURL}/api/members?page=${page}&perPage=25`);
+      setMembers(response.data.data);
+      setTotalPages(response.data.totalPages);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const handleShowModal = (member) => {
+  const fetchFees = async (Mem_Code) => {
+    try {
+      const response = await axios.get(`${API_CONFIG.baseURL}/api/fees?Mem_Code=${Mem_Code}`);
+      setFees(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleShowMemberModal = (member) => {
     setSelectedMember(member);
-    setShowModal(true);
+    setShowMemberModal(true);
+  };
+
+  const handleShowFeesModal = (member) => {
+    setSelectedMember(member);
+    setShowFeesModal(true);
+    fetchFees(member.Mem_Code);
   };
 
   const handleCloseModal = () => {
-    setShowModal(false);
+    setShowMemberModal(false);
+    setShowFeesModal(false);
+    setFees(null);
+  };
+
+  const handlePrevPage = () => {
+    setCurrentPage((prevPage) => prevPage - 1);
+  };
+
+  const handleNextPage = () => {
+    setCurrentPage((prevPage) => prevPage + 1);
+  };
+
+  const renderPageNumbers = () => {
+    const pageNumbers = [];
+    for (let i = 1; i <= totalPages; i++) {
+      pageNumbers.push(
+        <Button
+          key={i}
+          variant={currentPage === i ? 'primary' : 'secondary'}
+          onClick={() => setCurrentPage(i)}
+        >
+          {i}
+        </Button>
+      );
+    }
+    return pageNumbers;
   };
 
   return (
     <div>
-      <Table striped bordered hover>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Address</th>
-            <th>Phone</th>
-            <th>Member Code</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {members.map((member) => (
-            <tr key={member.id}>
-              <td>{member.Mem_Name}</td>
-              <td>{member.Mem_Address}</td>
-              <td>{member.Mem_Mobile}</td>
-              <td>{member.Mem_Code}</td>
-              <td>
-                <Button variant="primary" onClick={() => handleShowModal(member)}>
-                  View Details
-                </Button>
-              </td>
+      <Container>
+        <Table striped bordered hover>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Address</th>
+              <th>Phone</th>
+              <th>Member Code</th>
+              <th>Action</th>
             </tr>
-          ))}
-        </tbody>
-      </Table>
+          </thead>
+          <tbody>
+            {members.map((member) => (
+              <tr key={member.id}>
+       <td>
+      <Card.Img src={`${API_CONFIG.baseURL}/UserPics/${member.Mem_Photo}`} alt="Member Photo" />
+    </td>
+                <td>{member.Mem_Address}</td>
+                <td>{member.Mem_Mobile}</td>
+                <td>{member.Mem_Code}</td>
+                <td>
+                  <Button variant="primary" onClick={() => handleShowMemberModal(member)}>
+                    View Details
+                  </Button>
+                </td>
+                <td>
+                  <Button variant="primary" onClick={() => handleShowFeesModal(member)}>
+                    View Fees
+                  </Button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+        <div>
+          <Button variant="secondary" onClick={handlePrevPage} disabled={currentPage === 1}>
+            Previous Page
+          </Button>
+          {renderPageNumbers()}
+          <Button variant="secondary" onClick={handleNextPage} disabled={currentPage === totalPages}>
+            Next Page
+          </Button>
+        </div>
+      </Container>
 
       {/* Modal for displaying member details */}
-      <Modal show={showModal} onHide={handleCloseModal}>
+      <Modal show={showMemberModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>
           <Modal.Title>Member Details</Modal.Title>
         </Modal.Header>
@@ -104,6 +168,49 @@ const MemberList = () => {
               </Card.Body>
             </Card>
           )}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseModal}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      {/* Modal for displaying fees */}
+      <Modal show={showFeesModal} onHide={handleCloseModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Member Fees</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {selectedMember && fees !== null && fees.length > 0 ? (
+            <Table striped bordered hover>
+              <thead>
+                <tr>
+                  <th>Fee ID</th>
+                  <th>Year</th>
+                  <th>Amount</th>
+                  <th>Date</th>
+                  <th>Receipt Number</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {fees.map((fee) => (
+                  <tr key={fee.Fee_ID}>
+                    <td>{fee.Fee_ID}</td>
+                    <td>{fee.Fee_Year}</td>
+                    <td>{fee.Fee_Amount}</td>
+                    <td>{fee.Fee_Date}</td>
+                    <td>{fee.Fee_RecieptNumber}</td>
+                    <td>   {selectedMember.Status === -1 ? 'مسدد' : 'غير مسدد'}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          ) : (
+            fees === null && <p>Loading fees...</p>
+          )}
+          {fees !== null && fees.length === 0 && <p>No fees found for this member.</p>}
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCloseModal}>
