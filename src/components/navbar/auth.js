@@ -5,7 +5,7 @@ import { FaUser } from "react-icons/fa";
 import useAuth from "../auth/AuthUser";
 import Logo from "../../images/logo2.png";
 import Home from "../home";
-import Members from "../members/member.component";
+import Members from "../members/members.component";
 import ProfileUpdateComponent from "../auth/profile";
 
 const Auth = () => {

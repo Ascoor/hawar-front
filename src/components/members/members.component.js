@@ -4,7 +4,7 @@ import axios from 'axios';
 import API_CONFIG from '../../config';
 import { AiOutlineInfoCircle } from 'react-icons/ai';
 
-const MemberList = () => {
+const Members = () => {
   const [members, setMembers] = useState([]);
   const [showMemberModal, setShowMemberModal] = useState(false);
   const [showFeesModal, setShowFeesModal] = useState(false);
@@ -22,13 +22,7 @@ const MemberList = () => {
     fetchMembers(currentPage);
   }, [currentPage]);
 
-  const handleSearch = (event) => {
-    event.preventDefault();
-    setCurrentPage(1); // Reset currentPage to 1 when performing a new search
-    fetchMembersBySearchTerm(searchTerm);
-    setSearchResults([]);
-    setIsFiltered(true);
-  };
+
 
   const fetchMembers = async (page) => {
     try {
@@ -97,20 +91,17 @@ const MemberList = () => {
 
   const fetchMembersBySearchTerm = async (term) => {
     try {
-      const response = await axios.get(`${API_CONFIG.baseURL}/api/members?search=${term}`);
-      const filteredMembers = response.data.data.filter((member) => {
-        return (
-          member.Mem_Code.toLowerCase().includes(term.toLowerCase()) ||
-          member.Mem_Name.toLowerCase().includes(term.toLowerCase()) ||
-          member.Mem_BOD.toLowerCase().includes(term.toLowerCase()) ||
-          member.Mem_Mobile.toLowerCase().includes(term.toLowerCase())
-        );
-      });
-      setSearchResults(filteredMembers);
+      const response = await axios.get(`${API_CONFIG.baseURL}/api/member-search/${term}`);
+      setMembers(response.data.data);
       setTotalPages(response.data.totalPages);
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const handleSearch = (event) => {
+    event.preventDefault();
+    fetchMembersBySearchTerm(searchTerm);
   };
 
   const renderMembers = () => {
@@ -463,4 +454,4 @@ const MemberList = () => {
     );
   };
 
-  export default MemberList;
+  export default Members;
