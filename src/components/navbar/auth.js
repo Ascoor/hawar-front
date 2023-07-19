@@ -5,7 +5,7 @@ import { FaUser } from "react-icons/fa";
 import useAuth from "../auth/AuthUser";
 import Logo from "../../images/logo2.png";
 import Home from "../home";
-import Members from "../members/members.component";
+import Members from "../members/members";
 import ProfileUpdateComponent from "../auth/profile";
 
 const Auth = () => {
@@ -35,7 +35,7 @@ const Auth = () => {
       <Navbar
         className="justify-content-center"
         style={{
-          background: "linear-gradient(#092247,#092247,#092247)",
+          background: "linear-gradient(#092247, #092247, #092247)",
           direction: "rtl",
         }}
         expand="md"
@@ -54,10 +54,18 @@ const Auth = () => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto mb-2 mb-md-0">
-              <Nav.Link as={Link} to="/">
+              <Nav.Link
+                as={Link}
+                to="/"
+                style={{ fontFamily: "ArabicFont", color: "#fff" }}
+              >
                 الرئيسية
               </Nav.Link>
-              <Nav.Link as={Link} to="/members">
+              <Nav.Link
+                as={Link}
+                to="/members"
+                style={{ fontFamily: "ArabicFont", color: "#fff" }}
+              >
                 الأعضاء
               </Nav.Link>
             </Nav>
@@ -67,6 +75,11 @@ const Auth = () => {
                   id="user-dropdown"
                   variant="light"
                   className="d-flex align-items-center"
+                  style={{
+                    fontFamily: "ArabicFont",
+                    color: "#092247",
+                    background: "#fff",
+                  }}
                 >
                   <FaUser className="me-2" />
                   {getUserName()}
@@ -88,8 +101,15 @@ const Auth = () => {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-
-      <Container style={{ marginTop: "80px" }}>
+      <div
+        className="auth-container"
+        style={{
+          backgroundColor: "#f8f9fa",
+          padding: "20px",
+          fontFamily: "ArabicFont",
+          color: "#092247",
+        }}
+      >
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/members" element={<Members />} />
@@ -99,22 +119,26 @@ const Auth = () => {
             element={<ProfileUpdateComponent userId={userId} />}
           />
         </Routes>
-      </Container>
 
-      <footer
-        style={{
-          background: "linear-gradient(#092247,#092247,#092247)",
-          color: "#ffffff",
-          padding: "20px",
-          textAlign: "center",
-          position: "fixed",
-          bottom: 0,
-          left: 0,
-          width: "100%",
-        }}
-      >
-        <p>Ask-ar.com All rights reserved &copy; {new Date().getFullYear()}</p>
-      </footer>
+        <footer
+          style={{
+            background: "linear-gradient(#092247, #092247, #092247)",
+            color: "#ffffff",
+            padding: "10px",
+            textAlign: "center",
+            position: "fixed",
+            bottom: 0,
+            left: 0,
+            width: "100%",
+            display: "flex",
+            justifyContent: "center", // Center the text horizontally
+          }}
+        >
+          <p>
+            Ask-ar.com All rights reserved &copy; {new Date().getFullYear()}
+          </p>
+        </footer>
+      </div>
     </>
   );
 };

@@ -1,696 +1,203 @@
-@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@600&display=swap');
-/* @font-face {
-  font-family: 'THARWAT EMARA RUQAA LIGHT';
-  src: url('../src/assest/fonts/alfont_com_ArbFONTS-THARWATEMARARUQAALIGHT.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-} */
-body.modal-open {
-  overflow: hidden;
+/* App.css */
+
+:root {
+  --primary-color: #007bff;
+  --secondary-color: #6c757d;
+  --success-color: #28a745;
+  --danger-color: #dc3545;
+  /* Add more variables as needed */
 }
+
+/*/* App.css */
+
+@import url(https://fonts.googleapis.com/earlyaccess/lateef.css);
+
+* {
+  text-align:right;
+  direction: rtl;
+}
+
+.hline {
+  height:1px;
+  width:100%;
+  background:rgba(100,100,200,0.5);
+  margin-top:5px;
+/*border-top: 1px solid rgba(200,200,200,0.2);*/
+}
+.bodycss {
+  background: rgba(100,100,50,0.5);
+  height: 65px;
+  width: 200px;
+  -moz-border-radius-bottomleft: 20px;
+  border-bottom-left-radius: 20px;
+ -moz-border-radius-topleft: 20px;
+  border-top-left-radius: 20px;
+  
+  text-align: Center;
+  line-height:50px;
+  font-size:30px;
+  color: wheat;
+
+}
+
 body {
-
-    margin: 0;
-    font-family: "cairo,sans-serif;', Arial, sans-serif";
-    font-size: 16px;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-
+  font-family: 'ArabicFont', Arial, sans-serif;
 }
 
-.word-doc-container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-  }
 
-  .word-doc-heading {
-    color: #333;
-    font-size: 24px;
-    margin-bottom: 10px;
-  }
+/* Guest interface styles */
+.masthead {
+  position: relative;
+  background: linear-gradient(#092247, #092247, #092247);
+  height: 100vh;
+}
 
-  .word-doc-input-section {
-    margin-bottom: 20px;
-  }
+.masthead::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('./images/bg-pattern.png');
+  background-repeat: repeat;
+  background-size: auto;
+  opacity: 0.5; /* Adjust the opacity as desired */
+}
 
+.logo {
+  width: 100%;
+  max-width: 300px;
+  height: auto;
+}
 
+.welcome-page-icon {
+  font-size: 2rem;
+  margin-right: 0.5rem;
+}
 
-  .word-doc-button-section {
-    display: flex;
-    justify-content: space-between;
-  }
+.court-setting-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
 
+/* Form styles */
+.form-icon {
+  margin-right: 0.5rem;
+}
 
+.login-btn {
+  background-color: var(--success-color);
+  border-color: var(--success-color);
+}
+/* App.css */
 
+/* ... Your existing CSS ... */
 
-/**Welcome Page***/
-
-
-  .navbar-hidden {
-    transform: translateY(-100%);
-    transition: transform 0.3s ease;
-  }.masthead {
-    position: relative;
- background:linear-gradient( #092247,#092247,#092247);
-    height: 100vh;
-  }
-
-  .masthead::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url('./images/bg-pattern.png');
-    background-repeat: repeat;
-    background-size: auto;
-    opacity: 0.5; /* تعديل درجة الشفافية حسب الرغبة */
-  }
-
-
-  .welcome-container::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: url('./images/bg-pattern.png');
-    background-size: cover-image;
-    opacity: 0.5;
-    z-index: 1;
-  }
-
-  @media (max-width: 768px) {
-    .welcome-container {
-      padding: 20px;
-    }
-  }
-
-
-  /**Welcome Page End***/
-  /**Procedure Search Page ***/
-  .procedure-search {
-    padding: 20px;
-  }
-
-  .form-group {
-    margin-bottom: 20px;
-  }
-
-  .form-label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 5px;
-  }
-
-  .search-button {
-    background-color: #002d43;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-  }
-
-  .search-button:hover {
-    background-color: #001d2b;
-  }
-
-  .details-row {
-    display: flex;
-    justify-content: space
-  }
-  /**Procedure Search End***/
-  /**Login Page ***/
-  .login-btn{
-
-    padding: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-
-  }
-  .login-btn:hover{
-    background-color: #ffc108;
-  }
-  /**Guest Page ***/
-
-.guest_card__content {
+.court-setting-card-header {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 1rem;
-  }
-
-  .guest_card__title {
+  margin-bottom: 20px;
+  background: linear-gradient(#092247, #092247, #092247);
+  color: rgb(206, 195, 0);
   font-size: 1.5rem;
+}
+
+.court-setting-card-header .welcome-page-icon {
+  font-size: 2rem;
   margin-bottom: 0.5rem;
-  }
+}
 
-  .guest_card__description {
-  font-size: 1rem;
+/* ... Your existing CSS ... */
+
+.login-btn:hover {
+  background-color: #218838;
+  border-color: #1e7e34;
+}
+
+.login-back {
+  background-color: var(--danger-color);
+  border-color: var(--danger-color);
+}
+
+.login-back:hover {
+  background-color: #c82333;
+  border-color: #bd2130;
+}
+
+/* Center the form on small screens */
+@media (max-width: 768px) {
+  .guest-container {
+    padding: 20px;
+  }
+  .forms-container {
+    width: 100%;
+    margin-top: 20px;
+  }
+}
+
+/* Auth form styles */
+.auth-form-card {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid var(--secondary-color);
+  border-radius: 5px;
+  background-color: #fff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.auth-form-card .card-header {
   text-align: center;
-  color: #999;
-  line-height: 1.5;
-  }
-  .change-btn {
-    margin-bottom: 12px;
-  background-color: #7f060e;
 }
 
-.change-btn:hover {
-  background-color: #ffc108;
-}
-
-  /**Guest Page End***/
-
-
-/*Court Setting*/
-.court-setting-card-header {
-
-  border-radius: 8px;
-  padding: 10px;
-  font-family: 'Cairo', sans-serif;
-  font-weight: bold;
-  background:linear-gradient( #092247,#092247,#092247);
+.auth-form-card .card-footer {
   text-align: center;
-  font-size: 1.5rem;
-  color: #ffc108;
-}
-.name {
-    color: #007bff;
-    font-size: 24px;
-    margin-bottom: 0;
-  }
-
-  .label {
-    color: #6c757d;
-    font-size: 18px;
-  }
-
-  .client-phone {
-    color: #28a745;
-  }
-
-  .client-email {
-    color: #dc3545;
-  }
-
-  .client-religion {
-    color: #ff9800;
-  }
-
-  .client-address {
-    color: #795548;
-  }
-
-  .client-emergency {
-    color: #9c27b0;
-  }
-
-  .client-work {
-    color: #607d8b;
-  }
-.client-link {
-    color: blue;
-    text-decoration: underline;
-    cursor: pointer;
-  }
-.client-add-icon {
-  width: 90px;
-  height: 60px;
-}
-.court-icon {
-  width: 60px;
-  height: 60px;
-}
-.animated-card {
-  transition: all 0.3s ease-in-out;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
 }
 
-.animated-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+.auth-form-card .form-label {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
 }
-/*btn Start*/
-.btn-back{
-    font-family: 'Cairo', sans-serif;
-    font-weight: bold;
-    font-size: 1rem;
+
+.auth-form-card .form-icon {
+  margin-right: 5px;
 }
-.btn-add{
+
+.auth-form-card .login-btn {
+  width: 100%;
+}
+
+.auth-form-card .login-back {
+  width: 100%;
+}
+
+.auth-form-card .mt-4 {
+  margin-top: 1rem;
+}
+
+
+/* Guest interface styles */
+.guest-container {
+  padding: 20px;
+  background-color: var(--primary-color);
+  color: #fff;
   text-align: center;
-    font-family: 'Cairo', sans-serif;
-    font-weight: bold;
-    font-size: 1rem;
-
-}
-/*btn End*/
-/*Icons Start*/
-
-.legCase-icon{
-  width: 75px;
-  height: 60px;
-
-}
-.card-icon {
-    transition: all 0.3s ease-in-out;
+  /* Add more styles as needed */
 }
 
-.animated-card:hover .card-icon {
-  transform: rotate(360deg);
-}
-.dashboard-img {
-  max-width: 100%;
-  height: auto;
-}
-
-.client-icon {
-  padding-bottom: 3px;
-  width: 70px;
-  height: 50px;
+/* Authenticated interface styles */
+.auth-container {
+  padding: 20px;
+  background-color: #f8f9fa;
+  /* Add more styles as needed */
 }
 
-.leg-case-icon {
-  padding-bottom: 3px;
-  width: 150px;
-  height: 75px;
+.rtl {
+  direction: rtl;
 }
-/*Icons End*/
-
-/*Court Setting End*/
-.nav-link {
-    font-size: 24px;
-    font-family: 'THARWAT EMARA RUQAA LIGHT', Arial, sans-serif;
-
-
-    }
-
-
-  .navbar-brand {
-    margin-right: 1rem;
-    padding: 0.5rem 0;
-    font-size: 1.25rem;
-    line-height: inherit;
-    white-space: nowrap;
-    color: #ffffff;
-  }
-
-  .navbar-toggler {
-    padding: 0.25rem 0.75rem;
-    font-size: 1.25rem;
-    line-height: 1;
-    background-color: transparent;
-    border: none;
-    border-radius: 0.25rem;
-  }
-
-  .navbar-nav {
-    font-family: 'THARWAT EMARA RUQAA LIGHT', Arial, sans-serif;
-    flex-direction:column;
-    margin-right: auto;
-  }
-
-  .navbar-collapse {
-    justify-content: flex-end;
-  }
-
-  @media (max-width: 991.98px) {
-    .navbar-nav {
-      flex-direction: column;
-    }
-
-    .navbar-collapse {
-      justify-content: center;
-    }
-
-    .navbar-nav .nav-link-custom {
-      margin-bottom: 0.5rem;
-    }
-  }
-
-  .my-card-component {
-    font-size: 20px;
-    font-family: 'THARWAT EMARA RUQAA LIGHT', Arial, sans-serif;
-  }
-
-  .my-card-component h1,
-  .my-card-component h2 {
-    font-weight: bold;
-  }
-
-  .my-card-component .btn-group .btn {
-    font-size: 20px;
-  }
-
-  .my-card-component .table {
-    font-size: 20px;
-    font-family: 'THARWAT EMARA RUQAA LIGHT', Arial, sans-serif;
-  }
-
-  .my-card-component .modal-content {
-    font-size: 20px;
-    font-family: 'THARWAT EMARA RUQAA LIGHT', Arial, sans-serif;
-  }
-
-  .data-row {
-    font-family: 'THARWAT EMARA RUQAA LIGHT', Arial, sans-serif;
-    margin-bottom: 10px;
-  }
-
-  h3,
-  h4 {
-    font-family: 'THARWAT EMARA RUQAA LIGHT', Arial, sans-serif;
-    color: #ff9800;
-  }
-
-
-
-  .form-header {
-    font-family: 'THARWAT EMARA RUQAA LIGHT', Arial, sans-serif;
-    text-align: center;
-    background-color: #c8daff;
-  }
-
-  .text-center {
-    text-align: center;
-  }
-
-  .table {
-    margin-top: 10px;
-  }
-
-  .table th {
-    text-align: center;
-    font-size: 16px;
-    font-family: 'Cairo';
-    background-color: rgb(255 242 186);
-    color: #296571;
-
-  }
-.table tbody{
-    text-align: center;
-    font-size: 14px;
-    font-family: 'Cairo';
-
-    color: #296571;
-}
-
-
-
-  .mb-3 {
-    margin-bottom: 15px;
-  }
-
-  .align-items-center {
-    align-items: center;
-  }
-
-  .mt-6 {
-    margin-top: 6px;
-  }
-
-  .mb-0 {
-    margin-bottom: 0;
-  }
-  /* LegCase List */
-  .button-container {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-    }
-
-    .button-container > * {
-      margin-bottom: 5px;
-    }
-
-    .icon-card {
-      background-color: #f8d7da;
-      /* Cute color for the card background */
-      border: none;
-      border-radius: 10px;
-      padding: 20px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      transition: background-color 0.3s ease;
-    }
-
-    .icon-card:hover {
-      background-color: #e8e87a;
-      /* Cute color for the card background on hover */
-    }
-
-    .icon-circle {
-      background-color: #0a1e3d;
-      /* Cute color for the circle background */
-      width: 80px;
-      height: 100px;
-      border-radius: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin: 0 auto;
-      margin-bottom: 20px;
-    }
-
-    .icon-card-title {
-      color: #dc3545;
-      /* Cute color for the title text */
-      font-size: 24px;
-      font-weight: bold;
-    }
-
-    .icon-card-text {
-      color: #6c757d;
-      /* Cute color for the text */
-      font-size: 21px;
-    }
-
-
-
-    .event-card:hover {
-      background-color: #f2f2f2;
-    }
-
-
-
-    /* Other styles */
-  .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 20px;
-    }
-
-    .section-title {
-      font-size: 32px;
-      font-weight: bold;
-      color: #333;
-      margin-bottom: 20px;
-    }
-
-    .button {
-      display: inline-block;
-      padding: 10px 20px;
-      background-color: #333;
-      color: #fff;
-      text-decoration: none;
-      border-radius: 4px;
-      transition: background-color 0.3s;
-    }
-
-    .button:hover {
-      background-color: #555;
-    }
-
-    .text-center {
-      text-align: center;
-    }
-
-    .text-muted {
-      color: #999;
-    }
-
-    /* Responsive styles */
-    @media screen and (max-width: 767px) {
-      .icon-card {
-        padding: 10px;
-      }
-
-      .icon-card-title {
-        font-size: 20px;
-      }
-
-      .icon-card-text {
-        font-size: 18px;
-      }
-
-      .event-card {
-        margin-bottom: 20px;
-      }
-    }
-  /* Other styles */
-  .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 20px;
-    }
-
-    .section-title {
-      font-size: 32px;
-      font-weight: bold;
-      color: #333;
-      margin-bottom: 20px;
-    }
-
-    .button {
-      display: inline-block;
-      padding: 10px 20px;
-      background-color: #333;
-      color: #fff;
-      text-decoration: none;
-      border-radius: 4px;
-      transition: background-color 0.3s;
-    }
-
-    .button:hover {
-      background-color: #555;
-    }
-
-    .text-center {
-      text-align: center;
-    }
-
-    .text-muted {
-      color: #999;
-    }
-
-    /* Responsive styles */
-    @media screen and (max-width: 767px) {
-
-      .icon-card-title {
-        font-size: 20px;
-      }
-
-      .icon-card-text {
-        font-size: 18px;
-      }
-
-      .event-card {
-        margin-bottom: 20px;
-      }
-    }
-
-    /* Tablet styles */
-    @media screen and (min-width: 768px) and (max-width: 1023px) {
-      .section-title {
-        font-size: 28px;
-      }
-
-      .button {
-        padding: 8px 16px;
-      }
-    }
-
-    /* Mobile styles */
-    @media screen and (max-width: 767px) {
-      .section-title {
-        font-size: 24px;
-      }
-
-      .button {
-        padding: 6px 12px;
-      }
-    }
-    .custom-card-header{
-        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-        border-radius : 8px;
-        padding: 20px;
-        font-family: 'Cairo', sans-serif;
-      font-weight: bold;
-        background : #103A51;
-        text-align: center;
-
-        color: #FFC108;
-
-
-    }
-    .add-link-client{
-      color: #0a1e3d;
-      font-size: medium;
-    font-family: "cairo",sans-serif;
-      font-weight: bold;
-    }
-    .leg-details-banner-image {
-      width: 250px;
-      height: 100px;
-    }
-
-
-    .leg-case-details-card {
-      border-radius: 10px;
-    background: rgb(9, 45, 54);
-      padding: 20px;
-    }
-    .data-box {
-      position: relative;
-      overflow: hidden;
-    }
-
-    .data-box:before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(
-        to right,
-        transparent 0%,
-        rgba(255, 215, 0, 0.8) 50%,
-        transparent 100%
-      );
-      transform: translateX(-100%);
-      transition: transform 0.3s ease-in-out;
-    }
-
-    .data-box:hover:before,
-    .data-box:focus:before {
-      transform: translateX(0%);
-    }
-
-    .data-label,
-    .data-value {
-      position: relative;
-      z-index: 1;
-    }
-
-
-    .data-row {
-      margin-bottom: 20px;
-    }
-
-    .data-box {
-      border-radius: 5px;
-      padding: 20px;
-      transition: transform 0.3s;
-    }
-
-    .data-box:hover {
-      transform: scale(1.05);
-    }
-
-    .data-label {
-      color: #FFFFFF;
-      font-weight: bold;
-      font-family: "cairo",sans-serif;
-      font-size: 1.7rem;
-    }
-
-    .data-value {
-      color: #031738;
-      font-weight: bold;
-      font-family: "cairo",sans-serif;
-      font-size: 1.2rem;
-    }

@@ -5,24 +5,22 @@ import '../assest/css/home.css';
 
 const Home = () => {
     return (
-        <Container>
-            <Row>
-                <Col xs={12} lg={3} className="d-none d-lg-block">
-                    {/* Content for screens larger than large (lg) */}
-                </Col>
-                <Col xs={12} lg={9} className="text-center">
-                    {/* Content for all screen sizes */}
+
+        
+      
                     <Card>
-                        <Card.Header className="home-text-center">
+                        <Card.Header className="home-text-center p-1">
                             لوحة التحكم
-                            <div className="court-setting-card-header">
-                                <img src={DashBoard} alt="Icon" className="dashboard-img img-fluid" />
-                            </div>
+                      
                         </Card.Header>
+                        <Card.Body>
+
+                                <img src={DashBoard} alt="Icon" className="dashboard-img img-fluid" />
+                        </Card.Body>
+                   
                     </Card>
-                </Col>
-            </Row>
-        </Container>
+        
+
     );
 };
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState,useEffect } from "react";
 import { useTransition, useSpring, animated } from "@react-spring/web";
 import { Card, Button, Spinner } from "react-bootstrap";
 import { RiLoginCircleLine, RiUserAddLine } from "react-icons/ri";
@@ -6,8 +6,8 @@ import { Collapse } from "bootstrap/dist/js/bootstrap.bundle";
 
 import patternLogoSmall from "../../images/logo2.png";
 
-const Login = React.lazy(() => import("../auth/login"));
-const Register = React.lazy(() => import("../auth/register"));
+const Login = React.lazy(() => import("../auth/LoginForm"));
+const Register = React.lazy(() => import("../auth/RegisterForm"));
 
 const Guest = () => {
   const [showLoginForm, setShowLoginForm] = useState(false);
@@ -16,20 +16,18 @@ const Guest = () => {
   const handleCloseForm = () => {
     setShowLoginForm(false);
     setShowRegisterForm(false);
-    setShowLogoAndButtons(true);
   };
 
   const handleShowLoginForm = () => {
     setShowLoginForm(true);
     setShowRegisterForm(false);
-    setShowLogoAndButtons(false);
   };
 
   const handleShowRegisterForm = () => {
     setShowLoginForm(false);
     setShowRegisterForm(true);
-    setShowLogoAndButtons(false);
   };
+
 
   const formsTransition = useTransition(showLoginForm || showRegisterForm, {
     from: {
@@ -105,88 +103,76 @@ const Guest = () => {
       document.addEventListener("scroll", collapseNavbar);
     }
   }, []);
-
   const logoAnimation = useSpring({
     opacity: 1,
     transform: "translateY(0)",
     from: { opacity: 0, transform: "translateY(-100px)" },
     delay: 500,
   });
-    return (
-      <header className="masthead">
+
+  return (
+      <div className="masthead d-flex flex-column justify-content-center align-items-center">
  
-        <div
-          className="d-flex flex-column justify-content-center align-items-center"
-          style={{
-            paddingLeft: "10px",
-            minHeight: "100vh", // Set a minimum height for the container
-            position: "relative",
-          }}
-        >
-          {showLogoAndButtons && (
-            <animated.div style={logoAnimation} className="logo-container">
-              <img
-                src={patternLogoSmall}
-                alt="Pattern Logo"
-                className="logo img-fluid"
-                style={{ width: "100%", maxWidth: "300px", height: "auto" }}
-              />
-            </animated.div>
-          )}
-          {showLogoAndButtons && (
-            <div
-              className="mt-4 d-flex justify-content-center"
-              style={{ position: "inherit" }}
+ 
+ <>
+          <animated.div style={logoAnimation}>
+            <img
+              src={patternLogoSmall}
+              alt="Pattern Logo"
+              className="logo img-fluid"
+            />
+          </animated.div>
+
+          <div className="btn-group mt-4">
+            <Button
+              variant="success"
+              onClick={handleShowLoginForm}
+              className="col-6 col-md-auto"
             >
-              {/* Use the "col" class to control the width of the buttons */}
-              <Button
-                variant="success"
-                onClick={handleShowLoginForm}
-                className="col-6 col-md-auto mr-md-2 mb-2 mb-md-2"
-      
-              >
-                <RiLoginCircleLine className="mr-1" />
-                دخول
-              </Button>
-              <Button
-                variant="danger"
-                onClick={handleShowRegisterForm}
-                className="col-6 col-md-auto mr-md-2 mb-2 mb-md-2"
-              >
-                <RiUserAddLine className="mr-1" />
-                تسجيل اشتراك
-              </Button>
+              <RiLoginCircleLine className="mr-1" />
+              دخول
+            </Button>
+            <Button
+              variant="danger"
+              onClick={handleShowRegisterForm}
+              className="col-6 col-md-auto"
+            >
+              <RiUserAddLine className="mr-1" />
+              تسجيل اشتراك
+            </Button>
+          </div>
+        </>
+
+
+      {formsTransition((styles, item) =>
+        item ? (
+          <animated.div
+            style={{ ...styles, ...{ marginTop: "20px" } }}
+          >
+            {/* Forms */}
+            <div className="d-flex justify-content-center">
+              <Card style={{ zIndex: 2 }}>
+                <React.Suspense fallback={<Spinner animation="grow" />}>
+                  {showLoginForm && (
+                    <Login
+                      style={{ position: "relative", zIndex: 3 }}
+                      handleCloseForm={handleCloseForm}
+                    />
+                  )}
+                  {showRegisterForm && (
+                    <Register
+                      style={{ position: "relative", zIndex: 3 }}
+                      handleCloseForm={handleCloseForm}
+                    />
+                  )}
+                </React.Suspense>
+              </Card>
             </div>
-          )}
-  
-          {formsTransition((styles, item) =>
-            item ? (
-              <animated.div style={{ ...styles, width: "100%", marginTop: "20px" }}>
-                <div className="d-flex justify-content-center">
-                  <Card style={{ zIndex: 2 }}>
-                    <React.Suspense fallback={<Spinner animation="grow" />}>
-                      {showLoginForm && (
-                        <Login
-                          style={{ position: "relative", zIndex: 3 }}
-                          handleCloseForm={handleCloseForm}
-                        />
-                      )}
-                      {showRegisterForm && (
-                        <Register
-                          style={{ position: "relative", zIndex: 3 }}
-                          handleCloseForm={handleCloseForm}
-                        />
-                      )}
-                    </React.Suspense>
-                  </Card>
-                </div>
-              </animated.div>
-            ) : null
-          )}
-        </div>
-      </header>
-    );
-  };
-  
-  export default Guest;
-  
+          </animated.div>
+        ) : null
+      )}
+    </div>
+  );
+};
+
+export default Guest;

@@ -5,7 +5,7 @@ import { FaSignInAlt } from "react-icons/fa";
 import AuthUser from "./AuthUser";
 import API_CONFIG from '../../config';
 import axios from "axios";
-const Login = ({ handleCloseForm }) => {
+const LoginForm = ({ handleCloseForm }) => {
     const navigate = useNavigate();
     const { setToken } = AuthUser();
 
@@ -36,19 +36,20 @@ const Login = ({ handleCloseForm }) => {
     };
 
     return (
-
         <>
+          <Card className="auth-form-card">
+              <div className="court-setting-card-header">
             <Card.Header>
-                <div className="court-setting-card-header">
-                    <Card.Title>تسجيل الدخول
-                        <FaSignInAlt style={{ marginRight: "5px" }} className="welcome-page-icon" />
-                    </Card.Title>
-                </div>
+                <Card.Title>
+                  تسجيل الدخول
+                  <FaSignInAlt style={{ marginRight: "5px" }} className="welcome-page-icon" />
+                </Card.Title>
             </Card.Header>
-
+              </div>
+    
             <Card.Body>
-                <Form onSubmit={onSubmit}>
-                    <Form.Group controlId="formBasicEmail">
+              <Form onSubmit={onSubmit}>
+              <Form.Group controlId="formBasicEmail">
                         <Form.Label>عنوان البريد الإلكتروني</Form.Label>
                         <Form.Control
                             type="email"
@@ -83,19 +84,17 @@ const Login = ({ handleCloseForm }) => {
                         )}
                     </Row>
                 </Form>
-
-
-
-                {error && <p className="text-danger mt-3 text-center">{error}</p>}
+              {/* Error message */}
             </Card.Body>
+    
             <Card.Footer>
-
-                <Button type="button" onClick={handleCloseForm} className="btn-danger login-back">
-                    العودة للرئيسية
-                </Button>
+              <Button type="button" onClick={handleCloseForm} className="btn-danger login-back">
+                العودة للرئيسية
+              </Button>
             </Card.Footer>
-
+          </Card>
         </>
-    );
-}
-export default Login;
+      );
+    };
+    
+    export default LoginForm;

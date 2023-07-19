@@ -6,7 +6,7 @@ import AuthUser from "./AuthUser";
 import API_CONFIG from "../../config";
 import axios from "axios";
 
-const Register = ({ handleCloseForm }) => {
+const RegisterForm = ({ handleCloseForm }) => {
     const navigate = useNavigate();
     const { http, setToken } = AuthUser();
     const [name, setName] = useState("");
@@ -55,19 +55,20 @@ const Register = ({ handleCloseForm }) => {
             console.log(error);
         }
     };
+    
+  return (
+    <>
+      <Card className="auth-form-card">
+            <div className="court-setting-card-header">
+        <Card.Header>
+                <Card.Title>اشتراك جديد</Card.Title>
+                <FaSignInAlt className="welcome-page-icon" />
+        </Card.Header>
+            </div>
 
-    return (
-        <>
-            <Card.Header>
-                <div className="court-setting-card-header">
-                    <Card.Title>اشتراك جديد</Card.Title>
-                    <FaSignInAlt className="welcome-page-icon" />
-                </div>
-            </Card.Header>
-
-            <Card.Body>
-                <Form>
-                    <Row>
+        <Card.Body>
+          <Form>
+          <Row>
                         <Col xs={12} md={6} className="mb-3">
                             <Form.Label>
                                 <FaUser className="form-icon" /> الاسم:
@@ -127,18 +128,19 @@ const Register = ({ handleCloseForm }) => {
                         </Button>
                     )}
 
+          </Form>
                     {error && <p className="text-danger mt-3">{error}</p>}
-                </Form>
-            </Card.Body>
+          {/* Error message */}
+        </Card.Body>
 
-            <Card.Footer>
-                <Button type="button" onClick={handleCloseForm} className="btn-danger login-back">
-                    العودة للرئيسية
-                </Button>
-            </Card.Footer>
-        </>
-
-    );
+        <Card.Footer>
+          <Button type="button" onClick={handleCloseForm} className="btn-danger login-back">
+            العودة للرئيسية
+          </Button>
+        </Card.Footer>
+      </Card>
+    </>
+  );
 };
 
-export default Register;
+export default RegisterForm;
