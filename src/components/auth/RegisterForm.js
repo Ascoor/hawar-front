@@ -61,7 +61,7 @@ const RegisterForm = ({ handleCloseForm }) => {
       <Card className="auth-form-card">
         <div className="court-setting-card-header">
           <Card.Header>
-            <Card.Title>اشتراك جديد</Card.Title>
+            <Card.Title className="card-title-login-form">اشتراك جديد</Card.Title>
             <FaSignInAlt className="welcome-page-icon" />
           </Card.Header>
         </div>

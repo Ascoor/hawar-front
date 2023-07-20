@@ -34,7 +34,7 @@
 /* Backlit effect on the background */
 .bg-container {
   position: relative;
-  background: linear-gradient(#092247, #092247, #092247);
+  background: linear-gradient(#021430, #021736, #041837);
   height: 100vh;
 }
 
@@ -51,14 +51,15 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url('./images/bg-pattern.png');
+  background-image: url('./images/patr.png');
   background-repeat: repeat;
   background-size: auto;
-  opacity: 0.5; /* Adjust the opacity as desired */
+  opacity: .2; /* Adjust the opacity as desired */
 }
 
 .btn-group {
-  display: flex;
+
+    display: contents;
   flex-direction: column;
   align-items: center;
   margin-top: 20px;
@@ -92,28 +93,30 @@ body {
   margin-right: 0.5rem;
 }
 
-.court-setting-card-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 10px;
-}
-
 /* Form styles */
 .form-icon {
   margin-right: 0.5rem;
 }
 
-.login-btn {
-  background-color: var(--success-color);
-  border-color: var(--success-color);
+
+  .login-btn {
+    background-color: var(--success-color);
+    border-color: #adb83a;
+    BACKGROUND: #faa61a;
 }
 
-.court-setting-card-header {
+.card-title-login-form {
+  margin-bottom: var(--bs-card-title-spacer-y);
+  color: #faa61a;
+  font-family: 'ArabicFont', Arial, sans-serif;
+  font-size: 1.6rem;
+}
+.card-header {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  font-family: 'ArabicFont', Arial, sans-serif;
   margin-bottom: 20px;
   background: linear-gradient(#092247, #092247, #092247);
   color: rgb(206, 195, 0);
@@ -127,7 +130,7 @@ body {
 
 .login-btn:hover {
   background-color: #218838;
-  border-color: #1e7e34;
+  border-color: #e2df0b;
 }
 
 .login-back {
@@ -135,9 +138,12 @@ body {
   border-color: var(--danger-color);
 }
 
-.login-back:hover {
-  background-color: #c82333;
-  border-color: #bd2130;
+
+
+.login-back {
+  background-color: crimson;
+  border-color: #b9c236;
+
 }
 
 /* Auth form styles */
@@ -148,8 +154,10 @@ body {
   border: 1px solid var(--secondary-color);
   border-radius: 5px;
   background-color: #051f42;
-  box-shadow: 0 0 10px rgb(251, 255, 16), /* Light shadow */
-              0 2px 50px rgb(253, 255, 110); /* Dark shadow */
+  box-shadow: 0 0 15px #faa61a, /* Light shadow */
+              0 20px 30px #faa61a; /* Dark shadow */
+              
+  background-image: url('./images/bg-pattern.png'); 
 }
 
 /* Form label styles */
@@ -169,23 +177,31 @@ body {
   box-shadow: 0 0 5px #fff; /* Add white shadow when the input is focused */
   outline: none;
 }
-
-/* Form button styles */
-.auth-form-card button {
-  color: #fff; /* Set button text color to white */
-  background-color: var(--success-color); /* Set button background color */
-  border-color: var(--success-color); /* Set button border color */
-  border-radius: 5px;
-  padding: 10px 15px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.2s, border-color 0.2s; /* Add transition for smooth hover effect */
+/* Custom styles for the login button */
+/* Custom styles for the login button */
+.ice-btn {
+  background-color: #f0f5f9; /* Ice color for background */
+  color: #218838; /* Green color for text */
+  border-color: #c3e6cb; /* Light green color for border */
 }
 
-/* Form button hover styles */
-.auth-form-card button:hover {
-  background-color: #218838; /* Change button background color on hover */
-  border-color: #1e7e34; /* Change button border color on hover */
+.ice-btn:hover {
+  background-color: #ebf9f1; /* Light green background on hover */
+  border-color: #a5d6a7; /* Darker green border on hover */
+}
+
+/* Custom styles for the "Back to Home" button */
+.back-to-home-btn {
+  background-color: red; /* Red color for background */
+  color: white; /* White color for text */
+  border-color: red; /* Red color for border */
+}
+
+
+/* Remove hover effect for the "Back to Home" button */
+.back-to-home-btn:hover {
+  background-color: red; /* Maintain red background on hover */
+  border-color: red; /* Maintain red border on hover */
 }
 
 /* Error message styles */

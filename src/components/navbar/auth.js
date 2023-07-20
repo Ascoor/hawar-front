@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Nav, Navbar, Dropdown, Container } from "react-bootstrap";
+import { Nav, Navbar, Dropdown, NavDropdown,Container } from "react-bootstrap";
 import { Link, Routes, Route, useNavigate } from "react-router-dom";
 import { FaUser } from "react-icons/fa";
 import useAuth from "../auth/AuthUser";
@@ -7,7 +7,7 @@ import Logo from "../../images/logo2.png";
 import Home from "../home";
 import Members from "../members/members";
 import ProfileUpdateComponent from "../auth/profile";
-
+import MemberLookup from "../Member-lookup/MemberLookup"
 const Auth = () => {
   const { token, logout } = useAuth();
   const userId = useAuth().user.id;
@@ -60,7 +60,15 @@ const Auth = () => {
       <Nav.Link as={Link} to="/members" style={{ fontFamily: "ArabicFont", color: "#fff" }}>
         الأعضاء
       </Nav.Link>
+     
+                            <NavDropdown title="الإعدادات" id="settings-dropdown">
+                                <NavDropdown.Item as={Link} to="/member-lookup">
+              بيانات العضوية
+                                </NavDropdown.Item>
+                   
+                            </NavDropdown>
     </Nav>
+
             <Nav>
               <Dropdown>
                 <Dropdown.Toggle
@@ -105,6 +113,7 @@ const Auth = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/members" element={<Members />} />
+          <Route path="/member-lookup" element={<MemberLookup />} />
 
           <Route
             path="/profile/:userId"

@@ -46,7 +46,7 @@ const LoginForm = ({ handleCloseForm }) => {
             <Card className="auth-form-card">
               <div className="court-setting-card-header">
                 <Card.Header>
-                  <Card.Title>
+                  <Card.Title className="card-title-login-form">
                     تسجيل الدخول
                     <FaSignInAlt style={{ marginRight: "5px" }} className="welcome-page-icon" />
                   </Card.Title>
@@ -76,16 +76,17 @@ const LoginForm = ({ handleCloseForm }) => {
                   </Form.Group>
       
                   <Row className="mt-4 justify-content-center">
-                    {loading ? (
-                      <Button type="button" disabled className="btn-warning login-btn">
-                        ...جارى الدخول
-                      </Button>
-                    ) : (
-                      <Button type="submit" className="btn-success login-btn">
-                        تسجيل الدخول
-                      </Button>
-                    )}
-                  </Row>
+  {loading ? (
+    <Button type="button" disabled className="login-btn ice-btn">
+      ...جارى الدخول
+    </Button>
+  ) : (
+    <Button type="submit" className="login-btn success-btn">
+      تسجيل الدخول
+    </Button>
+  )}
+</Row>
+
                 </Form>
                 {error && <p className="text-danger mt-3">{error}</p>}
               </Card.Body>
