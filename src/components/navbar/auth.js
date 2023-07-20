@@ -53,22 +53,14 @@ const Auth = () => {
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="me-auto mb-2 mb-md-0">
-              <Nav.Link
-                as={Link}
-                to="/"
-                style={{ fontFamily: "ArabicFont", color: "#fff" }}
-              >
-                الرئيسية
-              </Nav.Link>
-              <Nav.Link
-                as={Link}
-                to="/members"
-                style={{ fontFamily: "ArabicFont", color: "#fff" }}
-              >
-                الأعضاء
-              </Nav.Link>
-            </Nav>
+          <Nav className="me-auto mb-2 mb-md-0">
+      <Nav.Link as={Link} to="/" style={{ fontFamily: "ArabicFont", color: "#fff" }}>
+        الرئيسية
+      </Nav.Link>
+      <Nav.Link as={Link} to="/members" style={{ fontFamily: "ArabicFont", color: "#fff" }}>
+        الأعضاء
+      </Nav.Link>
+    </Nav>
             <Nav>
               <Dropdown>
                 <Dropdown.Toggle

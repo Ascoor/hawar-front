@@ -23,78 +23,82 @@ const LoginForm = ({ handleCloseForm }) => {
                 email,
                 password,
             });
-            setToken(response.data.user, response.data.access_token);
-            navigate("/"); // Replace "/" with the desired route after successful login
+
+            // التحقق من وجود الـ "access_token" في الاستجابة
+            if (response.data && response.data.access_token) {
+                // قم بحفظ الـ "access_token" في المخزن (المفضلة) للدخول اللاحق
+                setToken(response.data.user, response.data.access_token);
+                // إعادة توجيه المستخدم إلى الصفحة الرئيسية بعد الدخول بنجاح
+                navigate("/");
+            } else {
+                setError("فشل تسجيل الدخول. يرجى المحاولة مرة أخرى لاحقًا.");
+            }
         } catch (error) {
-            setError(
-                "فشل تسجيل الدخول. يرجى المحاولة مرة أخرى لاحقًا."
-            );
+            setError("فشل تسجيل الدخول. يرجى المحاولة مرة أخرى لاحقًا.");
             console.log(error);
         } finally {
             setLoading(false);
         }
     };
 
-    return (
-        <>
-          <Card className="auth-form-card">
+        return (
+          <React.Fragment>
+            <Card className="auth-form-card">
               <div className="court-setting-card-header">
-            <Card.Header>
-                <Card.Title>
-                  تسجيل الدخول
-                  <FaSignInAlt style={{ marginRight: "5px" }} className="welcome-page-icon" />
-                </Card.Title>
-            </Card.Header>
+                <Card.Header>
+                  <Card.Title>
+                    تسجيل الدخول
+                    <FaSignInAlt style={{ marginRight: "5px" }} className="welcome-page-icon" />
+                  </Card.Title>
+                </Card.Header>
               </div>
-    
-            <Card.Body>
-              <Form onSubmit={onSubmit}>
-              <Form.Group controlId="formBasicEmail">
-                        <Form.Label>عنوان البريد الإلكتروني</Form.Label>
-                        <Form.Control
-                            type="email"
-                            placeholder="Enter an email address"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                        />
-                    </Form.Group>
-
-                    <Form.Group controlId="formBasicPassword">
-                        <Form.Label>كلمة المرور</Form.Label>
-                        <Form.Control
-                            type="password"
-                            placeholder="Enter your password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                        />
-                    </Form.Group>
-
-                    <Row className="mt-4 justify-content-center">
-                        {loading ? (
-                            <Button type="button" disabled className="btn-warning login-btn">
-                                ...جارى الدخول
-                            </Button>
-                        ) : (
-
-                            <Button type="submit" className="btn-success login-btn">
-
-                                تسجيل الدخول
-                            </Button>
-
-                        )}
-                    </Row>
+      
+              <Card.Body>
+                <Form onSubmit={onSubmit}>
+                  <Form.Group controlId="formBasicEmail">
+                    <Form.Label>عنوان البريد الإلكتروني</Form.Label>
+                    <Form.Control
+                      type="email"
+                      placeholder="Enter an email address"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                    />
+                  </Form.Group>
+      
+                  <Form.Group controlId="formBasicPassword">
+                    <Form.Label>كلمة المرور</Form.Label>
+                    <Form.Control
+                      type="password"
+                      placeholder="Enter your password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
+                  </Form.Group>
+      
+                  <Row className="mt-4 justify-content-center">
+                    {loading ? (
+                      <Button type="button" disabled className="btn-warning login-btn">
+                        ...جارى الدخول
+                      </Button>
+                    ) : (
+                      <Button type="submit" className="btn-success login-btn">
+                        تسجيل الدخول
+                      </Button>
+                    )}
+                  </Row>
                 </Form>
-              {/* Error message */}
-            </Card.Body>
-    
-            <Card.Footer>
-              <Button type="button" onClick={handleCloseForm} className="btn-danger login-back">
-                العودة للرئيسية
-              </Button>
-            </Card.Footer>
-          </Card>
-        </>
-      );
-    };
-    
-    export default LoginForm;
+                {error && <p className="text-danger mt-3">{error}</p>}
+              </Card.Body>
+      
+              <Card.Footer>
+                <Button type="button" onClick={handleCloseForm} className="btn-danger login-back">
+                  العودة للرئيسية
+                </Button>
+              </Card.Footer>
+            </Card>
+          </React.Fragment>
+        );
+      };
+      
+      export default LoginForm;
+      

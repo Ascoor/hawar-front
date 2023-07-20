@@ -1,296 +1,271 @@
 import React, { useState, useEffect } from 'react';
-import { Row, Col, Table, Button, Modal, Form, Card, Pagination, Container } from 'react-bootstrap';
+import { Pagination, Table, Button, Card, Container, Row, Col, Form } from 'react-bootstrap';
 import axios from 'axios';
-import API_CONFIG from '../../config';
 import { AiOutlineInfoCircle } from 'react-icons/ai';
+import API_CONFIG from '../../config';
+import MemberDetailsModal from './Modals/MemberDetailsModal';
+import FeesModal from './Modals/FeesModal';
+import ParentMembersModal from './Modals/ParentMembersModal';
+
+const ITEMS_PER_PAGE = 10;
+const MEMBERS_PER_PAGE = 25;
 
 const Members = () => {
-  // State variables
   const [members, setMembers] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
   const [showMemberModal, setShowMemberModal] = useState(false);
   const [showFeesModal, setShowFeesModal] = useState(false);
-  const [showParentMembersModal, setShowParentMembersModal] = useState(false);
   const [selectedMember, setSelectedMember] = useState(null);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const [fees, setFees] = useState(null);
-  const [parentMembers, setParentMembers] = useState([]);
+  const [feesData, setFeesData] = useState(null);
+  const [memberDetailsData, setMemberDetailsData] = useState(null);
+  const [parentMembersData, setParentMembersData] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [isFiltered, setIsFiltered] = useState(false);
 
-  // Fetch members on initial load and when currentPage or searchTerm changes
   useEffect(() => {
-    if (isFiltered) {
-      // Fetch members by search term
-      fetchMembersBySearchTerm(searchTerm, currentPage);
-    } else {
-      // Fetch regular members
-      fetchMembers(currentPage);
-    }
-  }, [currentPage, isFiltered, searchTerm]);
-
-  // Function to fetch members from the API
-  const fetchMembers = async (page) => {
-    try {
-      const response = await axios.get(`${API_CONFIG.baseURL}/api/members?page=${page}&perPage=25`);
+    const fetchMembers = async () => {
+      const response = await axios.get(`${API_CONFIG.baseURL}/api/members`, {
+        params: {
+          page: currentPage,
+          limit: ITEMS_PER_PAGE,
+        },
+      });
       setMembers(response.data.data);
-      setTotalPages(response.data.totalPages);
-    } catch (error) {
-      console.log(error);
+      setTotalPages(Math.ceil(response.data.total / ITEMS_PER_PAGE));
+    };
+    fetchMembers();
+  }, [currentPage]);
+  const fetchMembers = async () => {
+    const response = await axios.get('/api/members', {
+    params: {
+    page: currentPage,
+    limit: ITEMS_PER_PAGE
     }
-  };
-
-  // Function to fetch members by search term from the API
-  const fetchMembersBySearchTerm = async (term, page) => {
-    try {
-      const response = await axios.get(`${API_CONFIG.baseURL}/api/member-search/${term}?page=${page}&perPage=25`);
-      setMembers(response.data.data);
-      setTotalPages(response.data.totalPages);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  // Function to fetch fees for a specific member
-  const fetchFees = async (Mem_Code) => {
-    try {
-      const response = await axios.get(`${API_CONFIG.baseURL}/api/fees?Mem_Code=${Mem_Code}`);
-      setFees(response.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  // Function to fetch master member relation for a specific member
-  const fetchMasterMemberRelation = async (Mem_Code) => {
-    try {
-      const response = await axios.get(`${API_CONFIG.baseURL}/api/master-member-relation/${Mem_Code}`);
-      setParentMembers(response.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-// Function to fetch parent members or master member relation for a specific member
-const fetchParentOrMasterMembers = async (Mem_Code) => {
-  try {
-    const selectedMember = members.find((member) => member.Mem_Code === Mem_Code);
-    setSelectedMember(selectedMember);
-
-    if (selectedMember.MembershipType === 'عضو عامل' && selectedMember.Mem_Relation) {
-      // If the member is "عضو عامل" and has a relation, fetch the master member's relation
-      const response = await axios.get(`${API_CONFIG.baseURL}/api/master-member-relation/${Mem_Code}`);
-      setParentMembers(response.data);
-    } else if (selectedMember.MembershipType === 'عضو تابع') {
-      // If the member is "عضو تابع," fetch the parent members
-      fetchParentMembers(Mem_Code);
-    }
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-// Function to fetch parent members for a specific member
-const fetchParentMembers = async (Mem_Code) => {
-  try {
-    const response = await axios.get(`${API_CONFIG.baseURL}/api/parent-members/${Mem_Code}`);
-    setParentMembers(response.data);
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-const handleShowParentOrMasterMembers = async (Mem_Code) => {
-  const selectedMember = members.find((member) => member.Mem_Code === Mem_Code);
-  setSelectedMember(selectedMember);
-  if (selectedMember.MembershipType === 'عضو عامل') {
-    // If the member is "عضو عامل," fetch the parent members
-    fetchParentMembers(Mem_Code);
-  } else if (selectedMember.MembershipType === 'عضو تابع') {
-    // If the member is "عضو تابع," fetch the master member relation
-    fetchMasterMemberRelation(Mem_Code);
-  }
-};
-
-//...
-
-  // Function to handle showing the member details modal
+    });
+    setMembers(response.data.data);
+    setTotalPages(Math.ceil(response.data.total / ITEMS_PER_PAGE));
+    };
+    const handleClearFilter = () => {
+        setIsFiltered(false);
+     
+        fetchMembers();
+      };
+      
   const handleShowMemberModal = (member) => {
+    setMemberDetailsData(member);
     setSelectedMember(member);
     setShowMemberModal(true);
   };
 
-  // Function to handle showing the fees modal and fetch fees data
-  const handleShowFeesModal = (member) => {
-    setSelectedMember(member);
-    setShowFeesModal(true);
-    fetchFees(member.Mem_Code);
+  const fetchFees = async (Mem_Code) => {
+    try {
+      const response = await axios.get(`${API_CONFIG.baseURL}/api/fees?Mem_Code=${Mem_Code}`);
+      setFeesData(response.data);
+      setShowFeesModal(true);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const fetchParentOrMasterMembers = async (Mem_Code) => {
+    try {
+    const selectedMember = members.find((member) => member.Mem_Code === Mem_Code);
+    setSelectedMember(selectedMember);
+
+    if (selectedMember.MembershipType === 'عضو عامل' && selectedMember.Mem_Relation) {
+        // If the member is "عضو عامل" and has a relation, fetch the master member's relation
+        const response = await axios.get(`${API_CONFIG.baseURL}/api/master-member-relation/${Mem_Code}`);
+        setParentMembersData(response.data);
+    } else if (selectedMember.MembershipType === 'عضو تابع') {
+        // If the member is "عضو تابع," fetch the parent members
+        fetchParentMembers(Mem_Code);
+    }
+    } catch (error) {
+    console.log(error);
+    }
+};
+
+  const fetchParentMembers = async (Mem_Code) => {
+    try {
+      const response = await axios.get(`${API_CONFIG.baseURL}/api/parent-members/${Mem_Code}`);
+      setParentMembersData(response.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
+  const handlePrevPage = () => {
+    setCurrentPage((prev) => prev - 1);
+  };
 
+  const handleNextPage = () => {
+    setCurrentPage((prev) => prev + 1);
+  };
 
-  // Function to handle closing all modals and resetting related state
   const handleCloseModal = () => {
     setShowMemberModal(false);
     setShowFeesModal(false);
-    setShowParentMembersModal(false);
-    setFees(null);
-    setParentMembers([]);
-    setSelectedMember(null);
   };
 
-  // Function to handle navigating to the previous page
-  const handlePrevPage = () => {
-    setCurrentPage((prevPage) => prevPage - 1);
+  const fetchMembersBySearchTerm = async (term, page) => {
+    try {
+      const response = await axios.get(
+        `${API_CONFIG.baseURL}/api/member-search/${term}?page=${page}&perPage=${MEMBERS_PER_PAGE}`
+      );
+      setMembers(response.data.data);
+      setTotalPages(response.data.totalPages);
+      setIsFiltered(true);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  // Function to handle navigating to the next page
-  const handleNextPage = () => {
-    setCurrentPage((prevPage) => prevPage + 1);
-  };
-
-  // Function to handle search term change
   const handleSearchTermChange = (event) => {
     setSearchTerm(event.target.value);
   };
-
-
-
-  // Function to check if the current member has parent members
+  const handleSearch = (event) => {
+    event.preventDefault();
+    if (searchTerm.trim() === '') {
+      handleClearFilter();
+    } else {
+      setCurrentPage(1);
+      fetchMembersBySearchTerm(searchTerm.trim(), 1);
+    }
+  };
+  
   const hasParentMembers = (member) => {
     return member.Mem_ParentMember !== null && member.Mem_ParentMember.length > 0;
   };
 
-  // Function to handle search submission
-  const handleSearch = (event) => {
-    event.preventDefault();
-    fetchMembersBySearchTerm(searchTerm);
-    setIsFiltered(true);
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
   };
+   // Render the pagination items
+   const renderPaginationItems = () => {
+    const paginationItems = [];
+    const totalPagesArray = Array.from({ length: totalPages }, (_, i) => i + 1);
+
+    for (let i = 0; i < totalPagesArray.length; i += 10) {
+      paginationItems.push(totalPagesArray.slice(i, i + 10));
+    }
+
+    return paginationItems.map((row, rowIndex) => (
+      <div key={rowIndex} className="d-flex flex-row justify-content-center align-items-center">
+        {row.map((pageNumber) => (
+          <Pagination.Item
+            key={pageNumber}
+            active={pageNumber === currentPage}
+            onClick={() => handlePageChange(pageNumber)}
+          >
+            {pageNumber}
+          </Pagination.Item>
+        ))}
+      </div>
+    ));
+  };
+
+
+   
+  const renderMembers = () => {
+    const startIndex = (currentPage - 1) * MEMBERS_PER_PAGE;
+    const endIndex = startIndex + MEMBERS_PER_PAGE;
   
-// Function to render the members list
-const renderMembers = () => {
-  if (members.length === 0) {
-    return (
-      <tbody>
+    const visibleMembers = members.slice(startIndex, endIndex);
+  
+    if (visibleMembers.length === 0) {
+      return (
         <tr>
-          <td colSpan="10">No data available</td>
+          <td colSpan="10">لا توجد نتائج مطابقة للبحث</td>
         </tr>
-      </tbody>
-  );
-}
-  return (
-    <tbody>
-     {members.map((member) => (
+      );
+    }
+  
+    return visibleMembers.map((member) => {
+      return (
         <tr key={member.id}>
-            <td>
-              <AiOutlineInfoCircle />
-              <span
-                onClick={() => handleShowMemberModal(member)}
-                style={{ cursor: 'pointer', textDecoration: 'underline' }}
-              >
-                {member.Mem_Code}
-              </span>
-            </td>
-            <td>
-              <Card
-                style={{
-                  width: '50px',
-                  height: '50px',
-                  borderRadius: '50%',
-                }}
-              >
-                <Card.Img
-                  src={`https://hawar-api.ask-ar.com/UserPics/${member.Mem_Photo}`}
-                  alt="Member Photo"
-                  style={{
-                    objectFit: 'cover',
-                    width: '100%',
-                    height: '100%',
-                    borderRadius: '50%',
-                  }}
-                />
-              </Card>
-            </td>
-            <td>{member.Mem_Name}</td>
-            <td>{member.MembershipType}</td>
-            <td>{member.Gender}</td>
-            <td>{member.Mem_Job}</td>
-            <td>{member.Mem_Mobile}</td>
-            <td>{member.Mem_BOD}</td>
-            <td>{member.Mem_Address}</td>
-            <td>
-              <Button variant="success btn-sm" onClick={() => handleShowFeesModal(member)}>
-                الإشتراكات
+        <td>
+          <AiOutlineInfoCircle />
+          <span
+            onClick={() => handleShowMemberModal(member)}
+            style={{ cursor: 'pointer', textDecoration: 'underline' }}
+          >
+            {member.Mem_Code}
+          </span>
+        </td>
+        <td>
+          <Card
+            style={{
+              width: '50px',
+              height: '50px',
+              borderRadius: '50%',
+            }}
+          >
+            <Card.Img
+              src={`https://hawar-api.ask-ar.com/UserPics/${member.Mem_Photo}`}
+              alt="Member Photo"
+              style={{
+                objectFit: 'cover',
+                width: '100%',
+                height: '100%',
+                borderRadius: '50%',
+              }}
+            />
+          </Card>
+        </td>
+        <td>{member.Mem_Name}</td>
+        <td>{member.MembershipType}</td>
+        <td>{member.Gender}</td>
+        <td>{member.Mem_Job}</td>
+        <td>{member.Mem_Mobile}</td>
+        <td>{member.Mem_BOD}</td>
+        <td>{member.Mem_Address}</td>
+          <td>
+            {hasParentMembers(member) ? (
+              <Button variant="primary" onClick={() => fetchParentOrMasterMembers(member.Mem_Code)}>
+                عرض الأعضاء الأبويين
               </Button>
+            ) : null}
           </td>
           <td>
-            {member.MembershipType === 'عضو تابع' && selectedMember && (
-              <Button
-                variant="primary btn-sm"
-                onClick={() => handleShowParentOrMasterMembers(member.Mem_Code)}
-              >
-                العضو التابع له
-              </Button>
-            )}
-
-            {member.MembershipType !== 'عضو تابع' && selectedMember && (
-              <Button
-                variant="primary btn-sm"
-                onClick={() => handleShowParentOrMasterMembers(member.Mem_Code)}
-              >
-                الاعضاء التابعين
-              </Button>
-            )}
+            <Button variant="primary" onClick={() => fetchFees(member.Mem_Code)}>
+              عرض الرسوم
+            </Button>
           </td>
-            </tr>
-      ))}
-    </tbody>
-   );
-  }
+        </tr>
+      );
+    });
+  };
 
-// Function to render pagination
-const renderPageNumbers = () => {
-  return Array.from({ length: totalPages }, (_, i) => (
-    <li key={i + 1} className={`page-item ${currentPage === i + 1 ? 'active' : ''}`}>
-      <button className="page-link" onClick={() => setCurrentPage(i + 1)}>
-        {i + 1}
-      </button>
-    </li>
-  ));
-};
-return (
-  <>
-    <Row className="justify-content-center">
-      <Col md={8}>
-        <Card>
-          <Card.Body>
-            <Card.Header className="home-text-center p-1">قائمة الأعضاء</Card.Header>
-
-            <Row className="mb-4">
-              <Col>
-                <div className="p-4">
-                  <Form onSubmit={handleSearch}>
-                    <Form.Control
-                      type="text"
-                      placeholder="Search"
-                      value={searchTerm}
-                      onChange={handleSearchTermChange}
-                    />
-                    <Button variant="primary" type="submit">
-                      Search
-                    </Button>
-                  </Form>
-                </div>
-                {/* Display the count of search results */}
-                {isFiltered && <p className="my-2">تم العثور على {members.length} نتيجة</p>}
-              </Col>
-            </Row>
-
-            {/* Add a fixed height to the container to display the members list and page numbers */}
-            <div style={{ height: '400px', overflowY: 'auto' }}>
-              <Table striped bordered hover responsive>
-                <thead>
-                  <tr>
-                    <th>رقم العضوية</th>
+  return (
+    <>
+     <Container fluid>
+        <Row>
+          <Col>
+            <Card>
+              <Card.Header>
+                <Card.Title as="h5">الأعضاء</Card.Title>
+              </Card.Header>
+              <Card.Body>
+                <Form onSubmit={handleSearch}>
+                  <Form.Group controlId="formBasicEmail">
+                    <Form.Control type="text" placeholder="ابحث عن عضو" value={searchTerm} onChange={handleSearchTermChange} />
+                  </Form.Group>
+                  <Button variant="primary" type="submit">
+                    بحث
+                  </Button>
+                    {isFiltered && (
+            <Button variant="outline-secondary" onClick={handleClearFilter}>
+            إلغاء الفلترة
+          </Button>
+                      
+                    )}
+                </Form>
+                <br />
+                {members.length > 0 ? (
+  <Table striped bordered hover>
+    <thead>
+      <tr>
+      <th>رقم العضوية</th>
                     <th>الصورة</th>
                     <th>الإسم</th>
                     <th>نوع العضوية</th>
@@ -300,216 +275,43 @@ return (
                     <th>تاريخ الميلاد</th>
                     <th>العنوان</th>
                     <th>التحكم</th>
-                  </tr>
-                </thead>
-                {renderMembers()}
-              </Table>
-            </div>
-          </Card.Body>
-          <Card.Footer>
-            <Row>
-              <Col>
-                <Pagination>
-                  <nav aria-label="Page navigation example">
-                    <ul className="pagination">
-                      <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
-                        <button className="page-link" onClick={handlePrevPage}>
-                          Previous
-                        </button>
-                      </li>
-                      {renderPageNumbers()}
-                      <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
-                        <button className="page-link" onClick={handleNextPage}>
-                          Next
-                        </button>
-                      </li>
-                    </ul>
-                  </nav>
-                </Pagination>
-              </Col>
-            </Row>
-          </Card.Footer>
-        </Card>
-      </Col>
-    </Row>
+      </tr>
+    </thead>
+    <tbody>{renderMembers()}</tbody>
+  </Table>
+) : (
+  <p>لا توجد بيانات للعرض</p>
+)}   
+  {members.length > 0 && (
+                  <div className="d-flex justify-content-center">
+                    <Pagination>
+                      <Pagination.Prev onClick={handlePrevPage} disabled={currentPage === 1} />
 
-      {/* Modal for displaying member details */}
-        <Modal show={showMemberModal} onHide={handleCloseModal} dir="rtl">
-     
-     
-        <Modal.Header closeButton>
-          <Modal.Title>تفاصيل العضو</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          {selectedMember && (
-            <Card>
-              <Card.Body>
-                <div className="member-details">
-                  <Card.Img
-                    src={`${API_CONFIG.baseURL}/UserPics/${selectedMember.Mem_Photo}`}
-                    alt="صورة العضو"
-                    style={{ objectFit: 'cover', width: '50%', height: '50%', borderRadius: '50%' }}
-                  />
-                  <div className="member-info">
-                  <div className="form-group">
-                  <label className="label-color-name">إسم العضو:</label>
-                  <h5>{selectedMember.Mem_Name}</h5>
-                </div>
-                <div className="form-group">
-                  <label className="label-color">رقم العضوية:</label>
-                  <input type="text" value={selectedMember.Mem_Code} disabled />
-                </div>
-                <div className="form-group">
-                  <label className="label-color">تاريخ الميلاد:</label>
-                  <input type="text" value={selectedMember.Mem_BOD} disabled />
-                </div>
-                <div className="form-group">
-                  <label className="label-color">الرقم القومي:</label>
-                  <input type="text" value={selectedMember.Mem_NID} disabled />
-                </div>
-                <div className="form-group">
-                  <label className="label-color">التخرج:</label>
-                  <input type="text" value={selectedMember.Graduation} disabled />
-                </div>
-                <div className="form-group">
-                  <label className="label-color">عضوية الأب:</label>
-                  <input type="text" value={selectedMember.Mem_ParentMember} disabled />
-                </div>
-                <div className="form-group">
-                  <label className="label-color">الجنس:</label>
-                  <input type="text" value={selectedMember.Gender} disabled />
-                </div>
-                <div className="form-group">
-                  <label className="label-color">الوظيفة:</label>
-                  <input type="text" value={selectedMember.Mem_Job} disabled />
-                </div>
-                <div className="form-group">
-                  <label className="label-color">تصنيف الوظيفة:</label>
-                  <input type="text" value={selectedMember.JobCategory} disabled />
-                </div>
-                <div className="form-group">
-                  <label className="label-color">نوع العضوية:</label>
-                  <input type="text" value={selectedMember.MembershipType} disabled />
-                </div>
-                <div className="form-group">
-                  <label className="label-color">الديانة:</label>
-                  <input type="text" value={selectedMember.Relegion} disabled />
-                </div>
-                <div className="form-group">
-                  <label className="label-color">العنوان:</label>
-                  <input type="text" value={selectedMember.Mem_Address} disabled />
-                </div>
-                <div className="form-group">
-                  <label className="label-color">تاريخ الإنضمام:</label>
-                  <input type="text" value={selectedMember.Mem_JoinDate} disabled />
-                </div>
-                <div className="form-group">
-                  <label className="label-color">الفئة:</label>
-                  <input type="text" value={selectedMember.Class} disabled />
-                </div>
-                <div className="form-group">
-                  <label className="label-color">هاتف المنزل:</label>
-                  <input type="text" value={selectedMember.Mem_HomePhone} disabled />
-                </div>
-                <div className="form-group">
-                  <label className="label-color">الموبايل:</label>
-                  <input type="text" value={selectedMember.Mem_Mobile} disabled />
-                </div>
-                <div className="form-group">
-                  <label className="label-color">المستلم:</label>
-                  <input type="text" value={selectedMember.Mem_Receiver} disabled />
-                </div>
-                <div className="form-group">
-                  <label className="label-color">هاتف العمل:</label>
-                  <input type="text" value={selectedMember.Mem_WorkPhone} disabled />
-                </div>
-                <div className="form-group">
-                  <label className="label-color">ملاحظات:</label>
-                  <input type="text" value={selectedMember.Mem_Notes} disabled />
-                </div>
-                <div className="form-group">
-                  <label className="label-color">ملاحظات:</label>
-                  <input type="text" value={selectedMember.Mem_Relation} disabled />
-                </div>
+                      {/* New pagination JSX */}
+                      <div className="d-flex flex-wrap justify-content-center align-items-center">
+                        {renderPaginationItems()}
+                      </div>
+                      {/* End of new pagination JSX */}
+
+                      <Pagination.Next onClick={handleNextPage} disabled={currentPage === totalPages} />
+                    </Pagination>
                   </div>
-                </div>
+                )}
               </Card.Body>
             </Card>
-          )}
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseModal}>
-            إغلاق
-          </Button>
-        </Modal.Footer>
-      </Modal>
-
-      {/* Modal for displaying fees */}
-      <Modal show={showFeesModal} onHide={handleCloseModal} dir="rtl">
+          </Col>
+        </Row>
+      </Container>
     
-        <Modal.Header closeButton>
-          <Modal.Title>إشتراكات العضو</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          {selectedMember && fees !== null && fees.length > 0 ? (
-            <Table striped bordered hover responsive>
-              <thead>
-                <tr>
-                  <th>السنة</th>
-                  <th>المبلغ</th>
-                  <th>التاريخ</th>
-                  <th>رقم الإيصال</th>
-                  <th>الحالة</th>
-                </tr>
-              </thead>
-              <tbody>
-                {fees.map((fee) => (
-                  <tr key={fee.Fee_ID}>
-                    <td>{fee.Fee_Year}</td>
-                    <td>{fee.Fee_Amount}</td>
-                    <td>{fee.Fee_Date}</td>
-                    <td>{fee.Fee_RecieptNumber}</td>
-                    <td>{selectedMember.Status === -1 ? 'غير مسدد' : ' مسدد'}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
-          ) : (
-            fees === null && <p>جارٍ تحميل الإشتراكات...</p>
-          )}
-          {fees !== null && fees.length === 0 && <p>لا توجد إشتراكات لهذا العضو.</p>}
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseModal}>
-            إغلاق
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      {/* Modals */}
+      {/* Member details modal */}
+      <MemberDetailsModal show={showMemberModal} member={selectedMember} memberDetails={memberDetailsData} onClose={handleCloseModal} />
+      {/* Fees modal */}
+      <FeesModal show={showFeesModal} member={selectedMember} fees={feesData} onClose={handleCloseModal} />
 
-      {/* Modal for displaying parent members */}
-      <Modal show={Boolean(parentMembers.length)} onHide={() => setParentMembers([])}>
-       <Modal.Header closeButton>
-          <Modal.Title>قائمة الأعضاء التابعين</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          {parentMembers.length > 0 ? (
-            <ul>
-              {parentMembers.map((parentMember) => (
-                <li key={parentMember.Mem_Code}>{parentMember.Mem_Name}</li>
-              ))}
-            </ul>
-          ) : (
-            <p>لا يوجد أعضاء تابعين لهذا العضو.</p>
-          )}
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => setParentMembers([])}>
-            إغلاق
-          </Button>
-        </Modal.Footer>
-      </Modal>
-      </>
+      {/* Parent members modal */}
+      <ParentMembersModal show={Boolean(parentMembersData.length)} members={parentMembersData} onClose={() => setParentMembersData([])} />
+    </>
   );
 };
-
 export default Members;

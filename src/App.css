@@ -1,59 +1,51 @@
 /* App.css */
-
-:root {
-  --primary-color: #007bff;
-  --secondary-color: #6c757d;
-  --success-color: #28a745;
-  --danger-color: #dc3545;
-  /* Add more variables as needed */
-}
-
-/*/* App.css */
-
 @import url(https://fonts.googleapis.com/earlyaccess/lateef.css);
 
 * {
-  text-align:right;
+  text-align: right;
   direction: rtl;
 }
 
-.hline {
-  height:1px;
-  width:100%;
-  background:rgba(100,100,200,0.5);
-  margin-top:5px;
-/*border-top: 1px solid rgba(200,200,200,0.2);*/
-}
-.bodycss {
-  background: rgba(100,100,50,0.5);
-  height: 65px;
-  width: 200px;
-  -moz-border-radius-bottomleft: 20px;
-  border-bottom-left-radius: 20px;
- -moz-border-radius-topleft: 20px;
-  border-top-left-radius: 20px;
-  
-  text-align: Center;
-  line-height:50px;
-  font-size:30px;
-  color: wheat;
-
+/* Centered content */
+.centered-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-body {
-  font-family: 'ArabicFont', Arial, sans-serif;
+/* Card styles */
+.centered-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 300px;
+  height: 400px;
+  background-color: #011c44; /* Card background color */
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Card shadow */
 }
 
-
-/* Guest interface styles */
-.masthead {
+/* Backlit effect on the background */
+.bg-container {
   position: relative;
   background: linear-gradient(#092247, #092247, #092247);
   height: 100vh;
 }
 
-.masthead::before {
+/* Backlit effect on the background */
+.bg-container::before {
   content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   position: absolute;
   top: 0;
   left: 0;
@@ -63,6 +55,30 @@ body {
   background-repeat: repeat;
   background-size: auto;
   opacity: 0.5; /* Adjust the opacity as desired */
+}
+
+.btn-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.logo img-fluid {
+  margin: auto;
+  padding: auto;
+}
+
+.hline {
+  height: 1px;
+  width: 100%;
+  background: rgba(100, 100, 200, 0.5);
+  margin-top: 5px;
+  /*border-top: 1px solid rgba(200,200,200,0.2);*/
+}
+
+body {
+  font-family: 'ArabicFont', Arial, sans-serif;
 }
 
 .logo {
@@ -92,9 +108,6 @@ body {
   background-color: var(--success-color);
   border-color: var(--success-color);
 }
-/* App.css */
-
-/* ... Your existing CSS ... */
 
 .court-setting-card-header {
   display: flex;
@@ -112,8 +125,6 @@ body {
   margin-bottom: 0.5rem;
 }
 
-/* ... Your existing CSS ... */
-
 .login-btn:hover {
   background-color: #218838;
   border-color: #1e7e34;
@@ -129,17 +140,6 @@ body {
   border-color: #bd2130;
 }
 
-/* Center the form on small screens */
-@media (max-width: 768px) {
-  .guest-container {
-    padding: 20px;
-  }
-  .forms-container {
-    width: 100%;
-    margin-top: 20px;
-  }
-}
-
 /* Auth form styles */
 .auth-form-card {
   max-width: 400px;
@@ -147,40 +147,58 @@ body {
   padding: 20px;
   border: 1px solid var(--secondary-color);
   border-radius: 5px;
-  background-color: #fff;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  background-color: #051f42;
+  box-shadow: 0 0 10px rgb(251, 255, 16), /* Light shadow */
+              0 2px 50px rgb(253, 255, 110); /* Dark shadow */
 }
 
-.auth-form-card .card-header {
-  text-align: center;
+/* Form label styles */
+.auth-form-card label {
+  color: #fff; /* Set text color to white */
 }
 
-.auth-form-card .card-footer {
-  text-align: center;
+/* Form input styles */
+.auth-form-card input {
+  background-color: transparent;
+  color: #fff; /* Set text color to white */
+  border-color: #fff; /* Set border color to white */
 }
 
-.auth-form-card .form-label {
-  display: flex;
-  align-items: center;
-  margin-bottom: 5px;
+/* Form input focus styles */
+.auth-form-card input:focus {
+  box-shadow: 0 0 5px #fff; /* Add white shadow when the input is focused */
+  outline: none;
 }
 
-.auth-form-card .form-icon {
-  margin-right: 5px;
+/* Form button styles */
+.auth-form-card button {
+  color: #fff; /* Set button text color to white */
+  background-color: var(--success-color); /* Set button background color */
+  border-color: var(--success-color); /* Set button border color */
+  border-radius: 5px;
+  padding: 10px 15px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s; /* Add transition for smooth hover effect */
 }
 
-.auth-form-card .login-btn {
-  width: 100%;
+/* Form button hover styles */
+.auth-form-card button:hover {
+  background-color: #218838; /* Change button background color on hover */
+  border-color: #1e7e34; /* Change button border color on hover */
 }
 
-.auth-form-card .login-back {
-  width: 100%;
+/* Error message styles */
+.auth-form-card .text-danger {
+  color: #fff; /* Set error message text color to white */
 }
 
-.auth-form-card .mt-4 {
-  margin-top: 1rem;
+/* Center the form on small screens */
+@media (max-width: 768px) {
+  .auth-form-card {
+    max-width: 100%;
+  }
 }
-
 
 /* Guest interface styles */
 .guest-container {
@@ -200,4 +218,19 @@ body {
 
 .rtl {
   direction: rtl;
+}
+
+/* Home */
+.big-font-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px; /* Adjust the height as per your requirement */
+  background: linear-gradient(#092247, #092247, #092247);
+}
+
+.big-font {
+  font-size: 2rem; /* Adjust the font size as per your requirement */
+  font-weight: bold;
+  color: #ff9800;
 }
