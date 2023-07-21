@@ -57,19 +57,22 @@ const RegisterForm = ({ handleCloseForm }) => {
     };
 
   return (
-    <>
-      <Card className="auth-form-card">
-        <div className="court-setting-card-header">
-          <Card.Header>
-            <Card.Title className="card-title-login-form">اشتراك جديد</Card.Title>
-            <FaSignInAlt className="welcome-page-icon" />
+    <React.Fragment>
+       <Card className="auth-form-card">
+              <div className="court-setting-card-header">
+                <Card.Header className="card-header-auth">
+                  <Card.Title className="card-title-login-form">
+                    تسجيل إشتراك
+                    <FaSignInAlt style={{ marginRight: "5px" }} className="welcome-page-icon" />
+                  </Card.Title>
+                
           </Card.Header>
         </div>
 
         <Card.Body>
           <Form>
             <Row>
-              <Col xs={12} md={6} className="mb-3">
+              <Col xs={12} md={12}>
                 <Form.Label>
                   <FaUser className="form-icon" /> الاسم:
                 </Form.Label>
@@ -80,7 +83,7 @@ const RegisterForm = ({ handleCloseForm }) => {
                   onChange={(e) => setName(e.target.value)}
                 />
               </Col>
-              <Col xs={12} md={6} className="mb-3">
+              <Col xs={12} md={12}>
                 <Form.Label>
                   <FaEnvelope className="form-icon" /> البريد الإلكتروني:
                 </Form.Label>
@@ -94,7 +97,7 @@ const RegisterForm = ({ handleCloseForm }) => {
             </Row>
 
             <Row>
-              <Col xs={12} md={6} className="mb-3">
+              <Col xs={12} md={12}>
                 <Form.Label>
                   <FaKey className="form-icon" /> كلمة المرور:
                 </Form.Label>
@@ -105,7 +108,7 @@ const RegisterForm = ({ handleCloseForm }) => {
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </Col>
-              <Col xs={12} md={6} className="mb-3">
+              <Col xs={12} md={12}>
                 <Form.Label>
                   <FaKey className="form-icon" /> إعادة إدخال كلمة المرور:
                 </Form.Label>
@@ -138,7 +141,7 @@ const RegisterForm = ({ handleCloseForm }) => {
           </Button>
         </Card.Footer>
       </Card>
-    </>
+      </React.Fragment>
   );
 };
 

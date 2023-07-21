@@ -56,7 +56,19 @@
   background-size: auto;
   opacity: .2; /* Adjust the opacity as desired */
 }
+.btn-login-auth{
 
+  width: 75px;
+
+
+}
+.btn-register-auth{
+
+  width: 155px;
+  padding: auto;
+
+
+}
 .btn-group {
 
     display: contents;
@@ -65,10 +77,21 @@
   margin-top: 20px;
 }
 
-.logo img-fluid {
-  margin: auto;
-  padding: auto;
+/* CSS في ملف app.css أو في جزء الأنماط الخاص بك */
+
+.logo {
+  /* خاصية box-shadow لإضافة ظل للشعار */
+  box-shadow: 0 0 15px #faa61a, /* ظل فاتح */
+              0 20px 30px #faa61a; /* ظل داكن */
+
+  border-radius: 110px; 
+
+  
 }
+
+
+
+
 
 .hline {
   height: 1px;
@@ -96,6 +119,7 @@ body {
 /* Form styles */
 .form-icon {
   margin-right: 0.5rem;
+  color : #faa61a;
 }
 
 
@@ -110,6 +134,8 @@ body {
   color: #faa61a;
   font-family: 'ArabicFont', Arial, sans-serif;
   font-size: 1.6rem;
+  margin: 0 auto;
+    font-weight: bold;
 }
 .card-header {
   display: flex;
@@ -147,6 +173,12 @@ body {
 }
 
 /* Auth form styles */
+.card-header-auth{
+  box-shadow: 0 0 5px #faa61a, /* Light shadow */
+              0 0px  5px #faa61a; /* Dark shadow */
+margin: 0 auto;
+            }
+
 .auth-form-card {
   max-width: 400px;
   margin: 0 auto;

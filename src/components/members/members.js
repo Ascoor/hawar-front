@@ -48,7 +48,7 @@ const Members = () => {
             }}
           >
             <Card.Img
-              src={`https://hawar-api.ask-ar.com/UserPics/${member.Photo}`}
+              src={`${API_CONFIG.baseURL}/UserPics/${member.Photo}`}
               alt="Member Photo"
               style={{
                 objectFit: 'cover',

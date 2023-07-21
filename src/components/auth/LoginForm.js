@@ -77,11 +77,11 @@ const LoginForm = ({ handleCloseForm }) => {
       
                   <Row className="mt-4 justify-content-center">
   {loading ? (
-    <Button type="button" disabled className="login-btn ice-btn">
+    <Button type="button" disabled className="login-btn">
       ...جارى الدخول
     </Button>
   ) : (
-    <Button type="submit" className="login-btn success-btn">
+    <Button type="submit" className="login-btn">
       تسجيل الدخول
     </Button>
   )}
