@@ -1,131 +1,72 @@
 import React from 'react';
 import { Modal, Card, Button, Row, Col } from 'react-bootstrap';
+import API_CONFIG from '../../../config';
 
 const MemberDetailsModal = ({ show, member, onClose }) => {
   if (!show || !member) {
     return null;
   }
 
+  // Function to handle image loading error
+  const handleImageError = (event) => {
+    event.target.style.display = 'none'; // Hide the image if it fails to load
+  };
+
   return (
     <Modal show={show} onHide={onClose} dir="rtl" centered>
-    <Modal.Header closeButton>
-      <Modal.Title>تفاصيل العضو</Modal.Title>
-    </Modal.Header>
-    <Modal.Body>
-      <Card border="success">
-        <Card.Body>
-          <div className="member-details">
+      <Modal.Header closeButton style={{ backgroundColor: '#f5f5f5', borderBottom: '1px solid #dee2e6' }}>
+        <Modal.Title style={{ color: '#4CAF50' }}>تفاصيل العضو</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <Card className="mb-3">
+          <Card.Body>
             <Row>
-              <Col xs={12} md={6} className="text-center mb-3 mb-md-0">
-                <Card.Img
-                  src={`https://hawar-api.ask-ar.com/UserPics/${member.Mem_Photo}`}
-                  alt="صورة العضو"
+              <Col md={6}>
+                <Card.Title style={{ color: '#4CAF50', fontSize: '20px', fontWeight: 'bold' }}>بيانات العضو</Card.Title>
+                <Card.Text style={{ fontSize: '16px', fontWeight: 'bold' }}>الاسم: {member.Name}</Card.Text>
+                <Card.Text style={{ fontSize: '16px', fontWeight: 'bold' }}>الرقم التسجيلي: {member.RegNum}</Card.Text>
+                <Card.Text style={{ fontSize: '16px', fontWeight: 'bold' }}>الفئة: {member.Category}</Card.Text>
+                <Card.Text style={{ fontSize: '16px', fontWeight: 'bold' }}>العلاقة: {member.Relation}</Card.Text>
+                <Card.Text style={{ fontSize: '16px', fontWeight: 'bold' }}>الجنس: {member.Gender}</Card.Text>
+                <Card.Text style={{ fontSize: '16px', fontWeight: 'bold' }}>الديانة: {member.Relegion}</Card.Text>
+                <Card.Text style={{ fontSize: '16px', fontWeight: 'bold' }}>العنوان: {member.Address}</Card.Text>
+                <Card.Text style={{ fontSize: '16px', fontWeight: 'bold' }}>المهنة: {member.Profession}</Card.Text>
+                <Card.Text style={{ fontSize: '16px', fontWeight: 'bold' }}>الحالة: {member.Status}</Card.Text>
+                <Card.Text style={{ fontSize: '16px', fontWeight: 'bold' }}>الهاتف: {member.Phone}</Card.Text>
+              </Col>
+              <Col md={6} className="d-flex align-items-center justify-content-center">
+                {/* Add member's photo here */}
+                <div
+                  className="rounded-circle overflow-hidden mx-auto d-block mb-2"
                   style={{
-                    objectFit: 'cover',
-                    width: 'var(--member-image-size)',
-                    height: 'var(--member-image-size)',
-                    borderRadius: 'var(--member-image-border-radius)',
+                    width: '150px',
+                    height: '150px',
+                    border: '5px solid #4CAF50',
+                    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
                   }}
-                />
+                >
+                  {member.Photo ? (
+                    <Card.Img
+                      src={`${API_CONFIG.baseURL}/UserPics/${member.Photo}`}
+                      alt="Member Photo"
+                      style={{
+                        objectFit: 'cover',
+                        width: '100%',
+                        height: '100%',
+                      }}
+                      onError={handleImageError}
+                    />
+                  ) : (
+                    <div
+                      className="d-flex align-items-center justify-content-center"
+                      style={{ width: '100%', height: '100%', fontSize: '20px', fontWeight: 'bold', color: '#4CAF50' }}
+                    >
+                      صورة العضو غير متوفرة
+                    </div>
+                  )}
+                </div>
               </Col>
-              <Col xs={12} md={8}>
-                  <Row>
-                    <Col xs={12} md={6}>
-                      <div className="form-group">
-                        <label className="label-color-name">إسم العضو:</label>
-                        <h5>{member.Mem_Name}</h5>
-                      </div>
-                      </Col>
-                      <Col xs={12} md={6}>
-                        <div className="form-group">
-                          <label className="label-color">رقم العضوية:</label>
-                          <input type="text" value={member.Mem_Code} disabled />
-                        </div>
-                        <div className="form-group">
-                <label className="label-color-name">إسم العضو:</label>
-                <h5>{member.Mem_Name}</h5>
-              </div>
-              <div className="form-group">
-                <label className="label-color">رقم العضوية:</label>
-                <input type="text" value={member.Mem_Code} disabled />
-              </div>
-              <div className="form-group">
-                <label className="label-color">تاريخ الميلاد:</label>
-                <input type="text" value={member.Mem_BOD} disabled />
-              </div>
-              <div className="form-group">
-                <label className="label-color">الرقم القومي:</label>
-                <input type="text" value={member.Mem_NID} disabled />
-              </div>
-              <div className="form-group">
-                <label className="label-color">التخرج:</label>
-                <input type="text" value={member.Graduation} disabled />
-              </div>
-              <div className="form-group">
-                <label className="label-color">عضوية الأب:</label>
-                <input type="text" value={member.Mem_ParentMember} disabled />
-              </div>
-              <div className="form-group">
-                <label className="label-color">الجنس:</label>
-                <input type="text" value={member.Gender} disabled />
-              </div>
-              <div className="form-group">
-                <label className="label-color">الوظيفة:</label>
-                <input type="text" value={member.Mem_Job} disabled />
-              </div>
-              <div className="form-group">
-                <label className="label-color">تصنيف الوظيفة:</label>
-                <input type="text" value={member.JobCategory} disabled />
-              </div>
-              <div className="form-group">
-                <label className="label-color">نوع العضوية:</label>
-                <input type="text" value={member.MembershipType} disabled />
-              </div>
-              <div className="form-group">
-                <label className="label-color">الديانة:</label>
-                <input type="text" value={member.Relegion} disabled />
-              </div>
-              <div className="form-group">
-                <label className="label-color">العنوان:</label>
-                <input type="text" value={member.Mem_Address} disabled />
-              </div>
-              <div className="form-group">
-                <label className="label-color">تاريخ الإنضمام:</label>
-                <input type="text" value={member.Mem_JoinDate} disabled />
-              </div>
-              <div className="form-group">
-                <label className="label-color">الفئة:</label>
-                <input type="text" value={member.Class} disabled />
-              </div>
-              <div className="form-group">
-                <label className="label-color">هاتف المنزل:</label>
-                <input type="text" value={member.Mem_HomePhone} disabled />
-              </div>
-              <div className="form-group">
-                <label className="label-color">الموبايل:</label>
-                <input type="text" value={member.Mem_Mobile} disabled />
-              </div>
-              <div className="form-group">
-                <label className="label-color">المستلم:</label>
-                <input type="text" value={member.Mem_Receiver} disabled />
-              </div>
-              <div className="form-group">
-                <label className="label-color">هاتف العمل:</label>
-                <input type="text" value={member.Mem_WorkPhone} disabled />
-              </div>
-              <div className="form-group">
-                <label className="label-color">ملاحظات:</label>
-                <input type="text" value={member.Mem_Notes} disabled />
-              </div>
-              <div className="form-group">
-                <label className="label-color">ملاحظات:</label>
-                <input type="text" value={member.Mem_Relation} disabled />
-              </div>
-              </Col>
-                  </Row>
-                </Col>
-              </Row>
-            </div>
+            </Row>
           </Card.Body>
         </Card>
       </Modal.Body>

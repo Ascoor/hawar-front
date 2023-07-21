@@ -10,7 +10,7 @@
 .centered-content {
   position: absolute;
   top: 50%;
-  left: 50%;
+  right: -40%;
   transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
@@ -58,20 +58,18 @@
 }
 .btn-login-auth{
 
-  width: 75px;
+    width:120px
 
 
 }
 .btn-register-auth{
 
-  width: 155px;
-  padding: auto;
-
+  width: 130px;
 
 }
 .btn-group {
-
-    display: contents;
+  margin-right: 47px;
+    display: inherit;
   flex-direction: column;
   align-items: center;
   margin-top: 20px;

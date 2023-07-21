@@ -11,7 +11,7 @@ const Guest = () => {
   const [showRegisterForm, setShowRegisterForm] = useState(false);
   const [showButtons, setShowButtons] = useState(true); // حالة جديدة لإظهار/إخفاء الأزرار والشعار
 
-  const [imageSize] = useState({ width: 450, height: 300 }); // Example size, replace with your desired values
+  const [imageSize] = useState({ width: 400, height: 250 }); // Example size, replace with your desired values
 
   const handleCloseForm = () => {
     setShowLoginForm(false);
@@ -88,20 +88,20 @@ const Guest = () => {
                 <Button
                   variant="success"
                   onClick={handleShowLoginForm}
-                  className="btn-login-auth pr-4"
+                  className="btn-login-auth "
                 >
                   <RiLoginCircleLine className="mr-1" />
                   دخول
                 </Button>
               )}
             </Col>
-            <Col xs={8} md={8}>
+            <Col xs={8} xl={8} md={8}>
               {/* أزرار مع حالة مرئية */}
               {showButtons && (
                 <Button
                   variant="danger"
                   onClick={handleShowRegisterForm}
-                  className="btn-register-auth pl-4"
+                  className="btn-register-auth "
                 >
                   <RiUserAddLine className="mr-1" />
                   تسجيل اشتراك
