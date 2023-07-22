@@ -4,6 +4,7 @@ import AuthUser from './components/auth/AuthUser';
 import Guest from './components/navbar/guest';
 import Auth from './components/navbar/auth';
 import './App.css';
+import Welcom from './components/Welcome';
  
 function App () {
     const { getToken } = AuthUser();
@@ -13,7 +14,7 @@ function App () {
 
 
 
-            <Guest />
+            <Welcom />
         );
     }
 

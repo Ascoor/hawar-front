@@ -34,7 +34,7 @@
 /* Backlit effect on the background */
 .bg-container {
   position: relative;
-  background: linear-gradient(#021430, #021736, #041837);
+  background: linear-gradient(#0b1626, #091d3c, #040f21);
   height: 100vh;
 }
 
@@ -79,10 +79,10 @@
 
 .logo {
   /* خاصية box-shadow لإضافة ظل للشعار */
-  box-shadow: 0 0 15px #faa61a, /* ظل فاتح */
-              0 20px 30px #faa61a; /* ظل داكن */
+  box-shadow: 0 0 25px #faa61a, /* ظل فاتح */
+              0 10px 20px #faa61a; /* ظل داكن */
 
-  border-radius: 110px; 
+  border-radius: 90px; 
 
   
 }
@@ -120,6 +120,42 @@ body {
   color : #faa61a;
 }
 
+.landing-page {
+  width: 100%;
+  height: 100vh;
+  background: linear-gradient(#0b1626, #031e49, #040f21);
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.video-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: -1;
+}
+
+.content {
+  text-align: center;
+  color: white;
+}
+
+h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+p {
+  font-size: 1.5rem;
+}
+
+/* Adjust the font styles and other elements as needed */
 
   .login-btn {
     background-color: var(--success-color);
@@ -142,7 +178,7 @@ body {
   justify-content: center;
   font-family: 'ArabicFont', Arial, sans-serif;
   margin-bottom: 20px;
-  background: linear-gradient(#092247, #092247, #092247);
+  background: linear-gradient(#0b1626, #031e49, #040f21);
   color: rgb(206, 195, 0);
   font-size: 1.5rem;
 }
@@ -172,8 +208,9 @@ body {
 
 /* Auth form styles */
 .card-header-auth{
-  box-shadow: 0 0 5px #faa61a, /* Light shadow */
-              0 0px  5px #faa61a; /* Dark shadow */
+  box-shadow: 0 0 5px #faa61a, /* ظل فاتح */
+              0 5px 10px #faa61a; /* ظل داكن */
+
 margin: 0 auto;
             }
 
@@ -184,8 +221,9 @@ margin: 0 auto;
   border: 1px solid var(--secondary-color);
   border-radius: 5px;
   background-color: #051f42;
-  box-shadow: 0 0 15px #faa61a, /* Light shadow */
-              0 20px 30px #faa61a; /* Dark shadow */
+  box-shadow: 0 0 15px #faa61a, /* ظل فاتح */
+              0 10px 10px #faa61a; /* ظل داكن */
+
               
   background-image: url('./images/bg-pattern.png'); 
 }
