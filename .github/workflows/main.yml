@@ -30,4 +30,4 @@ jobs:
           username: u973484608 # Replace with your Hostinger SSH username
           password: ${{ secrets.HOSTINGER_PASSWORD }} # Use the correct secret name without special characters
           source: "build/"
-          target: "/public_html/hawar-app" # Replace with the path to your website's public_html folder on Hostinger
+          target: "/hawar-app" # Replace with the path to your website's public_html folder on Hostinger
