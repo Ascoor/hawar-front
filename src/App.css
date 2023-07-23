@@ -37,7 +37,6 @@
   background: linear-gradient(#0b1626, #091d3c, #040f21);
   height: 100vh;
 }
-
 /* Backlit effect on the background */
 .bg-container::before {
   content: "";
@@ -119,42 +118,26 @@ body {
   margin-right: 0.5rem;
   color : #faa61a;
 }
-
-.landing-page {
-  width: 100%;
-  height: 100vh;
-  background: linear-gradient(#0b1626, #031e49, #040f21);
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
+.container {
+  margin: 50px auto;
+  width: 80%;
 }
 
-.video-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  z-index: -1;
-}
-
-.content {
+.carousel-item {
   text-align: center;
+  height: 200px;
+  background-color: #f2f2f2;
+  border-radius: 5px;
+  margin: 20px;
+  padding: 20px;
+}
+
+h1, p {
   color: white;
 }
-
-h1 {
-  font-size: 3rem;
-  margin-bottom: 1rem;
+@media (max-width: 768px) {
+  /* Adjust styles for mobile */
 }
-
-p {
-  font-size: 1.5rem;
-}
-
 /* Adjust the font styles and other elements as needed */
 
   .login-btn {
