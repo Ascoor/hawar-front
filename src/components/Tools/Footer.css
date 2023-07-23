@@ -1,31 +1,48 @@
 /* footer.css */
 
 .footer {
-    background-color: #092247;
-    color: #fff;
-    padding: 40px 0;
-  }
-  
-  .footer h5 {
-    color: #fff;
-    font-weight: bold;
-  }
-  
-  .footer p {
-    color: #fff;
-  }
-  
-  .footer-section {
-    margin-bottom: 20px;
-  }
-  
-  /* Additional styles for footer links if needed */
-  .footer a {
-    color: #fff;
-    text-decoration: none;
-  }
-  
-  .footer a:hover {
-    text-decoration: underline;
-  }
-  
+  background-color: #092247;
+  color: #fff;
+  padding: 20px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.footer h5 {
+  color: #fff;
+  font-weight: bold;
+}
+
+.footer p {
+  color: #fff;
+}
+
+.footer-section {
+  margin-bottom: 5px;
+}
+
+/* Additional styles for footer links if needed */
+.footer a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+}
+
+/* Center content in the last column */
+.center-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Style for the Facebook icon */
+.facebook-icon {
+  color: #fff;
+  margin-top: 10px;
+}
