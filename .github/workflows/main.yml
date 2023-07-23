@@ -3,7 +3,7 @@ name: Deploy to Hostinger
 on:
   push:
     branches:
-      - master  # Change this to the branch you want to deploy
+      - master
 
 jobs:
   build-and-deploy:
@@ -22,6 +22,6 @@ jobs:
         with:
           host: ssh -p 65002 u973484608@82.180.175.77 # Replace with your Hostinger server address
           username: u973484608 # Replace with your Hostinger SSH username
-          password: ${{ secrets.Ask@123456 }} # Set up this secret in your repository settings
+          password: ${{ secrets.Ask123456 }} # Use the correct secret name without special characters
           source: "build/"
           target: "/public_html/hawar-app" # Replace with the path to your website's public_html folder on Hostinger
