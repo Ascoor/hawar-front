@@ -1,0 +1,27 @@
+name: Deploy to Hostinger
+
+on:
+  push:
+    branches:
+      - master  # Change this to the branch you want to deploy
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install dependencies and build
+        run: |
+          npm ci
+          npm run build
+
+      - name: Deploy to Hostinger
+        uses: appleboy/scp-action@master
+        with:
+          host: ssh -p 65002 u973484608@82.180.175.77 # Replace with your Hostinger server address
+          username: u973484608 # Replace with your Hostinger SSH username
+          password: ${{ secrets.Ask@123456 }} # Set up this secret in your repository settings
+          source: "build/"
+          target: "/public_html/hawar-app" # Replace with the path to your website's public_html folder on Hostinger
