@@ -1,4 +1,4 @@
-name: Deploy to Hostingername: Deploy to Hostinger
+name: Deploy to Hostinger
 
 on:
   push:
@@ -22,11 +22,12 @@ jobs:
 
       - name: Build
         run: npm run build
+
       - name: Deploy to Hostinger
         uses: appleboy/scp-action@master
         with:
           host: ssh -p 65002 u973484608@82.180.175.77 # Replace with your Hostinger server address
           username: u973484608 # Replace with your Hostinger SSH username
-          password: ${{ secrets.Ask123456 }} # Use the correct secret name without special characters
+          password: ${{ secrets.HOSTINGER_PASSWORD }} # Use the correct secret name without special characters
           source: "build/"
-          target: "/hawar-app" # Replace with the path to your website's public_html folder on Hostinger
+          target: "/public_html/hawar-app" # Replace with the path to your website's public_html folder on Hostinger
