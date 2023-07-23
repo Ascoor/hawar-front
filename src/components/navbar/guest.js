@@ -30,7 +30,7 @@ const Guest = () => {
     setShowRegisterForm(true);
     setShowButtons(false); // عند ظهور نموذج تسجيل الاشتراك، قم بإخفاء الأزرار والشعار
   };
-
+  
   const formsTransition = useTransition(showLoginForm || showRegisterForm, {
     from: {
       opacity: 0,
@@ -58,15 +58,16 @@ const Guest = () => {
     },
     config: { duration: 500 },
   });
-
-  // Logo animation
   const logoAnimation = useSpring({
-    opacity: 1,
-    transform: "translate(-50%, -50%) scale(1)",
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    zIndex: 2,
+    from: {
+      opacity: 0,
+      transform: "translate(-50%, -50%) scale(0.8)",
+    },
+    to: {
+      opacity: 1,
+      transform: "translate(-50%, -50%) scale(1)",
+    },
+    config: { duration: 1000 },
   });
 
   return (

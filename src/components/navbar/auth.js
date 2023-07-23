@@ -8,6 +8,7 @@ import Home from "../home";
 import Members from "../members/members";
 import ProfileUpdateComponent from "../auth/profile";
 import MemberLookup from "../Member-lookup/MemberLookup"
+import Guest from "./guest"
 const Auth = () => {
   const { token, logout } = useAuth();
   const userId = useAuth().user.id;
@@ -118,6 +119,10 @@ const Auth = () => {
           <Route
             path="/profile/:userId"
             element={<ProfileUpdateComponent userId={userId} />}
+          />
+          <Route
+            path="/guest"
+            element={<Guest />}
           />
         </Routes>
 
