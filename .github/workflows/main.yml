@@ -3,23 +3,14 @@ name: Deploy to Hostinger
 on:
   push:
     branches:
-      - master
-
-jobs:
-  build-and-deploy:
+      - masterjobs:
+  my-job:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Install dependencies and build
-        run: |
-          npm ci
-          npm run build
-
-      - name: Deploy to Hostinger
-        uses: appleboy/scp-action@master
+      - name: Set up Node.js 16.x
+        uses: actions/setup-node@v2
         with:
+          node-version: '16.x'
           host: ssh -p 65002 u973484608@82.180.175.77 # Replace with your Hostinger server address
           username: u973484608 # Replace with your Hostinger SSH username
           password: ${{ secrets.Ask123456 }} # Use the correct secret name without special characters
