@@ -14,4 +14,4 @@ RewriteRule . /index.html [L]
 EOT
 
 # Deploy the build folder to Hostinger (update with your Hostinger SSH details)
-scp -r ./* ssh -p 65002 u973484608@82.180.175.77:/path/to/your/website/public_html
+scp -r ./* ssh -p 65002 u973484608@82.180.175.77:/public_html/hawar-app
