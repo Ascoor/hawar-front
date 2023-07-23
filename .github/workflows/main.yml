@@ -8,14 +8,11 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./  # Set the working directory to the root of your project
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
         with:
-          ref: master
+          ref: ${{ github.ref }}
 
       - name: Use Node.js 16.x
         uses: actions/setup-node@v2
