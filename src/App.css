@@ -1,5 +1,26 @@
-/* App.css */
-@import url(https://fonts.googleapis.com/earlyaccess/lateef.css);
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@600&display=swap');
+/* @font-face {
+  font-family: 'THARWAT EMARA RUQAA LIGHT';
+  src: url('../src/assest/fonts/alfont_com_ArbFONTS-THARWATEMARARUQAALIGHT.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+} */
+body.modal-open {
+  overflow: hidden;
+}
+body {
+
+    margin: 0;
+    font-family: "cairo,sans-serif;', Arial, sans-serif";
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+}
+
+
+/**Welcome Page***/
+
 
 * {
   text-align: right;
@@ -148,7 +169,7 @@ body {
 }
 
 h1, p {
-  color: white;
+  color: rgb(1, 3, 13);
 }
 @media (max-width: 768px) {
   /* Adjust styles for mobile */
@@ -251,69 +272,418 @@ margin: 0 auto;
   border-color: #c3e6cb; /* Light green color for border */
 }
 
-.ice-btn:hover {
-  background-color: #ebf9f1; /* Light green background on hover */
-  border-color: #a5d6a7; /* Darker green border on hover */
-}
-/* Add more styling as per your requirements */
+  /**Guest Page End***/
 
-/* Custom styles for the "Back to Home" button */
-.back-to-home-btn {
-  background-color: red; /* Red color for background */
-  color: white; /* White color for text */
-  border-color: red; /* Red color for border */
-}
+/*Court Setting End*/
+.nav-link {
+    font-size: 24px;
+    font-family: 'THARWAT EMARA RUQAA LIGHT', Arial, sans-serif;
 
 
-/* Remove hover effect for the "Back to Home" button */
-.back-to-home-btn:hover {
-  background-color: red; /* Maintain red background on hover */
-  border-color: red; /* Maintain red border on hover */
-}
+    }
 
-/* Error message styles */
-.auth-form-card .text-danger {
-  color: #fff; /* Set error message text color to white */
-}
 
-/* Center the form on small screens */
-@media (max-width: 768px) {
-  .auth-form-card {
-    max-width: 100%;
+  .navbar-brand {
+    margin-right: 1rem;
+    padding: 0.5rem 0;
+    font-size: 1.25rem;
+    line-height: inherit;
+    white-space: nowrap;
+    color: #ffffff;
   }
+
+  .navbar-toggler {
+    padding: 0.25rem 0.75rem;
+    font-size: 1.25rem;
+    line-height: 1;
+    background-color: transparent;
+    border: none;
+    border-radius: 0.25rem;
+  }
+
+  .navbar-nav {
+    font-family: 'THARWAT EMARA RUQAA LIGHT', Arial, sans-serif;
+    flex-direction:column;
+    margin-right: auto;
+  }
+
+  .navbar-collapse {
+    justify-content: flex-end;
+  }
+
+  @media (max-width: 991.98px) {
+    .navbar-nav {
+      flex-direction: column;
+    }
+
+    .navbar-collapse {
+      justify-content: center;
+    }
+
+    .navbar-nav .nav-link-custom {
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  .my-card-component {
+    font-size: 20px;
+    font-family: 'THARWAT EMARA RUQAA LIGHT', Arial, sans-serif;
+  }
+
+  .my-card-component h1,
+  .my-card-component h2 {
+    font-weight: bold;
+  }
+
+  .my-card-component .btn-group .btn {
+    font-size: 20px;
+  }
+
+  .my-card-component .table {
+    font-size: 20px;
+    font-family: 'THARWAT EMARA RUQAA LIGHT', Arial, sans-serif;
+  }
+
+  .my-card-component .modal-content {
+    font-size: 20px;
+    font-family: 'THARWAT EMARA RUQAA LIGHT', Arial, sans-serif;
+  }
+
+  .data-row {
+    font-family: 'THARWAT EMARA RUQAA LIGHT', Arial, sans-serif;
+    margin-bottom: 10px;
+  }
+
+  h3,
+  h4 {
+    font-family: 'THARWAT EMARA RUQAA LIGHT', Arial, sans-serif;
+    color: #ff9800;
+  }
+
+
+
+  .form-header {
+    font-family: 'THARWAT EMARA RUQAA LIGHT', Arial, sans-serif;
+    text-align: center;
+    background-color: #c8daff;
+  }
+
+  .text-center {
+    text-align: center;
+  }
+
+  .table {
+    margin-top: 10px;
+  }
+
+  .table th {
+    text-align: center;
+    font-size: 16px;
+    font-family: 'Cairo';
+    background-color: rgb(255 242 186);
+    color: #296571;
+
+  }
+.table tbody{
+    text-align: center;
+    font-size: 14px;
+    font-family: 'Cairo';
+
+    color: #296571;
 }
 
-/* Guest interface styles */
-.guest-container {
-  padding: 20px;
-  background-color: var(--primary-color);
-  color: #fff;
-  text-align: center;
-  /* Add more styles as needed */
-}
 
-/* Authenticated interface styles */
-.auth-container {
-  padding: 20px;
-  background-color: #f8f9fa;
-  /* Add more styles as needed */
-}
 
-.rtl {
-  direction: rtl;
-}
+  .mb-3 {
+    margin-bottom: 15px;
+  }
 
-/* Home */
-.big-font-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100px; /* Adjust the height as per your requirement */
-  background: linear-gradient(#092247, #092247, #092247);
-}
+  .align-items-center {
+    align-items: center;
+  }
 
-.big-font {
-  font-size: 2rem; /* Adjust the font size as per your requirement */
-  font-weight: bold;
-  color: #ff9800;
-}
+  .mt-6 {
+    margin-top: 6px;
+  }
+
+  .mb-0 {
+    margin-bottom: 0;
+  }
+  /* LegCase List */
+  .button-container {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .button-container > * {
+      margin-bottom: 5px;
+    }
+
+    .icon-card {
+      background-color: #f8d7da;
+      /* Cute color for the card background */
+      border: none;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      transition: background-color 0.3s ease;
+    }
+
+    .icon-card:hover {
+      background-color: #e8e87a;
+      /* Cute color for the card background on hover */
+    }
+
+    .icon-circle {
+      background-color: #0a1e3d;
+      /* Cute color for the circle background */
+      width: 80px;
+      height: 100px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0 auto;
+      margin-bottom: 20px;
+    }
+
+    .icon-card-title {
+      color: #dc3545;
+      /* Cute color for the title text */
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .icon-card-text {
+      color: #6c757d;
+      /* Cute color for the text */
+      font-size: 21px;
+    }
+
+
+
+    .event-card:hover {
+      background-color: #f2f2f2;
+    }
+
+
+
+    /* Other styles */
+  .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .section-title {
+      font-size: 32px;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    .button {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #333;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 4px;
+      transition: background-color 0.3s;
+    }
+
+    .button:hover {
+      background-color: #555;
+    }
+
+    .text-center {
+      text-align: center;
+    }
+
+    .text-muted {
+      color: #999;
+    }
+
+    /* Responsive styles */
+    @media screen and (max-width: 767px) {
+      .icon-card {
+        padding: 10px;
+      }
+
+      .icon-card-title {
+        font-size: 20px;
+      }
+
+      .icon-card-text {
+        font-size: 18px;
+      }
+
+      .event-card {
+        margin-bottom: 20px;
+      }
+    }
+  /* Other styles */
+  .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .section-title {
+      font-size: 32px;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    .button {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #333;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 4px;
+      transition: background-color 0.3s;
+    }
+
+    .button:hover {
+      background-color: #555;
+    }
+
+    .text-center {
+      text-align: center;
+    }
+
+    .text-muted {
+      color: #999;
+    }
+
+    /* Responsive styles */
+    @media screen and (max-width: 767px) {
+
+      .icon-card-title {
+        font-size: 20px;
+      }
+
+      .icon-card-text {
+        font-size: 18px;
+      }
+
+      .event-card {
+        margin-bottom: 20px;
+      }
+    }
+
+    /* Tablet styles */
+    @media screen and (min-width: 768px) and (max-width: 1023px) {
+      .section-title {
+        font-size: 28px;
+      }
+
+      .button {
+        padding: 8px 16px;
+      }
+    }
+
+    /* Mobile styles */
+    @media screen and (max-width: 767px) {
+      .section-title {
+        font-size: 24px;
+      }
+
+      .button {
+        padding: 6px 12px;
+      }
+    }
+    .custom-card-header{
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        border-radius : 8px;
+        padding: 20px;
+        font-family: 'Cairo', sans-serif;
+      font-weight: bold;
+        background : #103A51;
+        text-align: center;
+
+        color: #FFC108;
+
+
+    }
+    .add-link-client{
+      color: #0a1e3d;
+      font-size: medium;
+    font-family: "cairo",sans-serif;
+      font-weight: bold;
+    }
+    .leg-details-banner-image {
+      width: 250px;
+      height: 100px;
+    }
+
+
+    .leg-case-details-card {
+      border-radius: 10px;
+    background: rgb(9, 45, 54);
+      padding: 20px;
+    }
+    .data-box {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .data-box:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        to right,
+        transparent 0%,
+        rgba(255, 215, 0, 0.8) 50%,
+        transparent 100%
+      );
+      transform: translateX(-100%);
+      transition: transform 0.3s ease-in-out;
+    }
+
+    .data-box:hover:before,
+    .data-box:focus:before {
+      transform: translateX(0%);
+    }
+
+    .data-label,
+    .data-value {
+      position: relative;
+      z-index: 1;
+    }
+
+
+    .data-row {
+      margin-bottom: 20px;
+    }
+
+    .data-box {
+      border-radius: 5px;
+      padding: 20px;
+      transition: transform 0.3s;
+    }
+
+    .data-box:hover {
+      transform: scale(1.05);
+    }
+
+    .data-label {
+      color: #FFFFFF;
+      font-weight: bold;
+      font-family: "cairo",sans-serif;
+      font-size: 1.7rem;
+    }
+
+    .data-value {
+      color: #031738;
+      font-weight: bold;
+      font-family: "cairo",sans-serif;
+      font-size: 1.2rem;
+    }

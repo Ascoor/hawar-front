@@ -7,8 +7,7 @@ import Logo from "../../images/logo2.png";
 import Home from "../home";
 import Members from "../members/members";
 import ProfileUpdateComponent from "../auth/profile";
-import MemberLookup from "../Member-lookup/MemberLookup"
-import Guest from "./guest"
+
 const Auth = () => {
   const { token, logout } = useAuth();
   const userId = useAuth().user.id;
@@ -102,29 +101,29 @@ const Auth = () => {
           </Navbar.Collapse>
         </Container>
       </Navbar>
+
+      {/* Add a wrapper div for centering the content */}
       <div
         className="auth-container"
         style={{
+          paddingTop:"10px",
           backgroundColor: "#f8f9fa",
-          padding: "20px",
+          padding: "10px",
           fontFamily: "ArabicFont",
           color: "#092247",
         }}
       >
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/members" element={<Members />} />
-          <Route path="/member-lookup" element={<MemberLookup />} />
-
-          <Route
-            path="/profile/:userId"
-            element={<ProfileUpdateComponent userId={userId} />}
-          />
-          <Route
-            path="/guest"
-            element={<Guest />}
-          />
-        </Routes>
+        {/* Place the Routes component inside the centered wrapper */}
+    
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/members" element={<Members />} />
+            <Route
+              path="/profile/:userId"
+              element={<ProfileUpdateComponent userId={userId} />}
+            />
+          </Routes>
+   
 
         <footer
           style={{
@@ -140,9 +139,7 @@ const Auth = () => {
             justifyContent: "center", // Center the text horizontally
           }}
         >
-          <p>
-            Ask-ar.com All rights reserved &copy; {new Date().getFullYear()}
-          </p>
+          <p>Ask-ar.com All rights reserved &copy; {new Date().getFullYear()}</p>
         </footer>
       </div>
     </>

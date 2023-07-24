@@ -2,7 +2,12 @@ import React from 'react';
 import { Modal, Card, Button, Row, Col } from 'react-bootstrap';
 import API_CONFIG from '../../../config';
 
+
 const MemberDetailsModal = ({ show, member, onClose }) => {
+  if (!show || !member) {
+    return null;
+  }
+
   if (!show || !member) {
     return null;
   }
@@ -21,28 +26,15 @@ const MemberDetailsModal = ({ show, member, onClose }) => {
         <Card className="mb-3">
           <Card.Body>
             <Row>
-              <Col md={6}>
-                <Card.Title style={{ color: '#4CAF50', fontSize: '20px', fontWeight: 'bold' }}>بيانات العضو</Card.Title>
-                <Card.Text style={{ fontSize: '16px', fontWeight: 'bold' }}>الاسم: {member.Name}</Card.Text>
-                <Card.Text style={{ fontSize: '16px', fontWeight: 'bold' }}>الرقم التسجيلي: {member.RegNum}</Card.Text>
-                <Card.Text style={{ fontSize: '16px', fontWeight: 'bold' }}>الفئة: {member.Category}</Card.Text>
-                <Card.Text style={{ fontSize: '16px', fontWeight: 'bold' }}>العلاقة: {member.Relation}</Card.Text>
-                <Card.Text style={{ fontSize: '16px', fontWeight: 'bold' }}>الجنس: {member.Gender}</Card.Text>
-                <Card.Text style={{ fontSize: '16px', fontWeight: 'bold' }}>الديانة: {member.Relegion}</Card.Text>
-                <Card.Text style={{ fontSize: '16px', fontWeight: 'bold' }}>العنوان: {member.Address}</Card.Text>
-                <Card.Text style={{ fontSize: '16px', fontWeight: 'bold' }}>المهنة: {member.Profession}</Card.Text>
-                <Card.Text style={{ fontSize: '16px', fontWeight: 'bold' }}>الحالة: {member.Status}</Card.Text>
-                <Card.Text style={{ fontSize: '16px', fontWeight: 'bold' }}>الهاتف: {member.Phone}</Card.Text>
-              </Col>
-              <Col md={6} className="d-flex align-items-center justify-content-center">
+            <Col md={6} className="d-flex align-items-center justify-content-center">
                 {/* Add member's photo here */}
                 <div
                   className="rounded-circle overflow-hidden mx-auto d-block mb-2"
                   style={{
-                    width: '150px',
-                    height: '150px',
+                    width: '175px',
+                    height: '175px',
                     border: '5px solid #4CAF50',
-                    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+                    boxShadow: '0 4px 8px rgba(220 170 22)',
                   }}
                 >
                   {member.Photo ? (
@@ -66,6 +58,20 @@ const MemberDetailsModal = ({ show, member, onClose }) => {
                   )}
                 </div>
               </Col>
+              <Col md={6}>
+                <Card.Title style={{ color: '#4CAF50', fontSize: '20px', fontWeight: 'bold' }}>بيانات العضو</Card.Title>
+                <Card.Text style={{ fontSize: '16px', fontWeight: 'bold' }}>الاسم: {member.Name}</Card.Text>
+                <Card.Text style={{ fontSize: '16px', fontWeight: 'bold' }}>الرقم التسجيلي: {member.RegNum}</Card.Text>
+                <Card.Text style={{ fontSize: '16px', fontWeight: 'bold' }}>الفئة: {member.Category}</Card.Text>
+                <Card.Text style={{ fontSize: '16px', fontWeight: 'bold' }}>العلاقة: {member.Relation}</Card.Text>
+                <Card.Text style={{ fontSize: '16px', fontWeight: 'bold' }}>الجنس: {member.Gender}</Card.Text>
+                <Card.Text style={{ fontSize: '16px', fontWeight: 'bold' }}>الديانة: {member.Relegion}</Card.Text>
+                <Card.Text style={{ fontSize: '16px', fontWeight: 'bold' }}>العنوان: {member.Address}</Card.Text>
+                <Card.Text style={{ fontSize: '16px', fontWeight: 'bold' }}>المهنة: {member.Profession}</Card.Text>
+                <Card.Text style={{ fontSize: '16px', fontWeight: 'bold' }}>الحالة: {member.Status}</Card.Text>
+                <Card.Text style={{ fontSize: '16px', fontWeight: 'bold' }}>الهاتف: {member.Phone}</Card.Text>
+              </Col>
+         
             </Row>
           </Card.Body>
         </Card>

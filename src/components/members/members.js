@@ -1,47 +1,66 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Table, Button, Nav, Row, Col } from "react-bootstrap";
+import { Table, Button, Nav, Row, Dropdown, Col, Card } from "react-bootstrap";
 
 import API_CONFIG from "../../config";
 
 import MemberDetailsModal from './Modals/MemberDetailsModal';
 import FeesModal from './Modals/FeesModal';
 
-
 const Members = () => {
-  const [selectedMember, setSelectedMember] = useState([]);
   const [members, setMembers] = useState([]);
-  const [category, setCategory] = useState("work"); // Initial active tab set to "work"
-  // Separate state for MemberDetailsModal
+  const [category, setCategory] = useState("work");
   const [showMemberDetailsModal, setShowMemberDetailsModal] = useState(false);
-  // Separate state for MemberFeesModal
   const [showMemberFeesModal, setShowMemberFeesModal] = useState(false);
   const [fees, setFees] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedMember, setSelectedMember] = useState(null); // Add this line to declare the selectedMember state
 
   const handleTabChange = (tab) => {
     setCategory(tab);
   };
-  
-  // Fetch members from API based on activeTab
+
+  useEffect(() => {
+    // Send the search request to the server using Axios
+    axios
+      .get(`${API_CONFIG.baseURL}/api/members/search`, {
+        params: {
+          searchTerm: searchTerm,
+        },
+      })
+      .then((response) => {
+        setMembers(response.data.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [category, searchTerm]); // Dependency array includes category and searchTerm
+
   useEffect(() => {
     axios
-      .get(`${API_CONFIG.baseURL}/api/member-category/${category}`)
+      .get(`${API_CONFIG.baseURL}/api/member-category`, {
+        params: {
+          category: category,
+        },
+      })
       .then((response) => {
         setMembers(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
       });
-  }, [category]);
-
+  }, [category, searchTerm]); // Dependency array includes category and searchTerm
 
   const handleCloseModal = () => {
     setShowMemberDetailsModal(false);
-    setShowMemberFeesModal(false); // Fix the typo here, use setShowMemberFeesModal instead of setShowMemberDetailsModal
+    setShowMemberFeesModal(false);
   };
 
-  const fetchFees = async (memberId) => {
+  const fetchFees = async (MemberID) => {
     try {
       const response = await axios.get(`${API_CONFIG.baseURL}/api/fees`, {
         params: {
-          member_id: memberId,
+          member_id: MemberID,
         },
       });
       setFees(response.data);
@@ -49,7 +68,6 @@ const Members = () => {
       console.log(error);
     }
   };
-
 
   const handleShowMemberModal = (member) => {
     setSelectedMember(member);
@@ -59,99 +77,121 @@ const Members = () => {
   const handleShowMemberFeesModal = async (member) => {
     setSelectedMember(member);
     setShowMemberFeesModal(true);
-
-    // Fetch fees for the selected member
     await fetchFees(member.id);
   };
+
+  const handleSearch = (event) => {
+    const value = event.target.value;
+    setSearchTerm(value); // Set searchTerm instead of searchQuery
+  };
+
+  const memberships = [
+    { eventKey: "work", label: "عضوية عاملة" },
+    { eventKey: "affiliate", label: "عضوية تابعة" },
+    { eventKey: "founding", label: "عضوية مؤسسة" },
+  ];
+
+  const additionalMemberships = [
+    { eventKey: "honory", label: "عضوية فخرية" },
+    { eventKey: "seasonal", label: "عضوية موسمي" },
+    { eventKey: "A permit", label: "تصريح" },
+    { eventKey: "athletic", label: "عضوية رياضي" },
+  ];
+
   return (
-    <>
-      <Row>
-        <Col xs={12} md={12}>
-          <Nav variant="tabs" activeKey={category} onSelect={handleTabChange}>
-            <Nav.Item>
-              <Nav.Link eventKey="work">عضوية عاملة</Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Nav.Link eventKey="founding">عضوية تأسيسية</Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Nav.Link eventKey="affiliate">عضوية تابعة</Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Nav.Link eventKey="honory">عضوية فخرية</Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Nav.Link eventKey="seasonal">عضوية موسمي</Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Nav.Link eventKey="A permit">تصريح</Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Nav.Link eventKey="athletic">عضوية رياضي</Nav.Link>
-            </Nav.Item>
-          </Nav>
-        </Col>
-      </Row>
-      {members.length === 0 ? (
-        <p>لا يوجد أعضاء للعرض</p> // إظهار رسالة عندما لا يكون هناك أعضاء للعرض
-      ) : (
-        <div className="table-responsive">
-          <Table striped bordered hover>
-            <thead>
-              <tr>
-                <th>رقم العضوية</th>
-                <th>الصورة</th>
-                <th>اسم العضو</th>
-                <th>تاريخ الميلاد</th>
-                <th>رقم الهاتف</th>
-                <th>البريد الالكتروني</th>
-                <th>العنوان</th>
-                <th>العمليات</th> 
-              </tr>
-            </thead>
-            <tbody>
-              {members.map((member) => (
-                <tr key={member.RegNum}>
-                  <td>{member.RegNum}</td>
-                  <td>
-                    <img
-                      src={`${API_CONFIG.baseURL}/UserPics/${member.Photo}`}
-                      alt={member.FullName}
-                      className="img-thumbnail"
-                      style={{ width: "100px", height: "100px" }}
-                    />
-                  </td>
-                  <td>{member.FullName}</td>
-                  <td>{member.BirthDate}</td>
-                  <td>{member.Phone}</td>
-                  <td>{member.Email}</td>
-                  <td>{member.Address}</td>
-                  <td>
-                    <Button
-                      variant="btn- btn-success btn-md"
-                      onClick={() => handleShowMemberModal(member)}
-                    >
-                       التفاصيل
-                    </Button>{" "}
-                    </td>
-                    <td>
-                      
-                    <Button
-                      variant="btn btn-primary "
-                      onClick={() => handleShowMemberFeesModal(member)}
-                    >
-                       الإشتراكات
-                    </Button>{" "}
-               
-                  </td>
-                </tr>
+    <Row className="p-4">
+      <Col xs={12}>
+        <Card className="p-4">
+          <Card.Title>
+            {/* Main Memberships */}
+            <Nav variant="tabs" activeKey={category} onSelect={handleTabChange} className="nav-tabs-responsive">
+              {memberships.map((navItem) => (
+                <Nav.Item key={navItem.eventKey}>
+                  <Nav.Link eventKey={navItem.eventKey}>{navItem.label}</Nav.Link>
+                </Nav.Item>
               ))}
-            </tbody>
-          </Table>
-             </div>
-             )}
-         {/* Member Details Modal */}
-         <MemberDetailsModal
+              {/* Additional Memberships */}
+              <Dropdown as={Nav.Item}>
+                <Dropdown.Toggle as={Nav.Link} id="additional-memberships-dropdown">
+                  أنواع أخرى
+                </Dropdown.Toggle>
+                <Dropdown.Menu>
+                  {additionalMemberships.map((navItem) => (
+                    <Dropdown.Item key={navItem.eventKey} eventKey={navItem.eventKey}>
+                      {navItem.label}
+                    </Dropdown.Item>
+                  ))}
+                </Dropdown.Menu>
+              </Dropdown>
+            </Nav>
+          </Card.Title>
+          <input
+            type="text"
+            placeholder="Search members..."
+            value={searchTerm}
+            onChange={handleSearch}
+            style={{ marginBottom: "10px" }}
+          />
+          {members.length === 0 ? (
+            <p>لا يوجد أعضاء للعرض</p>
+          ) : (
+            <div className="table-responsive">
+              <Card.Body>
+                <Table striped bordered hover>
+                  <thead>
+                    <tr>
+                      <th>رقم العضوية</th>
+                      <th>الصورة</th>
+                      <th>اسم العضو</th>
+                      <th>تاريخ الميلاد</th>
+                      <th>رقم الهاتف</th>
+                      <th>الجنس</th>
+                      <th>العنوان</th>
+                      <th>العمليات</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {members.map((member) => (
+                      <tr key={member.id}>
+                        <td>{member.RegNum}</td>
+                        <td>
+                          <img
+                            src={`${API_CONFIG.baseURL}/UserPics/${member.Photo}`}
+                            alt={member.FullName}
+                            className="img-thumbnail"
+                            style={{ width: "100px", height: "100px" }}
+                          />
+                        </td>
+                        <td>{member.Name}</td>
+                        <td>{member.Age}</td>
+                        <td>{member.Phone}</td>
+                        <td>{member.Gender}</td>
+                        <td>{member.Address}</td>
+                        <td>
+                          <Button
+                            variant="btn- btn-success btn-md"
+                            onClick={() => handleShowMemberModal(member)}
+                          >
+                            التفاصيل
+                          </Button>{" "}
+                          <Button
+                            variant="btn btn-primary "
+                            onClick={() => handleShowMemberFeesModal(member)}
+                          >
+                            الإشتراكات
+                          </Button>{" "}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </Table>
+              </Card.Body>
+            </div>
+          )}
+        </Card>
+      </Col>
+      {/* Member Details Modal */}
+      <MemberDetailsModal
         show={showMemberDetailsModal}
         member={selectedMember}
         onClose={handleCloseModal}
@@ -164,7 +204,7 @@ const Members = () => {
         fees={fees}
         onClose={handleCloseModal}
       />
-    </>
+    </Row>
   );
 };
 

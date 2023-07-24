@@ -12,16 +12,15 @@ const Footer = () => {
       <Container>
         <Row>
           <Col xs={12} md={6} lg={4}>
-            <h5>Contact Information</h5>
             {/* Add contact information here */}
           </Col>
           <Col xs={12} md={6} lg={4}>
-            <h5>Links</h5>
+    
             {/* Add footer links here */}
           </Col>
-          <Col xs={12} md={12} lg={4} className="center-content">
+          <Col xs={12} md={12} className="center-content">
             <h6>Copyrtights {currentYear} &copy; Hawar Sport Club</h6>
-            <a href="https://www.facebook.com/hawarsportclub" target="_blank" rel="noopener noreferrer">
+            <a href="https://www.facebook.com/HSC.Mansoura" target="_blank" rel="noopener noreferrer">
               <FontAwesomeIcon icon={faFacebook} size="2x" className="facebook-icon" />
             </a>
           </Col>

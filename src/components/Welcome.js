@@ -4,16 +4,20 @@ import Logo from '../images/logo2.png';
 import { Nav, Navbar, Container } from 'react-bootstrap';
 import BgVideo from '../videos/cover.mp4';
 import { Link, useNavigate } from 'react-router-dom';
-import Footer from './Tools/Footer';
 import { useSpring, animated } from '@react-spring/web';
+import Footer from './Tools/Footer'; // Import the Footer component
+import Guest from '../components/navbar/guest';
+import AuthUser from '../components/auth/AuthUser';
 
 const Welcome = () => {
   const navigate = useNavigate(); // Get the navigate function
-  const [showJoinButton, setShowJoinButton] = useState(true); // State to track if the "Join Now" button should be shown
+  const { isAuthenticated } = AuthUser();
+  const [showJoinButton, setShowJoinButton] = useState(!isAuthenticated); // State to track if the "Join Now" button should be shown
 
   const handleJoinNow = () => {
     setShowJoinButton(false); // Hide the "Join Now" button
-    navigate('/guest'); // Navigate to the "/guest" route when the button is clicked
+    // Navigate to the "/guest" route when the button is clicked
+    navigate('/guest', { replace: true }); // Use replace to remove the Welcome component from the navigation history
   };
 
   const logoFlagAnimation = useSpring({
@@ -22,11 +26,13 @@ const Welcome = () => {
     config: { duration: 1000 },
   });
 
+  if (!showJoinButton) {
+    return <Guest />; // Hide the Welcome component and render the Guest component
+  }
+
   return (
     <>
-      <div className="Welcome">
-        <video src={BgVideo} autoPlay muted loop className="video-bg" />
-        <div className="bg-overlay"></div>
+      <div className="landingpage">
         <Navbar
           className="justify-content-center"
           style={{
@@ -54,20 +60,20 @@ const Welcome = () => {
             </Navbar.Collapse>
           </Container>
         </Navbar>
-        <div className="text-welcome">
-          {/* Your welcome text goes here */}
+        <video src={BgVideo} autoPlay muted loop className="video-bg" />
+        <div className="bg-overlay"></div>
+
+        <div className="home-text">
+  
         </div>
-        {/* Conditionally render the "Join Now" button */}
         {showJoinButton && (
           <div className="join-button-container" onClick={handleJoinNow}>
             <div className="home-btn">Join Now</div>
           </div>
         )}
       </div>
-      <div className="wrapper">
-        {/* Your main content goes here */}
-      </div>
-      <Footer />
+
+      <Footer /> {/* Add the Footer component here */}
     </>
   );
 };

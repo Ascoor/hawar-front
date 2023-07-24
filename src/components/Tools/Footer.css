@@ -1,8 +1,10 @@
 /* footer.css */
 
 .footer {
-  background-color: #092247;
-  color: #fff;
+ 
+  background: linear-gradient(#0b1626, #091d3c, #040f21);
+ 
+  color: #ffc415;
   padding: 20px 0;
   display: flex;
   justify-content: center;
