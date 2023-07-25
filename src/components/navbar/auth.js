@@ -7,6 +7,7 @@ import Logo from "../../images/logo2.png";
 import Home from "../home";
 import Members from "../members/members";
 import ProfileUpdateComponent from "../auth/profile";
+import Footer from "../Tools/Footer";
 
 const Auth = () => {
   const { token, logout } = useAuth();
@@ -35,12 +36,12 @@ const Auth = () => {
       <Navbar
         className="justify-content-center"
         style={{
-          background: "linear-gradient(#092247, #092247, #092247)",
+          background: "linear-gradient(#0b1626, #031e49, #040f21)",
           direction: "rtl",
         }}
         expand="md"
         variant="dark"
-      >
+      > 
         <Container fluid>
           <Navbar.Brand as={Link} to="/" className="ms-left me-0">
             <img
@@ -103,8 +104,8 @@ const Auth = () => {
       </Navbar>
 
       {/* Add a wrapper div for centering the content */}
-      <div style={{ padding: "24px 16px", minHeight: "calc(100vh - 132px)" }}>
-                <Container>
+      <div style={{ padding: "85px 6px", minHeight: "calc(100vh - 132px)" }}>
+           
         
           <Routes>
             <Route path="/" element={<Home />} />
@@ -114,26 +115,10 @@ const Auth = () => {
               element={<ProfileUpdateComponent userId={userId} />}
               />
           </Routes>
-          </Container>
+   
             </div>
    
-
-        <footer
-          style={{
-            background: "linear-gradient(#092247, #092247, #092247)",
-            color: "#ffffff",
-            padding: "10px",
-            textAlign: "center",
-            position: "fixed",
-            bottom: 0,
-            left: 0,
-            width: "100%",
-            display: "flex",
-            justifyContent: "center", // Center the text horizontally
-          }}
-        >
-          <p>Ask-ar.com All rights reserved &copy; {new Date().getFullYear()}</p>
-        </footer>
+            <Footer />
   
     </>
   );

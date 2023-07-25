@@ -1,6 +1,6 @@
 {
   "name": "hawar-app",
-  "homepage": "https://hawar.ask-ar.com",
+  "homepage": "https://el-hawar.club",
   "version": "0.0.7",
   "private": true,
   "scripts": {
@@ -16,8 +16,10 @@
     "@testing-library/jest-dom": "^5.15.1",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "at": "^0.0.1-security",
     "axios": "^1.4.0",
     "bootstrap": "^5.3.0",
+    "latest": "^0.2.0",
     "react": "^18.2.0",
     "react-bootstrap": "^2.8.0",
     "react-dom": "^18.2.0",
