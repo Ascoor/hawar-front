@@ -1,180 +1,245 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Col, Row } from 'react-bootstrap';
-import {
-  FcBusinessman,
-  FcCollaboration,
-  FcQuestions,
-  FcLeave,
-  FcDonate,
-  FcDocument,
-  FcPaid,
-  FcVoicePresentation,
-  FcMoneyTransfer,
-} from 'react-icons/fc';
+import { Link } from 'react-router-dom';
+import MemberIcon from "../assest/icons/members.jpg";
+import maleIcon from "../assest/icons/male.jpg";
+import femaleIcon from "../assest/icons/female.jpg";
+import partMemberIcon from "../assest/icons/part-members.jpg";
+import over25 from "../assest/icons/over25.jpg";
+import over60 from "../assest/icons/over60.jpg";
+import prevYear from "../assest/icons/prevyear.jpg";
+import yearPay from "../assest/icons/yearpay.jpg";
+import ignoredIcon from "../assest/icons/ignored-member.png";
+import DashBoard from "../assest/icons/Dashboard.png";
+import { Card,
+     Container,
+      // Row,
+      //  Col,
+      //   Button,
+        //  Form
+         } from 'react-bootstrap';
 import { useSpring, animated } from '@react-spring/web';
+import axios from 'axios';
 import API_CONFIG from '../config';
+import '../assest/css/home.css';
 
-const Home = () => {
-  // Define states for the counts
-  const [workerMembersCount, setWorkerMembersCount] = useState(0);
-  const [affiliateMembers, setAffiliateMembers] = useState(0);
-  const [suspendedMembers, setSuspendedMembers] = useState(0);
-  const [duesPaidUntil2022, setDuesPaidUntil2022] = useState(0);
-  const [duesPaidUntil2023, setDuesPaidUntil2023] = useState(0);
-  const [maleMembers, setMaleMembers] = useState(0);
-  const [femaleMembers, setFemaleMembers] = useState(0);
-  const [above25Members, setAbove25Members] = useState(0);
-  const [above60Members, setAbove60Members] = useState(0);
+const useIconCardAnimation = () => {
+    const [hovered, setHovered] = useState(false);
 
-  useEffect(() => {
-    // Function to fetch all counts from the API endpoints
-    const fetchCounts = async () => {
-      try {
-        const response = await Promise.all([
-          fetch(`${API_CONFIG.baseURL}/api/member-work-count`),
-          fetch(`${API_CONFIG.baseURL}/api/other-counts`),
-          fetch(`${API_CONFIG.baseURL}/api/gender-count?gender=أنثى`),
-          fetch(`${API_CONFIG.baseURL}/api/age-count?age=25`),
-          fetch(`${API_CONFIG.baseURL}/api/category-count?category=عضو عامل`),
-        ]);
-
-        const data = await Promise.all(response.map(res => res.json()));
-        setWorkerMembersCount(data[0].workerMembersCount);
-        setAffiliateMembers(data[1].affiliateMembers);
-        setSuspendedMembers(data[1].suspendedMembers);
-        setDuesPaidUntil2022(data[1].duesPaidUntil2022);
-        setDuesPaidUntil2023(data[1].duesPaidUntil2023);
-        setMaleMembers(data[1].maleMembers);
-        setFemaleMembers(data[2].count);
-        setAbove25Members(data[3].count);
-        setAbove60Members(data[4].count);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
+    const [touched, setTouched] = useState(false);
+    const cardSpringStyles = useSpring({
+        scale: hovered || touched ? 1.1 : 1,
+        y: touched ? -5 : 0,
+    });
+    const handleHover = () => {
+        setHovered(true);
     };
 
-    fetchCounts();
-  }, []);
+    const handleHoverEnd = () => {
+        setHovered(false);
+    };
+
+    const handleTouchStart = () => {
+        setTouched(true);
+    };
+
+    const handleTouchEnd = () => {
+        setTouched(false);
+    };
+
+    return { cardSpringStyles, handleHover, handleHoverEnd, handleTouchStart, handleTouchEnd };
+};
+const EventCard = ({ title, color, count, icon }) => {
+    const { cardSpringStyles, handleHover, handleHoverEnd } = useIconCardAnimation();
+
+    return (  <animated.div
+      style={cardSpringStyles}
+      onMouseEnter={handleHover}
+      onMouseLeave={handleHoverEnd}
+      onTouchStart={handleHover}
+      onTouchEnd={handleHoverEnd}
+    >
+      <Card className="text-center event-card" style={{ backgroundColor: color }}>
+        <Card.Body className="event-card-body">
+          <div className="event-card-icon">{icon}</div>
+          <div className="event-card-title m-10">{title}</div>
+          <span className="count">{count}</span>
+        </Card.Body>
+      </Card>
+    </animated.div>
+    );
+};
+function toArabicNumeral (en) {
+    return ("" + en).replace(/[0-9]/g, function (t) {
+        return "٠١٢٣٤٥٦٧٨٩".slice(+t, +t + 1);
+    });
+}
+
+const Home = () => {
+    const [workMemberCount, setWorkMemberCount] = useState([0]);
+    const [partMemberCount, setPartMemberCount] = useState(0);
+    const [maleCount, setMaleCount] = useState(0);
+    const [femaleCount, setFemaleCount] = useState(0);
+    const [countOver60, setCountOver60] = useState(0);
+    const [countOver25, setCountOver25] = useState(0);
+    const [membersPaidCurrentYear, setMembersPaidCurrentYear] = useState(0);
+    const [membersPaidPreviousYear, setMembersPaidPreviousYear] = useState(0);
+    const [membersIgnored, setMembersIgnored] = useState(0);
+
+    // const [searchText, setSearchText] = useState(''); // State to store the search text
+    // const [searchResults, setSearchResults] = useState([]); // State to store the search results
+    // const [showResults, setShowResults] = useState(false); // State to determine whether search results should be displayed or not
+    // const [searchType, setSearchType] = useState('clients'); // State to store the selected search type
+
+    useEffect(() => {
+      
+    }, []);
+    useEffect(() => {
+ fetchWorkMemberCount();
+    }, []);
+
+    const fetchWorkMemberCount = async () => {
+        try {
+            const response = await axios.get(`${API_CONFIG.baseURL}/api/member-count`);
+            setWorkMemberCount(response.data.workMemberCount);
+            setPartMemberCount(response.data.partMemberCount);
+            setMaleCount(response.data.maleCount);
+            setFemaleCount(response.data.femaleCount);
+            setCountOver25(response.data.countOver25);
+            setCountOver60(response.data.countOver60);
+            setMembersPaidCurrentYear(response.data.membersPaidCurrentYear);
+            setMembersPaidPreviousYear(response.data.membersPaidPreviousYear);
+            setMembersIgnored(response.data.membersIgnored);
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
 
-  // Define the animated styles for the circle icons and counts
-  const animatedStyles = useSpring({
-    to: { opacity: 1, transform: 'scale(1)' },
-    from: { opacity: 0, transform: 'scale(0.5)' },
-    delay: 200,
-  });
 
-  return (
-    <Card>
-      <Card.Header className="home-text-center p-1">
-        <div className="big-font-container">
-          <span className="big-font">لوحة التحكم</span>
-        </div>
-      </Card.Header>
-      <Card.Body>
-        <Row className="g-3 justify-content-center align-items-center">
-          <Col xs={6} sm={4} md={3} className="text-center">
-            <animated.div className="circle-icon" style={animatedStyles}>
-              <FcBusinessman size={32} />
-            </animated.div>
-            <animated.div className="circle-count" style={animatedStyles}>
-              {workerMembersCount}
-            </animated.div>
-            <animated.div className="circle-label" style={animatedStyles}>
-              الاعضاء العاملين
-            </animated.div>
-          </Col>
-          <Col xs={6} sm={4} md={3} className="text-center">
-            <animated.div className="circle-icon" style={animatedStyles}>
-              <FcCollaboration size={32} />
-            </animated.div>
-            <animated.div className="circle-count" style={animatedStyles}>
-              {affiliateMembers}
-            </animated.div>
-            <animated.div className="circle-label" style={animatedStyles}>
-              الاعضاء التابعين
-            </animated.div>
-          </Col>
-          <Col xs={6} sm={4} md={3} className="text-center">
-            <animated.div className="circle-icon" style={animatedStyles}>
-              <FcLeave size={32} />
-            </animated.div>
-            <animated.div className="circle-count" style={animatedStyles}>
-              {suspendedMembers}
-            </animated.div>
-            <animated.div className="circle-label" style={animatedStyles}>
-              العضويات المسقطة
-            </animated.div>
-          </Col>
-          <Col xs={6} sm={4} md={3} className="text-center">
-            <animated.div className="circle-icon" style={animatedStyles}>
-              <FcMoneyTransfer size={32} />
-            </animated.div>
-            <animated.div className="circle-count" style={animatedStyles}>
-              {duesPaidUntil2022}
-            </animated.div>
-            <animated.div className="circle-label" style={animatedStyles}>
-              العضويات المسددة حتى 2022
-            </animated.div>
-          </Col>
-          <Col xs={6} sm={4} md={3} className="text-center">
-            <animated.div className="circle-icon" style={animatedStyles}>
-              <FcDonate size={32} />
-            </animated.div>
-            <animated.div className="circle-count" style={animatedStyles}>
-              {duesPaidUntil2023}
-            </animated.div>
-            <animated.div className="circle-label" style={animatedStyles}>
-              العضويات المسددة حتى 2023
-            </animated.div>
-          </Col>
-          <Col xs={6} sm={4} md={3} className="text-center">
-            <animated.div className="circle-icon" style={animatedStyles}>
-              <FcVoicePresentation size={32} />
-            </animated.div>
-            <animated.div className="circle-count" style={animatedStyles}>
-              {maleMembers}
-            </animated.div>
-            <animated.div className="circle-label" style={animatedStyles}>
-              الأعضاء الذكور
-            </animated.div>
-          </Col>
-          <Col xs={6} sm={4} md={3} className="text-center">
-            <animated.div className="circle-icon" style={animatedStyles}>
-              <FcPaid size={32} />
-            </animated.div>
-            <animated.div className="circle-count" style={animatedStyles}>
-              {femaleMembers}
-            </animated.div>
-            <animated.div className="circle-label" style={animatedStyles}>
-              الأعضاء الإناث
-            </animated.div>
-          </Col>
-          <Col xs={6} sm={4} md={3} className="text-center">
-            <animated.div className="circle-icon" style={animatedStyles}>
-              <FcDocument size={32} />
-            </animated.div>
-            <animated.div className="circle-count" style={animatedStyles}>
-              {above25Members}
-            </animated.div>
-            <animated.div className="circle-label" style={animatedStyles}>
-              الأعضاء فوق سن 25
-            </animated.div>
-          </Col>
-          <Col xs={6} sm={4} md={3} className="text-center">
-            <animated.div className="circle-icon" style={animatedStyles}>
-              <FcQuestions size={32} />
-            </animated.div>
-            <animated.div className="circle-count" style={animatedStyles}>
-              {above60Members}
-            </animated.div>
-            <animated.div className="circle-label" style={animatedStyles}>
-              الأعضاء فوق سن 60
-            </animated.div>
-          </Col>
-        </Row>
-      </Card.Body>
-    </Card>
+
+    // const handleFormSubmit = async (e) => {
+    //     e.preventDefault();
+    //     handleSearch();
+    // };
+
+    // const handleSearch = async () => {
+    //     setShowResults(true); // Show search results
+
+    //     try {
+    //         let endpoint = '';
+
+    //         if (searchType === 'clients') {
+    //             endpoint = `${API_CONFIG.baseURL}/api/client-search`;
+    //         } else if (searchType === 'legCases') {
+    //             endpoint = `${API_CONFIG.baseURL}/api/leg-case-search`;
+    //         }
+
+    //         const response = await axios.get(endpoint, {
+    //             params: {
+    //                 query: searchText,
+    //             },
+    //         });
+
+
+    //         setSearchResults(response.data);
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // };
+
+
+    // const handleSearchInputChange = (e) => {
+    //     setSearchText(e.target.value);
+    // };
+
+    return (
+
+      <Container>
+      <Card>
+        <Card.Header className="home-text-center">
+          لوحة التحكم
+          <div className="court-setting-card-header">
+            <img src={DashBoard} alt="Icon" className="dashboard-icon" />
+          </div>
+        </Card.Header>
+        <Card.Body>
+          <div className="d-flex flex-wrap justify-content-center mb-3">
+            {/* Add the "custom-text-center" class */}
+            <Link to="/members" style={{ textDecoration: 'none' }}>
+              <EventCard
+                title="الاعضاء العاملين"
+                color="#002d43ed"
+                count={toArabicNumeral(workMemberCount)}
+                icon={<img src={MemberIcon} alt="Icon" className="members-icon" />}
+              />
+            </Link>
+            <Link to="/legcases" style={{ textDecoration: 'none' }}>
+              <EventCard
+                title="الاعضاء التابعين"
+                color="#002d43ed"
+                count={toArabicNumeral(partMemberCount)}
+                icon={<img src={partMemberIcon} alt="Icon" className="part-members-icon" />}
+              />
+            </Link>
+            <Link to="/procedures" style={{ textDecoration: 'none' }}>
+              <EventCard
+                title="الأعضاء الذكور"
+                color="#002d43ed"
+                count={toArabicNumeral(maleCount)}
+                icon={<img src={maleIcon} alt="Icon" className="male-icon" />}
+              />
+            </Link>
+            <EventCard
+              title="الأعضاء الإناث"
+              color="#002d43ed"
+              count={toArabicNumeral(femaleCount)}
+              icon={<img src={femaleIcon} alt="Icon" className="female-icon" />}
+            />
+            <EventCard
+              title="العضويات المسقطة"
+              color="#002d43ed"
+              count={toArabicNumeral(membersIgnored)}
+              icon={<img src={ignoredIcon} alt="Icon" className="defualt-icon" />}
+            />
+            <EventCard
+              title="السن فوق 60"
+              color="#002d43ed"
+              count={toArabicNumeral(countOver60)}
+              icon={<img src={over60} alt="Icon" className="defualt-icon" />}
+            />
+            <EventCard
+              title="السن فوق 25"
+              color="#002d43ed"
+              count={toArabicNumeral(countOver25)}
+              icon={<img src={over25} alt="Icon" className="defualt-icon" />}
+            />
+            <EventCard
+              title="المسدد لهذا العام"
+              color="#002d43ed"
+              count={toArabicNumeral(membersPaidCurrentYear)}
+              icon={<img src={yearPay} alt="Icon" className="defualt-icon" />}
+            />
+            <EventCard
+         title="المسدد للعام السابق"
+              color="#002d43ed"
+              count={toArabicNumeral(membersPaidPreviousYear)}
+              icon={<img src={prevYear} alt="Icon" className="defualt-icon" />}
+            />
+          </div>
+        </Card.Body>
+      </Card>
+
+      <Card className="mt-12">
+        <Card.Header className="home-text-center">
+          <h3>بحث</h3>
+        </Card.Header>
+        <Card.Body>
+          {/* Your search form */}
+        </Card.Body>
+      </Card>
+
+      {/* Uncomment and add the relevant content for your search results */}
+    </Container>
   );
 };
 
