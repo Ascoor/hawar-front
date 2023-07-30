@@ -18,7 +18,7 @@ const MemberDetailsModal = ({ show, member, onClose }) => {
   };
 
   return (
-    <Modal show={show} onHide={onClose} dir="rtl" centered>
+       <Modal show={show} onHide={onClose} dir="rtl" centered>
       <Modal.Header closeButton style={{ backgroundColor: '#f5f5f5', borderBottom: '1px solid #dee2e6' }}>
         <Modal.Title style={{ color: '#4CAF50' }}>تفاصيل العضو</Modal.Title>
       </Modal.Header>
@@ -26,7 +26,7 @@ const MemberDetailsModal = ({ show, member, onClose }) => {
         <Card className="mb-3">
           <Card.Body>
             <Row>
-            <Col md={6} className="d-flex align-items-center justify-content-center">
+              <Col md={6} className="d-flex align-items-center justify-content-center">
                 {/* Add member's photo here */}
                 <div
                   className="rounded-circle overflow-hidden mx-auto d-block mb-2"
@@ -37,9 +37,9 @@ const MemberDetailsModal = ({ show, member, onClose }) => {
                     boxShadow: '0 4px 8px rgba(220 170 22)',
                   }}
                 >
-                  {member.Photo ? (
+                  {member.photo ? (
                     <Card.Img
-                      src={`${API_CONFIG.baseURL}/UserPics/${member.Photo}`}
+                      src={`${API_CONFIG.baseURL}/UserPics/${member.photo}`}
                       alt="Member Photo"
                       style={{
                         objectFit: 'cover',
@@ -60,18 +60,19 @@ const MemberDetailsModal = ({ show, member, onClose }) => {
               </Col>
               <Col md={6}>
                 <Card.Title style={{ color: '#4CAF50', fontSize: '20px', fontWeight: 'bold' }}>بيانات العضو</Card.Title>
-                <Card.Text style={{ fontSize: '16px', fontWeight: 'bold' }}>الاسم: {member.Name}</Card.Text>
-                <Card.Text style={{ fontSize: '16px', fontWeight: 'bold' }}>الرقم التسجيلي: {member.RegNum}</Card.Text>
-                <Card.Text style={{ fontSize: '16px', fontWeight: 'bold' }}>الفئة: {member.Category}</Card.Text>
-                <Card.Text style={{ fontSize: '16px', fontWeight: 'bold' }}>العلاقة: {member.Relation}</Card.Text>
-                <Card.Text style={{ fontSize: '16px', fontWeight: 'bold' }}>الجنس: {member.Gender}</Card.Text>
-                <Card.Text style={{ fontSize: '16px', fontWeight: 'bold' }}>الديانة: {member.Relegion}</Card.Text>
-                <Card.Text style={{ fontSize: '16px', fontWeight: 'bold' }}>العنوان: {member.Address}</Card.Text>
-                <Card.Text style={{ fontSize: '16px', fontWeight: 'bold' }}>المهنة: {member.Profession}</Card.Text>
-                <Card.Text style={{ fontSize: '16px', fontWeight: 'bold' }}>الحالة: {member.Status}</Card.Text>
-                <Card.Text style={{ fontSize: '16px', fontWeight: 'bold' }}>الهاتف: {member.Phone}</Card.Text>
+                <Card.Text style={{ fontSize: '16px', fontWeight: 'bold' }}>الاسم: {member.name}</Card.Text>
+                <Card.Text style={{ fontSize: '16px', fontWeight: 'bold' }}>الرقم التسجيلي: {member.member_id}</Card.Text>
+                <Card.Text style={{ fontSize: '16px', fontWeight: 'bold' }}>الفئة: {member.category_id}</Card.Text>
+                <Card.Text style={{ fontSize: '16px', fontWeight: 'bold' }}>العلاقة: {member.relation_id}</Card.Text>
+                <Card.Text style={{ fontSize: '16px', fontWeight: 'bold' }}>الجنس: {member.gender}</Card.Text>
+                <Card.Text style={{ fontSize: '16px', fontWeight: 'bold' }}>الديانة: {member.relegion}</Card.Text>
+                <Card.Text style={{ fontSize: '16px', fontWeight: 'bold' }}>العنوان: {member.address}</Card.Text>
+                <Card.Text style={{ fontSize: '16px', fontWeight: 'bold' }}>المهنة: {member.profession}</Card.Text>
+                <Card.Text style={{ fontSize: '16px', fontWeight: 'bold' }}>الحالة: {member.status_id}</Card.Text>
+                <Card.Text style={{ fontSize: '16px', fontWeight: 'bold' }}>الهاتف: {member.phone}</Card.Text>
+                {/* Add more fields from the database based on their new variable names */}
+                {/* <Card.Text style={{ fontSize: '16px', fontWeight: 'bold' }}>...</Card.Text> */}
               </Col>
-         
             </Row>
           </Card.Body>
         </Card>

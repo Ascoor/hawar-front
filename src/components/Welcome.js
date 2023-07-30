@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './Tools/landingpage.css';
 import Logo from '../images/logo2.png';
 import { Nav, Navbar, Container } from 'react-bootstrap';
-import BgVideo from '../videos/Cover.mp4';
+import BgVideo from '../videos/cover.mp4';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSpring, animated } from '@react-spring/web';
 import Footer from './Tools/Footer'; // Import the Footer component

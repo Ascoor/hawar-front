@@ -122,8 +122,8 @@ const Home = () => {
       setFemaleCount(response.data.femaleCount);
       setCountOver25(response.data.countOver25);
       setCountOver60(response.data.countOver60);
-      setMembersPaidCurrentYear(response.data.membersPaidCurrentYear);
-      setMembersPaidPreviousYear(response.data.membersPaidPreviousYear);
+      setMembersPaidCurrentYear(response.data.membersPaidCurrentFiscalYear);
+      setMembersPaidPreviousYear(response.data.membersPaidPreviousFiscalYear);
       setMembersIgnored(response.data.membersIgnored);
     } catch (error) {
       console.log(error);

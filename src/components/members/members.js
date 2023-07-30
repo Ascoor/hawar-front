@@ -12,6 +12,7 @@ const Members = () => {
   const [category, setCategory] = useState("work");
   const [showMemberDetailsModal, setShowMemberDetailsModal] = useState(false);
   const [showMemberFeesModal, setShowMemberFeesModal] = useState(false);
+  const [showAdditionalMemberships, setShowAdditionalMemberships] = useState(false);
   const [fees, setFees] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedMember, setSelectedMember] = useState(null); // Add this line to declare the selectedMember state
@@ -55,7 +56,12 @@ const Members = () => {
     setShowMemberDetailsModal(false);
     setShowMemberFeesModal(false);
   };
-
+  const handleShowAdditionalMemberships = () => {
+    setShowAdditionalMemberships(true);
+  };
+  const mainMemberships = [
+    { eventKey: "work", label: "عضوية عاملة" },
+  ];
   const fetchFees = async (MemberID) => {
     try {
       const response = await axios.get(`${API_CONFIG.baseURL}/api/fees`, {
@@ -86,7 +92,6 @@ const Members = () => {
   };
 
   const memberships = [
-    { eventKey: "work", label: "عضوية عاملة" },
     { eventKey: "affiliate", label: "عضوية تابعة" },
     { eventKey: "founding", label: "عضوية مؤسسة" },
   ];
@@ -97,7 +102,7 @@ const Members = () => {
     { eventKey: "A permit", label: "تصريح" },
     { eventKey: "athletic", label: "عضوية رياضي" },
   ];
-
+  
   return (
     <Row className="p-4">
       <Col xs={12}>
@@ -105,26 +110,39 @@ const Members = () => {
           <Card.Title>
             {/* Main Memberships */}
             <Nav variant="tabs" activeKey={category} onSelect={handleTabChange} className="nav-tabs-responsive">
+              {mainMemberships.map((navItem) => (
+                <Nav.Item key={navItem.eventKey}>
+                  <Nav.Link eventKey={navItem.eventKey}>{navItem.label}</Nav.Link>
+                </Nav.Item>
+              ))}
               {memberships.map((navItem) => (
                 <Nav.Item key={navItem.eventKey}>
                   <Nav.Link eventKey={navItem.eventKey}>{navItem.label}</Nav.Link>
                 </Nav.Item>
               ))}
-              {/* Additional Memberships */}
-              <Dropdown as={Nav.Item}>
-                <Dropdown.Toggle as={Nav.Link} id="additional-memberships-dropdown">
-                  أنواع أخرى
-                </Dropdown.Toggle>
-                <Dropdown.Menu>
-                  {additionalMemberships.map((navItem) => (
-                    <Dropdown.Item key={navItem.eventKey} eventKey={navItem.eventKey}>
-                      {navItem.label}
-                    </Dropdown.Item>
-                  ))}
-                </Dropdown.Menu>
-              </Dropdown>
+
+              {!showAdditionalMemberships && (
+                <Dropdown as={Nav.Item}>
+                  <Dropdown.Toggle as={Nav.Link} id="additional-memberships-dropdown" onClick={handleShowAdditionalMemberships}>
+                    أنواع أخرى
+                  </Dropdown.Toggle>
+                </Dropdown>
+              )}
             </Nav>
           </Card.Title>
+          {/* ... (existing code) */}
+          {showAdditionalMemberships && (
+            <div>
+              <Nav variant="tabs" activeKey={category} onSelect={handleTabChange} className="nav-tabs-responsive">
+                {additionalMemberships.map((navItem) => (
+                  <Nav.Item key={navItem.eventKey}>
+                    <Nav.Link eventKey={navItem.eventKey}>{navItem.label}</Nav.Link>
+                  </Nav.Item>
+                ))}
+              </Nav>
+              {/* ... (existing code) */}
+            </div>
+          )}
           <input
             type="text"
             placeholder="Search members..."
@@ -147,26 +165,31 @@ const Members = () => {
                       <th>رقم الهاتف</th>
                       <th>الجنس</th>
                       <th>العنوان</th>
+                      <th>العضوية</th> {/* New column for category */}
                       <th>العمليات</th>
                     </tr>
                   </thead>
                   <tbody>
                     {members.map((member) => (
                       <tr key={member.id}>
-                        <td>{member.RegNum}</td>
+                        <td>{member.member_id}</td>
                         <td>
                           <img
-                            src={`${API_CONFIG.baseURL}/UserPics/${member.Photo}`}
+                            src={`${API_CONFIG.baseURL}/UserPics/${member.photo}`}
                             alt={member.FullName}
                             className="img-thumbnail"
                             style={{ width: "100px", height: "100px" }}
                           />
                         </td>
-                        <td>{member.Name}</td>
-                        <td>{member.Age}</td>
-                        <td>{member.Phone}</td>
-                        <td>{member.Gender}</td>
-                        <td>{member.Address}</td>
+                        <td>{member.name}</td>
+                        <td>{member.age}</td>
+                        <td>{member.phone}</td>
+                        <td>{member.gender}</td>
+                        <td>{member.address}</td>
+                        <td>
+                          {/* Show the category based on the selected tab */}
+                          {category === "work" ? "عضوية عاملة" : category === "affiliate" ? "عضوية تابعة" : "عضوية مؤسسة"}
+                        </td>
                         <td>
                           <Button
                             variant="btn- btn-success btn-md"
@@ -207,5 +230,6 @@ const Members = () => {
     </Row>
   );
 };
+
 
 export default Members;
