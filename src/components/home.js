@@ -9,7 +9,7 @@ import over60 from "../assest/icons/over60.jpg";
 import prevYear from "../assest/icons/prevyear.jpg";
 import yearPay from "../assest/icons/yearpay.jpg";
 import ignoredIcon from "../assest/icons/ignored-member.png";
-import DashBoard from "../assest/icons/Dashboard.png";
+import DashBoard from "../images/logo2.png";
 import { Card,
      Container,
       // Row,
@@ -157,7 +157,6 @@ const Home = () => {
       <Container>
       <Card>
         <Card.Header className="home-text-center">
-          لوحة التحكم
           <div className="court-setting-card-header">
             <img src={DashBoard} alt="Icon" className="dashboard-icon" />
           </div>
