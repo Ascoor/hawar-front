@@ -1,0 +1,56 @@
+/* footer.css */
+/* Footer.css */
+
+.footer {
+  background: linear-gradient(#0b1626, #091d3c, #040f21);
+  color: #faa61a;
+  display: flex;
+  justify-content: space-between; /* تضع العناصر على طول المساحة المتاحة بينهم */
+  align-items: center; /* تُضبط العناصر على محور عمودي */
+  height: 10vh;
+  padding: 0 20px; /* إضافة هامش بين الحواف والعناصر الداخلية */
+}
+
+.footer h6 {
+  color: #fff;
+  font-weight: bold;
+  margin: 0; /* إزالة الهوامش الافتراضية */
+}
+
+.footer-icons {
+  display: flex;
+}
+
+.facebook-icon,
+.twitter-icon,
+.instagram-icon {
+  color: #fff;
+  margin: 0 10px; /* إضافة هامش بين الرموز */
+}
+
+
+.footer p {
+  color: #fff;
+}
+
+.footer-section {
+  margin-bottom: 5px;
+}
+
+/* Additional styles for footer links if needed */
+.footer a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+}
+
+
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* يجعل عنصر المحتوى يمتد على امتداد الشاشة بالكامل */
+}

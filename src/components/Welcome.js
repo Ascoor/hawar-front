@@ -8,7 +8,6 @@ import { useSpring, animated } from '@react-spring/web';
 import Footer from './Tools/Footer'; // Import the Footer component
 import Guest from '../components/navbar/guest';
 import AuthUser from '../components/auth/AuthUser';
-
 const Welcome = () => {
   const navigate = useNavigate(); // Get the navigate function
   const { isAuthenticated } = AuthUser();
@@ -67,13 +66,15 @@ const Welcome = () => {
   
         </div>
         {showJoinButton && (
-          <div className="join-button-container" onClick={handleJoinNow}>
+          <div className="join-button-container p-2 m-auto" onClick={handleJoinNow}>
             <div className="home-btn">Join Now</div>
           </div>
         )}
       </div>
 
+    
       <Footer /> {/* Add the Footer component here */}
+    
     </>
   );
 };
