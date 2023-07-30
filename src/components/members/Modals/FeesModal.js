@@ -26,11 +26,11 @@ const FeesModal = ({ show, member, fees, onClose }) => {
             <tbody>
               {fees.map((fee) => (
                 <tr key={fee.Fee_ID}>
-                  <td>{fee.FeeYear}</td>
-                  <td>{fee.FeeAmount}</td>
-                  <td>{fee.FeeDate}</td>
-                  <td>{fee.FeeRecieptNumber}</td>
-                  <td>{member.Status === -1 ? 'غير مسدد' : 'مسدد'}</td>
+                  <td>{fee.fee_year}</td>
+                  <td>{fee.fee_amount}</td>
+                  <td>{fee.fee_date}</td>
+                  <td>{fee.fee_recieptNumber}</td>
+                  <td>{member.status === -1 ? 'غير مسدد' : 'مسدد'}</td>
                 </tr>
               ))}
             </tbody>
