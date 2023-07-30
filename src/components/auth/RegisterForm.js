@@ -122,7 +122,7 @@ const RegisterForm = ({ handleCloseForm }) => {
             </Row>
 
             {loading ? (
-              <Button type="button" disabled className="btn btn-primary mt-4">
+              <Button type="button" disabled className="btn  mt-4">
                 جاري التحميل...
               </Button>
             ) : (

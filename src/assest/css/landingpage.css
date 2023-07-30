@@ -3,14 +3,7 @@
 @font-face {
     font-family:'Merianda' ;
     src: url("../fonts/Merianda.ttf") format('woff2');
-
-    body, html {
-        margin: 0;
-        padding: 0;
-        height: 100%;
-        overflow: hidden;
-      }
-      }
+}
 
 .bg-overlay {
     height: 100%;
@@ -23,7 +16,7 @@
   
 .landingpage {
     width: 100%;
-    height:93vh;
+    height:90vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -35,7 +28,7 @@
 
 .video-bg {
     width: 100%;
-    height: 100vh;
+    height: 95vh;
     position: absolute;
     top: 0;
     z-index: -1;
@@ -43,8 +36,9 @@
    
     
 }
+
 .bg-fill {
-    height: 100vh;
+    height: 90%;
     width: 100%;
     background-color: rgba(0,0,0,0.5);
     position: absolute;
@@ -54,7 +48,7 @@
 
 .navbar {
     width: 100%;
-    height: 5em;
+    height: 6em;
     border-bottom: 2px solid #dc8c09;
     position: absolute;
     top: 0;
@@ -74,7 +68,6 @@
     align-items: flex-start;
     margin-left: 2em;
     cursor: pointer;
-    background: 'linear-gradient(#092247, #092247, #092247)',
 }
 
 .menu div {
@@ -94,9 +87,6 @@
     align-items: center;
     justify-content: space-around;
     z-index: 2;
-        width: 70%;
-        height: 80%; 
-      
 }
 
 h1 {
