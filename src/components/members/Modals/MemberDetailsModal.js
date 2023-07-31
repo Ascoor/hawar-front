@@ -3,7 +3,7 @@ import { Modal, Card, Button, Row, Col } from 'react-bootstrap';
 import API_CONFIG from '../../../config';
 
 
-const MemberDetailsModal = ({ show, member, onClose }) => {
+const MemberDetailsModal = ({ show, member, onClose   }) => {
   if (!show || !member) {
     return null;
   }
@@ -16,6 +16,8 @@ const MemberDetailsModal = ({ show, member, onClose }) => {
   const handleImageError = (event) => {
     event.target.style.display = 'none'; // Hide the image if it fails to load
   };
+  // Parse the notes JSON string into an array of objects
+  const parsedNotes = JSON.parse(member.notes);
 
   return (
        <Modal show={show} onHide={onClose} dir="rtl" centered>
@@ -70,19 +72,33 @@ const MemberDetailsModal = ({ show, member, onClose }) => {
                 <Card.Text style={{ fontSize: '16px', fontWeight: 'bold' }}>المهنة: {member.profession}</Card.Text>
                 <Card.Text style={{ fontSize: '16px', fontWeight: 'bold' }}>الحالة: {member.status_id}</Card.Text>
                 <Card.Text style={{ fontSize: '16px', fontWeight: 'bold' }}>الهاتف: {member.phone}</Card.Text>
-                {/* Add more fields from the database based on their new variable names */}
-                {/* <Card.Text style={{ fontSize: '16px', fontWeight: 'bold' }}>...</Card.Text> */}
               </Col>
-            </Row>
-          </Card.Body>
-        </Card>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button variant="secondary" onClick={onClose}>
-          إغلاق
-        </Button>
-      </Modal.Footer>
-    </Modal>
+               </Row>
+              
+<div>
+  <h5>Notes:</h5>
+  {parsedNotes.length > 0 ? (
+    parsedNotes.map((note, index) => (
+      <div key={index}>
+        {note.note && <p>Created By: {note.createdBy}</p>}
+        {note.note && <p>Note: {note.note}</p>}
+        {note.note && <p>Created At: {note.createdAt}</p>}
+      </div>
+    ))
+  ) : (
+    <p>No notes available for this member.</p>
+  )}
+</div>
+
+        </Card.Body>
+      </Card>
+    </Modal.Body>
+    <Modal.Footer>
+      <Button variant="secondary" onClick={onClose}>
+        إغلاق
+      </Button>
+    </Modal.Footer>
+  </Modal>
   );
 };
 

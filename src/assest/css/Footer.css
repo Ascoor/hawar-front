@@ -7,7 +7,7 @@
   display: flex;
   justify-content: space-between; /* تضع العناصر على طول المساحة المتاحة بينهم */
   align-items: center; /* تُضبط العناصر على محور عمودي */
-  height: 10vh;
+  height: 12vh;
   padding: 0 20px; /* إضافة هامش بين الحواف والعناصر الداخلية */
 }
 

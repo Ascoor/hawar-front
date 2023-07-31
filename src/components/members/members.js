@@ -9,59 +9,77 @@ import FeesModal from './Modals/FeesModal';
 
 const Members = () => {
   const [members, setMembers] = useState([]);
-  const [category, setCategory] = useState("work");
   const [showMemberDetailsModal, setShowMemberDetailsModal] = useState(false);
   const [showMemberFeesModal, setShowMemberFeesModal] = useState(false);
   const [showAdditionalMemberships, setShowAdditionalMemberships] = useState(false);
   const [fees, setFees] = useState([]);
+  const [selectedMember, setSelectedMember] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedMember, setSelectedMember] = useState(null); // Add this line to declare the selectedMember state
-
-  const handleTabChange = (tab) => {
-    setCategory(tab);
-  };
+  const [category, setCategory] = useState("work");
+  const membersPerPage = 25;
 
   useEffect(() => {
-    // Send the search request to the server using Axios
-    axios
-      .get(`${API_CONFIG.baseURL}/api/members/search`, {
+    if (searchTerm === "") {
+      fetchMembersByCategory(category);
+    } else {
+      fetchMembersBySearch();
+    }
+  }, [category, searchTerm]);
+
+  const fetchMembersBySearch = async () => {
+    try {
+      const response = await axios.get(`${API_CONFIG.baseURL}/api/members/search`, {
         params: {
           searchTerm: searchTerm,
         },
-      })
-      .then((response) => {
-        setMembers(response.data.data);
-      })
-      .catch((error) => {
-        console.log(error);
       });
-  }, [category, searchTerm]); // Dependency array includes category and searchTerm
+      const membersArray = Object.values(response.data);
+      setMembers(membersArray);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const fetchMembersByCategory = async (selectedCategory) => {
+    try {
+      const response = await axios.get(`${API_CONFIG.baseURL}/api/member-category`, {
+        params: {
+          category: selectedCategory,
+        },
+      });
+      const membersArray = Object.values(response.data);
+      setMembers(membersArray);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
-    axios
-      .get(`${API_CONFIG.baseURL}/api/member-category`, {
-        params: {
-          category: category,
-        },
-      })
-      .then((response) => {
-        setMembers(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [category, searchTerm]); // Dependency array includes category and searchTerm
+    if (searchTerm === "") {
+      fetchMembersByCategory("work");
+    } else {
+      fetchMembersBySearch();
+    }
+  }, [searchTerm]);
+
+  const handlePagination = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
   const handleCloseModal = () => {
     setShowMemberDetailsModal(false);
     setShowMemberFeesModal(false);
   };
+
   const handleShowAdditionalMemberships = () => {
     setShowAdditionalMemberships(true);
   };
+
   const mainMemberships = [
     { eventKey: "work", label: "عضوية عاملة" },
   ];
+
   const fetchFees = async (MemberID) => {
     try {
       const response = await axios.get(`${API_CONFIG.baseURL}/api/fees`, {
@@ -86,9 +104,15 @@ const Members = () => {
     await fetchFees(member.id);
   };
 
+  const handleTabChange = (tab) => {
+    setCategory(tab);
+    setCurrentPage(1);
+  };
+
   const handleSearch = (event) => {
     const value = event.target.value;
-    setSearchTerm(value); // Set searchTerm instead of searchQuery
+    setSearchTerm(value);
+    setCurrentPage(1);
   };
 
   const memberships = [
@@ -102,14 +126,18 @@ const Members = () => {
     { eventKey: "A permit", label: "تصريح" },
     { eventKey: "athletic", label: "عضوية رياضي" },
   ];
-  
+
+  const indexOfLastMember = currentPage * membersPerPage;
+  const indexOfFirstMember = indexOfLastMember - membersPerPage;
+  const currentMembers = members.slice(indexOfFirstMember, indexOfLastMember);
+
   return (
     <Row className="p-4">
       <Col xs={12}>
         <Card className="p-4">
           <Card.Title>
             {/* Main Memberships */}
-            <Nav variant="tabs" activeKey={category} onSelect={handleTabChange} className="nav-tabs-responsive">
+            <Nav variant="tabs" onSelect={handleTabChange} className="nav-tabs-responsive">
               {mainMemberships.map((navItem) => (
                 <Nav.Item key={navItem.eventKey}>
                   <Nav.Link eventKey={navItem.eventKey}>{navItem.label}</Nav.Link>
@@ -133,7 +161,7 @@ const Members = () => {
           {/* ... (existing code) */}
           {showAdditionalMemberships && (
             <div>
-              <Nav variant="tabs" activeKey={category} onSelect={handleTabChange} className="nav-tabs-responsive">
+              <Nav variant="tabs" onSelect={handleTabChange} className="nav-tabs-responsive">
                 {additionalMemberships.map((navItem) => (
                   <Nav.Item key={navItem.eventKey}>
                     <Nav.Link eventKey={navItem.eventKey}>{navItem.label}</Nav.Link>
@@ -150,7 +178,7 @@ const Members = () => {
             onChange={handleSearch}
             style={{ marginBottom: "10px" }}
           />
-          {members.length === 0 ? (
+          {currentMembers.length === 0 ? (
             <p>لا يوجد أعضاء للعرض</p>
           ) : (
             <div className="table-responsive">
@@ -165,12 +193,12 @@ const Members = () => {
                       <th>رقم الهاتف</th>
                       <th>الجنس</th>
                       <th>العنوان</th>
-                      <th>العضوية</th> {/* New column for category */}
+                      <th>العضوية</th>
                       <th>العمليات</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {members.map((member) => (
+                    {currentMembers.map((member) => (
                       <tr key={member.id}>
                         <td>{member.member_id}</td>
                         <td>
@@ -187,8 +215,11 @@ const Members = () => {
                         <td>{member.gender}</td>
                         <td>{member.address}</td>
                         <td>
-                          {/* Show the category based on the selected tab */}
-                          {category === "work" ? "عضوية عاملة" : category === "affiliate" ? "عضوية تابعة" : "عضوية مؤسسة"}
+                          {category === "work"
+                            ? "عضوية عاملة"
+                            : category === "affiliate"
+                            ? "عضوية تابعة"
+                            : "عضوية مؤسسة"}
                         </td>
                         <td>
                           <Button
@@ -211,16 +242,32 @@ const Members = () => {
               </Card.Body>
             </div>
           )}
+          <div className="d-flex justify-content-center">
+            <nav>
+              <ul className="pagination">
+                {Array.from({ length: members.last_page }).map((_, index) => (
+                  <li key={index} className={`page-item${(index + 1) === currentPage ? " active" : ""}`}>
+                    <button
+                      onClick={() => handlePagination(index + 1)}
+                      className="page-link"
+                      style={{ border: "none", background: "none", cursor: "pointer" }}
+                    >
+                      {index + 1}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </div>
         </Card>
       </Col>
-      {/* Member Details Modal */}
-      <MemberDetailsModal
-        show={showMemberDetailsModal}
-        member={selectedMember}
-        onClose={handleCloseModal}
-      />
-
-      {/* Fees modal */}
+      {selectedMember && (
+        <MemberDetailsModal
+          show={showMemberDetailsModal}
+          member={selectedMember}
+          onClose={handleCloseModal}
+        />
+      )}
       <FeesModal
         show={showMemberFeesModal}
         member={selectedMember}
@@ -230,6 +277,5 @@ const Members = () => {
     </Row>
   );
 };
-
 
 export default Members;
